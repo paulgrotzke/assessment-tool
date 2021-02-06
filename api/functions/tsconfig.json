@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "strict": true,
+    "target": "esnext",
+    "jsx": "react",
+    "allowJs": true,
+    "lib": ["dom", "es2015", "es2017"],
+    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "./node_modules", 
+    "./public", 
+    "./.cache",
+  ],
+}
