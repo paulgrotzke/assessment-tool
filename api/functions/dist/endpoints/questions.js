@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllQuestions = void 0;
-const admin_1 = require("../utils/admin");
+exports.postOneQuestion = exports.getAllQuestions = void 0;
+const firebaseAdmin_1 = require("../firebaseAdmin");
 exports.getAllQuestions = (req, res) => {
-    admin_1.db.collection('questions')
+    firebaseAdmin_1.db.collection('questions')
         .get()
         .then((data) => {
         let questions = [];
@@ -16,6 +16,34 @@ exports.getAllQuestions = (req, res) => {
             });
         });
         return res.json(questions);
+    })
+        .catch((e) => {
+        return res.status(500).json({ error: e.code });
+    });
+};
+exports.postOneQuestion = (req, res) => {
+    console.log(req.body.focusArea);
+    console.log(req.body);
+    if (req.body.focusArea.trim() === '') {
+        return res.status(400).json({ body: 'Can not be empty' });
+    }
+    if (req.body.digitalCapability.trim() === '') {
+        return res.status(400).json({ body: 'Can not be empty' });
+    }
+    if (req.body.practiceItem.trim() === '') {
+        return res.status(400).json({ body: 'Can not be empty' });
+    }
+    const newQuestion = {
+        focusArea: req.body.focusArea,
+        digitalCapability: req.body.digitalCapability,
+        practiceItem: req.body.practiceItem,
+    };
+    firebaseAdmin_1.db.collection('questions')
+        .add(newQuestion)
+        .then((doc) => {
+        const responseQuestion = newQuestion;
+        responseQuestion['questionId'] = doc.id;
+        return res.json(responseQuestion);
     })
         .catch((e) => {
         return res.status(500).json({ error: e.code });

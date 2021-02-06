@@ -12,16 +12,7 @@ const projectId = process.env['PROJECT_ID'];
 if (!privateKey || !clientEmail || !projectId) {
     console.log(`Failed to load Firebase credentials.`);
 }
-if (!firebaseAdmin.apps.length) {
-    firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert({
-            privateKey: privateKey,
-            clientEmail,
-            projectId,
-        }),
-        databaseURL: `https://${projectId}.firebaseio.com`,
-    });
-}
+firebaseAdmin.initializeApp();
 const db = firebaseAdmin.firestore();
 exports.db = db;
-//# sourceMappingURL=admin.js.map
+//# sourceMappingURL=firebaseAdmin.js.map
