@@ -7,5 +7,9 @@ const questions_1 = require("../endpoints/questions");
 const app = express();
 app.get('/questions', questions_1.getAllQuestions);
 app.post('/question', questions_1.postOneQuestion);
-exports.api = functions.region('europe-west1').https.onRequest(app);
+app.delete('/question/:questionId', questions_1.deleteOneQuestion);
+app.put('/question/:questionId', questions_1.editQuestion);
+exports.api = functions
+    .region('europe-west1')
+    .https.onRequest(app);
 //# sourceMappingURL=index.js.map

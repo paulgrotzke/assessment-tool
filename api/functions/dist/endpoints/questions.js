@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postOneQuestion = exports.getAllQuestions = void 0;
+exports.editQuestion = exports.deleteOneQuestion = exports.postOneQuestion = exports.getAllQuestions = void 0;
+const express_1 = require("express");
 const firebaseAdmin_1 = require("../firebaseAdmin");
 exports.getAllQuestions = (req, res) => {
     firebaseAdmin_1.db.collection('questions')
@@ -22,8 +23,6 @@ exports.getAllQuestions = (req, res) => {
     });
 };
 exports.postOneQuestion = (req, res) => {
-    console.log(req.body.focusArea);
-    console.log(req.body);
     if (req.body.focusArea.trim() === '') {
         return res.status(400).json({ body: 'Can not be empty' });
     }
@@ -47,6 +46,43 @@ exports.postOneQuestion = (req, res) => {
     })
         .catch((e) => {
         return res.status(500).json({ error: e.code });
+    });
+};
+exports.deleteOneQuestion = (req, res) => {
+    const document = firebaseAdmin_1.db.doc(`/questions/${req.params.questionId}`);
+    document
+        .get()
+        .then((doc) => {
+        if (!doc.exists) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+        return document.delete();
+    })
+        .then(() => {
+        res.json({ message: 'Question deleted' });
+    })
+        .catch((e) => {
+        console.log(e);
+        return express_1.response.status(500).json({ error: e.code });
+    });
+};
+exports.editQuestion = (req, res) => {
+    if (req.body.questionId) {
+        res.status(403).json({ message: 'Can not edit QuestionId' });
+    }
+    let document = firebaseAdmin_1.db
+        .collection('questions')
+        .doc(`${req.params.questionId}`);
+    document
+        .update(req.body)
+        .then(() => {
+        res.json({ message: 'Update success' });
+    })
+        .catch((e) => {
+        console.log(e);
+        return res.json(500).json({
+            error: e.code,
+        });
     });
 };
 //# sourceMappingURL=questions.js.map

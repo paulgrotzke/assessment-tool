@@ -1,4 +1,4 @@
-import { request } from 'express';
+import { response } from 'express';
 import { db } from '../firebaseAdmin';
 
 type Question = {
@@ -34,8 +34,6 @@ export const getAllQuestions = (
 };
 
 export const postOneQuestion = (req, res) => {
-  console.log(req.body.focusArea);
-  console.log(req.body);
   if (req.body.focusArea.trim() === '') {
     return res.status(400).json({ body: 'Can not be empty' });
   }
@@ -59,5 +57,44 @@ export const postOneQuestion = (req, res) => {
     })
     .catch((e) => {
       return res.status(500).json({ error: e.code });
+    });
+};
+
+export const deleteOneQuestion = (req, res) => {
+  const document = db.doc(`/questions/${req.params.questionId}`);
+  document
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return res.status(404).json({ error: 'Question not found' });
+      }
+      return document.delete();
+    })
+    .then(() => {
+      res.json({ message: 'Question deleted' });
+    })
+    .catch((e) => {
+      console.log(e);
+      return response.status(500).json({ error: e.code });
+    });
+};
+
+export const editQuestion = (req, res) => {
+  if (req.body.questionId) {
+    res.status(403).json({ message: 'Can not edit QuestionId' });
+  }
+  let document = db
+    .collection('questions')
+    .doc(`${req.params.questionId}`);
+  document
+    .update(req.body)
+    .then(() => {
+      res.json({ message: 'Update success' });
+    })
+    .catch((e) => {
+      console.log(e);
+      return res.json(500).json({
+        error: e.code,
+      });
     });
 };
