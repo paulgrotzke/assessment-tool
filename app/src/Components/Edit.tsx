@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { firestore } from '../lib/firebase';
 
 type Props = {
   question: Question;
+  changeEditState: () => void;
 };
 
 type Question = {
   id: string;
   focusArea: string;
-  digital: string;
+  digitalCapability: string;
   practiceItem: string;
 };
 
-const Edit = ({ changeEditState }) => {
-  const [editFocusArea, setEditFocusArea] = useState('');
-  const [editDigital, setEditDigital] = useState('');
-  const [editPracticeItem, setEditPracticeItem] = useState('');
+const Edit = (props: Props) => {
+  const [editFocusArea, setEditFocusArea] = useState(
+    props.question.focusArea,
+  );
+  const [editDigital, setEditDigital] = useState(
+    props.question.digitalCapability,
+  );
+  const [editPracticeItem, setEditPracticeItem] = useState(
+    props.question.practiceItem,
+  );
 
   const updateQuestion = async (questionId: Question['id']) => {
     await firestore.collection('questions').doc(questionId).update({
-      practiceItem: 'foo',
+      focusArea: editFocusArea,
+      digitalCapability: editDigital,
+      practiceItem: editPracticeItem,
     });
   };
 
@@ -39,14 +48,14 @@ const Edit = ({ changeEditState }) => {
         placeholder="Insert practice item"
         value={editPracticeItem}
         onChange={(e) => setEditPracticeItem(e.target.value)}></input>
-      {/* <p
+      <p
         onClick={() => {
           updateQuestion(props.question.id);
-          props.setEdit(false);
+          props.changeEditState();
         }}>
         save
-      </p> */}
-      <p onClick={changeEditState}>cancel</p>
+      </p>
+      <p onClick={props.changeEditState}>cancel</p>
     </div>
   );
 };

@@ -12,7 +12,7 @@ type Document = {
 type Question = {
   id: string;
   focusArea: string;
-  digital: string;
+  digitalCapability: string;
   practiceItem: string;
 };
 
@@ -21,11 +21,9 @@ const Controllcenter = () => {
 
   const [password, setPassword] = useState('');
   const [focusArea, setFocusArea] = useState('');
-  const [digital, setDigitalCapability] = useState('');
+  const [digitalCapability, setDigitalCapability] = useState('');
   const [practiceItem, setPracticeItem] = useState('');
   const [edit, setEdit] = useState(false);
-
-  const [question1, setQuestion1] = useState();
 
   const changeEditState = () => {
     setEdit(!edit);
@@ -42,29 +40,25 @@ const Controllcenter = () => {
     questions.push({
       id: doc.id,
       focusArea: doc.data().focusArea,
-      digital: doc.data().digital,
+      digitalCapability: doc.data().digitalCapability,
       practiceItem: doc.data().practiceItem,
     }),
   );
 
-  const getQuestions = async () => {
-    const questionDocumentList = await firestore
-      .collection('questions')
-      .get();
-    const test: Question[] = [];
-    questionDocumentList.docs.map((doc) =>
-      test.push({
-        id: doc.id,
-        focusArea: doc.data().focusArea,
-        digital: doc.data().digital,
-        practiceItem: doc.data().practiceItem,
-      }),
-    );
-  };
-
-  useEffect(() => {
-    getQuestions();
-  }, []);
+  // const getQuestions = async () => {
+  //   const questionDocumentList = await firestore
+  //     .collection('questions')
+  //     .get();
+  //   const test: Question[] = [];
+  //   questionDocumentList.docs.map((doc) =>
+  //     test.push({
+  //       id: doc.id,
+  //       focusArea: doc.data().focusArea,
+  //       digital: doc.data().digitalCapability,
+  //       practiceItem: doc.data().practiceItem,
+  //     }),
+  //   );
+  // };
 
   const postQuestion = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -74,7 +68,7 @@ const Controllcenter = () => {
 
     const data = {
       focusArea: focusArea,
-      digital: digital,
+      digitalCapability: digitalCapability,
       practiceItem: practiceItem,
     };
     await newQuestionRef.set(data);
@@ -101,7 +95,7 @@ const Controllcenter = () => {
           <p>Digital Capability:</p>
           <input
             placeholder="Insert digital capability"
-            value={digital}
+            value={digitalCapability}
             onChange={(e) =>
               setDigitalCapability(e.target.value)
             }></input>
@@ -117,13 +111,16 @@ const Controllcenter = () => {
           <div>
             <ul key={i}>
               <li>{question.focusArea}</li>
-              <li>{question.digital}</li>
+              <li>{question.digitalCapability}</li>
               <li>{question.practiceItem}</li>
             </ul>
             <p onClick={() => deleteQuestion(question.id)}>Delete</p>
             <p onClick={() => setEdit(true)}>Edit</p>
             {edit && (
-              <Edit  changeEditState={changeEditState} />
+              <Edit
+                question={question}
+                changeEditState={changeEditState}
+              />
             )}
           </div>
         ))}
