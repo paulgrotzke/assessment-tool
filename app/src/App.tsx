@@ -1,18 +1,34 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import Admin from './Pages/Admin';
-import User from './Pages/User';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Disclaimer from './Pages/Disclaimer';
+import Feedback from './Pages/Feedback';
+import Results from './Pages/Results';
+import Survey from './Pages/Survey';
+import Statistics from './Pages/Statistics';
+import Controllcenter from './Pages/Controllcenter';
 
 function App() {
   return (
-    <div>
-      <Route exact path="/">
-        <User />
+    <BrowserRouter>
+      <Route exact path="/disclaimer">
+        <Disclaimer />
       </Route>
-      <Route exact path="/admin">
-        <Admin />
+      <Route exact path="/survey">
+        <Survey />
       </Route>
-    </div>
+      <Route exact path="/feedback">
+        <Feedback />
+      </Route>
+      <Route exact path="/results">
+        <Results />
+      </Route>
+      <Route exact path="/admin/controllcenter">
+        <Controllcenter />
+      </Route>
+      <Route exact path="/admin/statistics">
+        <Statistics />
+      </Route>
+    </BrowserRouter>
   );
 }
 

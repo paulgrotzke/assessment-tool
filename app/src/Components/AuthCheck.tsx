@@ -34,6 +34,7 @@ const AuthCheck = (props: Props) => {
     return (
       <div>
         {console.log(props)}
+        <p>Insert {props.role} password</p>
         <input
           placeholder="Password"
           value={password}
