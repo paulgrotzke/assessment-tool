@@ -17,7 +17,7 @@ const Edit = (props: Props) => {
   const [editFocusArea, setEditFocusArea] = useState(
     props.question.focusArea,
   );
-  const [editDigital, setEditDigital] = useState(
+  const [editDigitalCapability, setEditDigitalCapability] = useState(
     props.question.digitalCapability,
   );
   const [editPracticeItem, setEditPracticeItem] = useState(
@@ -27,7 +27,7 @@ const Edit = (props: Props) => {
   const updateQuestion = async (questionId: Question['id']) => {
     await firestore.collection('questions').doc(questionId).update({
       focusArea: editFocusArea,
-      digitalCapability: editDigital,
+      digitalCapability: editDigitalCapability,
       practiceItem: editPracticeItem,
     });
   };
@@ -41,8 +41,10 @@ const Edit = (props: Props) => {
       <p>Digital Capability:</p>
       <input
         placeholder="Insert digital capability"
-        value={editDigital}
-        onChange={(e) => setEditDigital(e.target.value)}></input>
+        value={editDigitalCapability}
+        onChange={(e) =>
+          setEditDigitalCapability(e.target.value)
+        }></input>
       <p>Practice Item</p>
       <input
         placeholder="Insert practice item"

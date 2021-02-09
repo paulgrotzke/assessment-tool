@@ -1,6 +1,8 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import AuthCheck from '../Components/AuthCheck';
+import Delete from '../Components/Delete';
 import Edit from '../Components/Edit';
 import { auth, firestore } from '../lib/firebase';
 
@@ -17,7 +19,7 @@ type Question = {
 };
 
 const Controllcenter = () => {
-  const [admin, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const [password, setPassword] = useState('');
   const [focusArea, setFocusArea] = useState('');
@@ -74,16 +76,12 @@ const Controllcenter = () => {
     await newQuestionRef.set(data);
   };
 
-  const deleteQuestion = async (questionId: Question['id']) => {
-    await firestore.collection('questions').doc(questionId).delete();
-  };
-
-  if (admin) {
+  if (user?.uid === 'S7G90ov5HxgdTvv2bDdRQAxx6vO2') {
     return (
-      <div>
+      <AuthCheck role={'admin'}>
         <h1>Digify - Controll Center</h1>
         <p>
-          Here you cann add/edit/delte assessment question and view
+          Here you can add/edit/delete assessment question and view
           statistics
         </p>
         <form onSubmit={postQuestion}>
@@ -114,7 +112,7 @@ const Controllcenter = () => {
               <li>{question.digitalCapability}</li>
               <li>{question.practiceItem}</li>
             </ul>
-            <p onClick={() => deleteQuestion(question.id)}>Delete</p>
+            <Delete question={question} />
             <p onClick={() => setEdit(true)}>Edit</p>
             {edit && (
               <Edit
@@ -124,7 +122,7 @@ const Controllcenter = () => {
             )}
           </div>
         ))}
-      </div>
+      </AuthCheck>
     );
   } else {
     return (

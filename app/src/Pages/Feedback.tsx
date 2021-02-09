@@ -1,9 +1,10 @@
 import React from 'react';
+import AuthCheck from '../Components/AuthCheck';
 import Raiting from '../Components/Rating';
 
 const Feedback = () => {
   return (
-    <div>
+    <AuthCheck role="user">
       <p>Great!</p>
       <p>You have successfully passed all assessment questions!</p>
       <p>
@@ -25,7 +26,7 @@ const Feedback = () => {
         min={'no problem adequacy'}
         max={'full problem adequacy'}
       />
-    </div>
+    </AuthCheck>
   );
 };
 

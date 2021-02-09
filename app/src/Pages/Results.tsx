@@ -1,8 +1,9 @@
 import React from 'react';
+import AuthCheck from '../Components/AuthCheck';
 
 const Results = () => {
   return (
-    <div>
+    <AuthCheck role="user">
       <h1>Great!</h1>
       <p>You have successfully passed the assessment!</p>
       <p>
@@ -13,7 +14,7 @@ const Results = () => {
         After clicking on submit, the evaluation will be sent to you
         in PDF format.
       </p>
-    </div>
+    </AuthCheck>
   );
 };
 

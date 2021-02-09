@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AuthCheck from '../Components/AuthCheck';
 
 const Disclaimer = () => {
   return (
-    <div>
+    <AuthCheck role="user">
       <h1>Brief explanation of the assessment tool:</h1>
       <p>
         You will be guided through assessmenmt questions step by step
@@ -17,7 +18,7 @@ const Disclaimer = () => {
       email address so that we can send you a comprehensive evaluation
       in PDF format
       <Link to="/survey">Start assessment</Link>
-    </div>
+    </AuthCheck>
   );
 };
 

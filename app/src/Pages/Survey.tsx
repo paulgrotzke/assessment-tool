@@ -1,10 +1,11 @@
 import React from 'react';
+import AuthCheck from '../Components/AuthCheck';
 import Questions from '../Components/Questions';
 import Raiting from '../Components/Rating';
 
 const Survey = () => {
   return (
-    <div>
+    <AuthCheck role="user">
       <Questions />
       <p>Focus area:</p>
       <p>FetchDB</p>
@@ -17,7 +18,7 @@ const Survey = () => {
         implemented the practice item
       </p>
       <Raiting min={'not implemented'} max={'fully implemented'} />
-    </div>
+    </AuthCheck>
   );
 };
 

@@ -1,10 +1,11 @@
 import React from 'react';
+import AuthCheck from '../Components/AuthCheck';
 
 const Statistics = () => {
   return (
-    <div>
+    <AuthCheck role="admin">
       <h1>Statistics</h1>
-    </div>
+    </AuthCheck>
   );
 };
 
