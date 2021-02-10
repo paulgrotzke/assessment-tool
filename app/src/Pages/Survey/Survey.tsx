@@ -2,18 +2,13 @@ import React, { useState } from 'react';
 import AuthCheck from '../../Components/AuthCheck';
 import Raiting from './Components/Rating';
 import { firestore } from '../../lib/firebase';
-import { useHistory } from 'react-router-dom';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import * as t from './types';
 import Question from './Components/Question';
+import useLocalDocRef from './Hooks/useLocalDocRef';
 
 const Survey = () => {
-  const history = useHistory();
-  const answerdDocId = localStorage.getItem('docRef')!;
-
-  if (answerdDocId === null || undefined) {
-    history.push('/survey');
-  }
+  const localDofRef = useLocalDocRef();
 
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
@@ -35,7 +30,7 @@ const Survey = () => {
   const postAnswers = async () => {
     const newAnswerRef = firestore
       .collection('answers')
-      .doc(answerdDocId);
+      .doc(localDofRef);
 
     const data = {
       [raiting.questionId]: {
@@ -44,8 +39,6 @@ const Survey = () => {
     };
     await newAnswerRef.set(data, { merge: true });
   };
-
-  console.log(answerdDocId);
 
   return (
     <AuthCheck role="user">

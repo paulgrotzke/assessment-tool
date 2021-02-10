@@ -1,7 +1,12 @@
 import React from 'react';
 import AuthCheck from '../../Components/AuthCheck';
+import useLocalDocRef from './Hooks/useLocalDocRef';
 
 const Results = () => {
+  const localDocRef = useLocalDocRef();
+
+  
+
   return (
     <AuthCheck role="user">
       <h1>Great!</h1>
