@@ -33,7 +33,6 @@ const AuthCheck = (props: Props) => {
   else {
     return (
       <div>
-        {console.log(props)}
         <p>Insert {props.role} password</p>
         <input
           placeholder="Password"

@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthCheck from '../Components/AuthCheck';
+import AuthCheck from '../../Components/AuthCheck';
 
 const Results = () => {
   return (

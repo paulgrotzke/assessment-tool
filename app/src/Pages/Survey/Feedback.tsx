@@ -1,6 +1,5 @@
 import React from 'react';
-import AuthCheck from '../Components/AuthCheck';
-import Raiting from '../Components/Rating';
+import AuthCheck from '../../Components/AuthCheck';
 
 const Feedback = () => {
   return (
@@ -17,7 +16,7 @@ const Feedback = () => {
         three criteria:
       </p>
       <p>Comprehensiveness, consistency and problem adequacy</p>
-      <Raiting
+      {/* <Raiting
         min={'not comprehensiveness'}
         max={'fully comprehensiveness'}
       />
@@ -25,7 +24,7 @@ const Feedback = () => {
       <Raiting
         min={'no problem adequacy'}
         max={'full problem adequacy'}
-      />
+      /> */}
     </AuthCheck>
   );
 };

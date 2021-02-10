@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { firestore } from '../lib/firebase';
+import { firestore } from '../../../lib/firebase';
 
 type Props = {
   question: Question;

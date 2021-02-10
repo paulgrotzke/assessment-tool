@@ -1,10 +1,10 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import AuthCheck from '../Components/AuthCheck';
-import Delete from '../Components/Delete';
-import Edit from '../Components/Edit';
-import { auth, firestore } from '../lib/firebase';
+import AuthCheck from '../../Components/AuthCheck';
+import Delete from './Components/Delete';
+import Edit from './Components/Edit';
+import { auth, firestore } from '../../lib/firebase';
 
 type Document = {
   id: string;
@@ -39,21 +39,6 @@ const Controllcenter = () => {
       practiceItem: doc.data().practiceItem,
     }),
   );
-
-  // const getQuestions = async () => {
-  //   const questionDocumentList = await firestore
-  //     .collection('questions')
-  //     .get();
-  //   const test: Question[] = [];
-  //   questionDocumentList.docs.map((doc) =>
-  //     test.push({
-  //       id: doc.id,
-  //       focusArea: doc.data().focusArea,
-  //       digital: doc.data().digitalCapability,
-  //       practiceItem: doc.data().practiceItem,
-  //     }),
-  //   );
-  // };
 
   const postQuestion = async (
     e: React.FormEvent<HTMLFormElement>,
