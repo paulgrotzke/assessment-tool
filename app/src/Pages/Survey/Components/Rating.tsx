@@ -2,7 +2,7 @@ type Props = {
   min: string;
   max: string;
   questionId: string;
-  setRaiting: ({ questionId: string, raiting: number }) => void;
+  setRaiting: ({ questionId: string, value: number }) => void;
 };
 
 const Raiting = (props: Props) => {
@@ -16,7 +16,7 @@ const Raiting = (props: Props) => {
           onClick={() =>
             props.setRaiting({
               questionId: props.questionId,
-              raiting: 1,
+              value: 1,
             })
           }></input>
         <input
@@ -25,7 +25,7 @@ const Raiting = (props: Props) => {
           onClick={() =>
             props.setRaiting({
               questionId: props.questionId,
-              raiting: 2,
+              value: 2,
             })
           }></input>
         <input
@@ -34,7 +34,7 @@ const Raiting = (props: Props) => {
           onClick={() =>
             props.setRaiting({
               questionId: props.questionId,
-              raiting: 3,
+              value: 3,
             })
           }></input>
         <input
@@ -43,7 +43,7 @@ const Raiting = (props: Props) => {
           onClick={() =>
             props.setRaiting({
               questionId: props.questionId,
-              raiting: 4,
+              value: 4,
             })
           }></input>
         <input
@@ -52,7 +52,7 @@ const Raiting = (props: Props) => {
           onClick={() =>
             props.setRaiting({
               questionId: props.questionId,
-              raiting: 5,
+              value: 5,
             })
           }></input>
       </div>

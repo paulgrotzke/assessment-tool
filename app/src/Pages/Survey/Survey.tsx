@@ -15,13 +15,11 @@ const Survey = () => {
     history.push('/survey');
   }
 
-  // state for raiting
-  const [raiting, setRaiting] = useState<t.RaitingValue>({
+  const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
-    raiting: null,
+    value: null,
   });
 
-  // list all questions
   const ref = firestore.collection('questions');
   const [data] = useCollection(ref);
   const questions: t.Question[] = [];
@@ -34,20 +32,25 @@ const Survey = () => {
     }),
   );
 
-  // post answers
-  const postAnswers = async (e) => {
-    e.preventDefault();
+  const postAnswers = async () => {
     const newAnswerRef = firestore
       .collection('answers')
       .doc(answerdDocId);
 
-    const data = {};
+    const data = {
+      [raiting.questionId]: {
+        value: raiting.value,
+      },
+    };
+    await newAnswerRef.set(data, { merge: true });
   };
+
+  console.log(answerdDocId);
 
   return (
     <AuthCheck role="user">
-      {questions.map((question) => (
-        <div>
+      {questions.map((question, i) => (
+        <div key={i}>
           <Question question={question} />
           <Raiting
             min={'not implemented'}
@@ -55,9 +58,9 @@ const Survey = () => {
             setRaiting={setRaiting}
             questionId={question.id}
           />
+          <button onClick={() => postAnswers()}>Next Question</button>
         </div>
       ))}
-      <button onSubmit={postAnswers}>Submit</button>
     </AuthCheck>
   );
 };

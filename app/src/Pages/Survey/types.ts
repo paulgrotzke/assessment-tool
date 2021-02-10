@@ -10,7 +10,7 @@ export type Document = {
   data: () => Question;
 };
 
-export type RaitingValue = {
+export type Raiting = {
   questionId: string;
-  raiting: number | null;
+  value: number | null;
 };
