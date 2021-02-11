@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import Disclaimer from './Pages/Survey/Disclaimer';
 import Feedback from './Pages/Survey/Feedback';
 import Results from './Pages/Survey/Results';
@@ -11,27 +16,33 @@ import Company from './Pages/Survey/Company';
 function App() {
   return (
     <BrowserRouter>
-      <Route exact path="/disclaimer">
-        <Disclaimer />
-      </Route>
-      <Route exact path="/survey">
-        <Survey />
-      </Route>
-      <Route exact path="/company">
-        <Company />
-      </Route>
-      <Route exact path="/feedback">
-        <Feedback />
-      </Route>
-      <Route exact path="/results">
-        <Results />
-      </Route>
-      <Route exact path="/admin/controllcenter">
-        <Controllcenter />
-      </Route>
-      <Route exact path="/admin/statistics">
-        <Statistics />
-      </Route>
+      <Switch>
+        <Route exact path="/disclaimer">
+          <Disclaimer />
+        </Route>
+        <Route exact path="/survey">
+          <Survey />
+        </Route>
+        <Route exact path="/company">
+          <Company />
+        </Route>
+        <Route exact path="/feedback">
+          <Feedback />
+        </Route>
+        <Route exact path="/results">
+          <Results />
+        </Route>
+        <Route exact path="/admin/controllcenter">
+          <Controllcenter />
+        </Route>
+        <Route exact path="/admin/statistics">
+          <Statistics />
+        </Route>
+        <Redirect from="/" to="/survey" />
+        <Route>
+          <Survey />
+        </Route>
+      </Switch>
     </BrowserRouter>
   );
 }
