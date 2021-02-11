@@ -10,10 +10,12 @@ import Buttons from './Components/Buttons';
 
 const Survey = () => {
   const localDofRef = useLocalDocRef();
+  //TODO: seems to be not working with private mode in chrome - recheck
 
+  const [counter, setCounter] = useState<t.Counter>({ value: 0 });
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
-    value: null,
+    value: false,
   });
 
   const ref = firestore.collection('questions');
@@ -29,9 +31,7 @@ const Survey = () => {
   );
   const amountQuestions = questions.length;
 
-  const [counter, setCounter] = useState<t.Counter>({ value: 0 });
-
-  const postAnswers = async () => {
+  const postAnswer = async () => {
     const newAnswerRef = firestore
       .collection('answers')
       .doc(localDofRef);
@@ -60,15 +60,16 @@ const Survey = () => {
                 questionId={question.id}
               />
               <Buttons
-                postAnswers={postAnswers}
-                counter={counter}
+                postAnswer={postAnswer}
+                counter={counter.value}
                 setCounter={setCounter}
                 amountQuestions={amountQuestions}
+                raiting={raiting.value}
               />
             </div>
           );
         }
-        return <div></div>;
+        return <div key={i}></div>;
       })}
     </AuthCheck>
   );

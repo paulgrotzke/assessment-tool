@@ -12,7 +12,7 @@ export type Document = {
 
 export type Raiting = {
   questionId: string;
-  value: number | null;
+  value: number | boolean;
 };
 
 export type Counter = {
