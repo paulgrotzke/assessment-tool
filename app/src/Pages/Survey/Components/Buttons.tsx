@@ -1,4 +1,4 @@
-import * as t from '../types';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   postAnswer: () => void;
@@ -9,6 +9,8 @@ type Props = {
 };
 
 const Buttons = (props: Props) => {
+  const history = useHistory();
+
   return (
     <div className="flex">
       {props.counter > 0 && (
@@ -29,6 +31,7 @@ const Buttons = (props: Props) => {
           className="disabled:opacity-50 mt-5 justify-center px-4 py-2 font-medium text-white bg-indigo-600 border border-transparent rounded-md mt-50 group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           onClick={() => {
             props.postAnswer();
+            history.push('/feedback');
           }}>
           Finish Survey
         </button>

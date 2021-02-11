@@ -1,47 +1,38 @@
 import React, { useState } from 'react';
 import AuthCheck from '../../Components/AuthCheck';
 import Raiting from './Components/Rating';
-import { firestore } from '../../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
 import * as t from './types';
 import Question from './Components/Question';
 import useLocalDocRef from './Hooks/useLocalDocRef';
 import Buttons from './Components/Buttons';
+import useFirestore from './Hooks/useFirestore';
 
 const Survey = () => {
-  const localDofRef = useLocalDocRef();
   //TODO: seems to be not working with private mode in chrome - recheck
+  const localDocRef = useLocalDocRef();
+  const data = useFirestore();
 
+  const [questions, setQuestions] = useState<t.Question[]>([]);
+  const [amountQuestions, setAmountQuestions] = useState<number>(0);
   const [counter, setCounter] = useState<t.Counter>({ value: 0 });
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
     value: false,
   });
 
-  const ref = firestore.collection('questions');
-  const [data] = useCollection(ref);
-  const questions: t.Question[] = [];
-  data?.docs.map((doc: t.Document) =>
-    questions.push({
-      id: doc.id,
-      focusArea: doc.data().focusArea,
-      digitalCapability: doc.data().digitalCapability,
-      practiceItem: doc.data().practiceItem,
-    }),
-  );
-  const amountQuestions = questions.length;
+  data.questions.then((res) => {
+    setQuestions(res);
+    setAmountQuestions(res.length);
+  });
 
-  const postAnswer = async () => {
-    const newAnswerRef = firestore
-      .collection('answers')
-      .doc(localDofRef);
+  const answer = {
+    [raiting.questionId]: {
+      value: raiting.value,
+    },
+  };
 
-    const data = {
-      [raiting.questionId]: {
-        value: raiting.value,
-      },
-    };
-    await newAnswerRef.set(data, { merge: true });
+  const postAnswer = () => {
+    data.postAnswer(localDocRef, answer);
   };
 
   return (
@@ -58,6 +49,7 @@ const Survey = () => {
                 max={'Fully implemented'}
                 setRaiting={setRaiting}
                 questionId={question.id}
+                text={true}
               />
               <Buttons
                 postAnswer={postAnswer}
