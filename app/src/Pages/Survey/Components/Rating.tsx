@@ -7,56 +7,70 @@ type Props = {
 
 const Raiting = (props: Props) => {
   return (
-    <div>
-      <p>{props.min}</p>
-      <div>
-        <input
-          type="radio"
-          name="drone"
-          onClick={() =>
-            props.setRaiting({
-              questionId: props.questionId,
-              value: 1,
-            })
-          }></input>
-        <input
-          type="radio"
-          name="drone"
-          onClick={() =>
-            props.setRaiting({
-              questionId: props.questionId,
-              value: 2,
-            })
-          }></input>
-        <input
-          type="radio"
-          name="drone"
-          onClick={() =>
-            props.setRaiting({
-              questionId: props.questionId,
-              value: 3,
-            })
-          }></input>
-        <input
-          type="radio"
-          name="drone"
-          onClick={() =>
-            props.setRaiting({
-              questionId: props.questionId,
-              value: 4,
-            })
-          }></input>
-        <input
-          type="radio"
-          name="drone"
-          onClick={() =>
-            props.setRaiting({
-              questionId: props.questionId,
-              value: 5,
-            })
-          }></input>
+    <div className="">
+      <p className="uppercase text-lg font-bold mt-4">
+        Rate your company
+      </p>
+      <p className="font-semibold ">
+        To which level has your company
+        implemented the practice item
+      </p>
+      <div className="flex mt-2">
+        <p>{props.min}</p>
+        <div className="mx-4">
+          <input
+            className="mx-1"
+            type="radio"
+            name="drone"
+            onClick={() =>
+              props.setRaiting({
+                questionId: props.questionId,
+                value: 1,
+              })
+            }></input>
+          <input
+            className="mx-1"
+            type="radio"
+            name="drone"
+            onClick={() =>
+              props.setRaiting({
+                questionId: props.questionId,
+                value: 2,
+              })
+            }></input>
+          <input
+            className="mx-1"
+            type="radio"
+            name="drone"
+            onClick={() =>
+              props.setRaiting({
+                questionId: props.questionId,
+                value: 3,
+              })
+            }></input>
+          <input
+            className="mx-1"
+            type="radio"
+            name="drone"
+            onClick={() =>
+              props.setRaiting({
+                questionId: props.questionId,
+                value: 4,
+              })
+            }></input>
+          <input
+            className="mx-1"
+            type="radio"
+            name="drone"
+            onClick={() =>
+              props.setRaiting({
+                questionId: props.questionId,
+                value: 5,
+              })
+            }></input>
+        </div>
+        <p>{props.max}</p>
       </div>
-      <p>{props.max}</p>
     </div>
   );
 };

@@ -2,17 +2,17 @@ import * as t from '../types';
 
 const Question = (props: Props) => {
   return (
-    <div>
-      <p>Focus area:</p>
-      <p>{props.question.focusArea}</p>
-      <p>Digital Capability:</p>
-      <p>{props.question.digitalCapability}</p>
-      <p>Practice Item</p>
-      <p>{props.question.practiceItem}</p>
-      <p>
-        Rate your company - to which level has your company
-        implemented the practice item
+    <div className="w-full max-w-md">
+      <p className="uppercase text-lg font-bold">Focus area</p>
+      <p className="mt-0">{props.question.focusArea}</p>
+      <p className="uppercase text-lg font-bold mt-4">
+        Digital Capability
       </p>
+      <p>{props.question.digitalCapability}</p>
+      <p className="uppercase text-lg font-bold mt-4">
+        Practice Item
+      </p>
+      <p>{props.question.practiceItem}</p>
     </div>
   );
 };
