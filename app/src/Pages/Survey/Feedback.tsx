@@ -11,23 +11,19 @@ const Feedback = () => {
 
   return (
     <AuthCheck role="user">
-      <div className="w-full max-w-xl space-y-2 items-center justify-center min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
-        <h2 className="mt-6 text-3xl font-extrabold  text-gray-900">
-          Great!
-        </h2>
-        <h4 className="mt-6 text-xl font-semibold text-gray-900">
+      <div>
+        <h2>Great!</h2>
+        <h4>
           You have successfully passed all assessment questions!
         </h4>
-        <p className="my-6 text-xl text-gray-900">
+        <p>
           In order to improve our tool continously, I would like to
           ask you for some feedback. Please rate the assessment tool
           including all dimensions, digital capabilities and practice
           items with regard to the three criteria:
         </p>
-        <p className="text-xl text-gray-900">
-          Comprehensiveness, consistency and problem adequacy
-        </p>
-        <Raiting
+        <p>Comprehensiveness, consistency and problem adequacy</p>
+        {/* <Raiting
           min={'No comprehensiveness'}
           max={'Full comprehensiveness'}
           setRaiting={setRaiting}
@@ -44,7 +40,7 @@ const Feedback = () => {
           max={'Full problem adequacy'}
           setRaiting={setRaiting}
           text={false}
-        />
+        /> */}
       </div>
     </AuthCheck>
   );

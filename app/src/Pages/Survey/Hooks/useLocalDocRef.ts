@@ -5,7 +5,7 @@ const useLocalDocRef = () => {
   const answeredDocId = localStorage.getItem('docRef')!;
 
   if (answeredDocId === null || undefined) {
-    history.push('/survey');
+    history.push('/disclaimer');
   }
   return answeredDocId;
 };

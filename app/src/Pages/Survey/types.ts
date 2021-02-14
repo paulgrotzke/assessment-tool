@@ -18,3 +18,11 @@ export type Raiting = {
 export type Counter = {
   value: number;
 };
+
+export interface Answer {
+  [questionId: string]: AnswerValue;
+}
+
+export interface AnswerValue {
+  value: number | boolean;
+}

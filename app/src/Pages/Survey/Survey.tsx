@@ -5,34 +5,52 @@ import * as t from './types';
 import Question from './Components/Question';
 import useLocalDocRef from './Hooks/useLocalDocRef';
 import Buttons from './Components/Buttons';
-import useFirestore from './Hooks/useFirestore';
+import { firestore } from '../../lib/firebase';
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 const Survey = () => {
   //TODO: seems to be not working with private mode in chrome - recheck
   const localDocRef = useLocalDocRef();
-  const data = useFirestore();
-
-  const [questions, setQuestions] = useState<t.Question[]>([]);
-  const [amountQuestions, setAmountQuestions] = useState<number>(0);
   const [counter, setCounter] = useState<t.Counter>({ value: 0 });
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
     value: false,
   });
 
-  data.questions.then((res) => {
-    setQuestions(res);
-    setAmountQuestions(res.length);
+  const ref = firestore.collection('questions');
+  const [data] = useCollection(ref);
+  const questions: t.Question[] = [];
+  data?.docs.map((doc: t.Document) =>
+    questions.push({
+      id: doc.id,
+      focusArea: doc.data().focusArea,
+      digitalCapability: doc.data().digitalCapability,
+      practiceItem: doc.data().practiceItem,
+    }),
+  );
+  const amountQuestions = questions.length;
+
+  const answerRef = firestore.collection('answers');
+  const [answers] = useCollection(answerRef);
+  let answer = 0;
+  answers?.docs.forEach((doc): void => {
+    if (doc.id === localDocRef) {
+      answer = doc.data()[questions[counter.value].id]?.value;
+    }
   });
 
-  const answer = {
-    [raiting.questionId]: {
-      value: raiting.value,
-    },
-  };
+  const postAnswer = async () => {
+    const answer: t.Answer = {
+      [raiting.questionId]: {
+        value: raiting.value,
+      },
+    };
 
-  const postAnswer = () => {
-    data.postAnswer(localDocRef, answer);
+    const newAnswerRef = firestore
+      .collection('answers')
+      .doc(localDocRef);
+    await newAnswerRef.set(answer, { merge: true });
+    await newAnswerRef.set(counter, { merge: true });
   };
 
   return (
@@ -40,9 +58,7 @@ const Survey = () => {
       {questions.map((question, i) => {
         if (counter.value === i) {
           return (
-            <div
-              key={i}
-              className="items-center justify-center min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
+            <div key={i}>
               <Question question={question} />
               <Raiting
                 min={'Not implemented'}
@@ -50,6 +66,7 @@ const Survey = () => {
                 setRaiting={setRaiting}
                 questionId={question.id}
                 text={true}
+                answer={answer}
               />
               <Buttons
                 postAnswer={postAnswer}
@@ -57,6 +74,7 @@ const Survey = () => {
                 setCounter={setCounter}
                 amountQuestions={amountQuestions}
                 raiting={raiting.value}
+                answer={answer}
               />
             </div>
           );
