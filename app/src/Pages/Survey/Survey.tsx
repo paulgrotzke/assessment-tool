@@ -15,6 +15,9 @@ const Survey = () => {
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
     value: false,
+    digitalCapability: '',
+    focusArea: '',
+    practiceItem: '',
   });
 
   const ref = firestore.collection('questions');
@@ -43,6 +46,9 @@ const Survey = () => {
     const answer: t.Answer = {
       [raiting.questionId]: {
         value: raiting.value,
+        focusArea: raiting.focusArea,
+        digitalCapability: raiting.digitalCapability,
+        practiceItem: raiting.practiceItem,
       },
     };
 
@@ -64,7 +70,7 @@ const Survey = () => {
                 min={'Not implemented'}
                 max={'Fully implemented'}
                 setRaiting={setRaiting}
-                questionId={question.id}
+                question={question}
                 text={true}
                 answer={answer}
               />

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
+import * as t from '../types';
 
 type Props = {
   min: string;
   max: string;
-  questionId?: string;
-  setRaiting: ({ questionId: string, value: number }) => void;
+  setRaiting: ({}: t.Raiting) => void;
   text: boolean;
   answer: number;
+  question: t.Question;
 };
 
 const Raiting = (props: Props) => {
@@ -24,8 +25,11 @@ const Raiting = (props: Props) => {
       answerFromFirestore[props.answer - 1] = true;
       setInputs(answerFromFirestore);
       props.setRaiting({
-        questionId: props.questionId,
-        value: [props.answer - 1],
+        questionId: props.question.id,
+        value: props.answer - 1,
+        focusArea: props.question.focusArea,
+        digitalCapability: props.question.digitalCapability,
+        practiceItem: props.question.id,
       });
     }
   }, [props.answer]);
@@ -59,8 +63,12 @@ const Raiting = (props: Props) => {
                 checked={input}
                 onClick={() => {
                   props.setRaiting({
-                    questionId: props.questionId,
-                    value: 1,
+                    questionId: props.question.id,
+                    value: i,
+                    focusArea: props.question.focusArea,
+                    digitalCapability:
+                      props.question.digitalCapability,
+                    practiceItem: props.question.practiceItem,
                   });
                   setInputs([false, false, false, false, false]);
                   changeInput(i);

@@ -13,6 +13,9 @@ export type Document = {
 export type Raiting = {
   questionId: string;
   value: number | boolean;
+  digitalCapability: string;
+  focusArea: string;
+  practiceItem: string;
 };
 
 export type Counter = {
@@ -23,6 +26,9 @@ export interface Answer {
   [questionId: string]: AnswerValue;
 }
 
-export interface AnswerValue {
+type AnswerValue = {
   value: number | boolean;
-}
+  digitalCapability: string;
+  focusArea: string;
+  practiceItem: string;
+};

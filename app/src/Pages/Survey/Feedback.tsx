@@ -4,10 +4,10 @@ import Raiting from './Components/Rating';
 import * as t from './types';
 
 const Feedback = () => {
-  const [raiting, setRaiting] = useState<t.Raiting>({
-    questionId: '',
-    value: false,
-  });
+  // const [raiting, setRaiting] = useState<t.Raiting>({
+  //   questionId: '',
+  //   value: false,
+  // });
 
   return (
     <AuthCheck role="user">

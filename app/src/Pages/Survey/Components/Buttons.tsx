@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import * as t from '../types';
 
 type Props = {
   postAnswer: () => void;

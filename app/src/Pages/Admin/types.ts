@@ -15,10 +15,18 @@ export type AnswerDocument = {
   data: () => Survey;
 };
 
-export interface Survey {
-  [questionId: string]: AnswerValue;
-}
+// export interface Survey {
+//   [questionId: string]: AnswerValue;
+// }
+
+export type Survey = {
+  surveyId: string;
+};
 
 export interface AnswerValue {
   value: number | boolean;
 }
+
+export type Document = {
+  id: string;
+};
