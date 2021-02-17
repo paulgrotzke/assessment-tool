@@ -7,7 +7,7 @@ import useLocalDocRef from './Hooks/useLocalDocRef';
 import Buttons from './Components/Buttons';
 import { firestore } from '../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import Company from './Components/Company';
+import Company from './Components/GeneralQuestions';
 
 const Survey = () => {
   const localDocRef = useLocalDocRef();
@@ -19,7 +19,7 @@ const Survey = () => {
     focusArea: '',
     practiceItem: '',
   });
-  const [
+  let [
     generalQuestions,
     setGeneralQuestions,
   ] = useState<t.GeneralQuestionsAnswer>({
@@ -46,7 +46,9 @@ const Survey = () => {
   );
   const amountQuestions = questions.length;
 
-  const answerRef = firestore.collection('answers');
+  console.log(generalQuestions);
+
+  const answerRef = firestore.collection('surveys');
   const [answers] = useCollection(answerRef);
   let answer = 0;
   answers?.docs.forEach((doc): void => {
@@ -57,24 +59,24 @@ const Survey = () => {
 
   const postAnswer = async () => {
     const answer: t.Answer = {
-      [raiting.questionId]: {
-        value: raiting.value,
-        focusArea: raiting.focusArea,
-        digitalCapability: raiting.digitalCapability,
-        practiceItem: raiting.practiceItem,
-      },
+      value: raiting.value,
+      focusArea: raiting.focusArea,
+      digitalCapability: raiting.digitalCapability,
+      practiceItem: raiting.practiceItem,
     };
 
     const newAnswerRef = firestore
+      .collection('surveys')
+      .doc(localDocRef)
       .collection('answers')
-      .doc(localDocRef);
+      .doc(raiting.questionId);
     await newAnswerRef.set(answer, { merge: true });
     await newAnswerRef.set(counter, { merge: true });
   };
 
   const postgeneralQuestion = async () => {
     const newAnswerRef = firestore
-      .collection('answers')
+      .collection('surveys')
       .doc(localDocRef);
     await newAnswerRef.set(generalQuestions, { merge: true });
   };
@@ -83,6 +85,7 @@ const Survey = () => {
     return (
       <AuthCheck role="user">
         <Company
+          generalQuestions={generalQuestions}
           setGeneralQuestions={setGeneralQuestions}
           setShowGeneralQuestions={setShowGeneralQuestions}
           postgeneralQuestion={postgeneralQuestion}

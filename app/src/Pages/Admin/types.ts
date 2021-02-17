@@ -10,19 +10,6 @@ export type QuestionDocument = {
   data: () => Question;
 };
 
-// export type AnswerDocument = {
-//   id: string;
-//   data: () => Survey;
-// };
-
-// export interface Survey {
-//   [questionId: string]: AnswerValue;
-// }
-
-// export type Survey = {
-//   surveyId: string;
-// };
-
 export interface AnswerValue {
   value: number | boolean;
 }
@@ -38,4 +25,15 @@ export type Survey = {
   digitalCapability: string;
   focusArea: string;
   practiceItem: string;
+};
+
+export type GeneralQuestions = {
+  industryBelong: string;
+  amountEmployees: string;
+  companyPosition: string;
+};
+
+export type GeneralQuestionsDocument = {
+  id: string;
+  data: () => GeneralQuestions;
 };

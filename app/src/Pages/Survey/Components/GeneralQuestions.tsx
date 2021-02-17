@@ -3,12 +3,13 @@ import AuthCheck from '../../../Components/AuthCheck';
 import * as t from '../types';
 
 type Props = {
+  generalQuestions: t.GeneralQuestionsAnswer;
   setGeneralQuestions: (answer: t.GeneralQuestionsAnswer) => void;
   setShowGeneralQuestions: (bool: boolean) => void;
   postgeneralQuestion: () => void;
 };
 
-const Company = (props: Props) => {
+const GeneralQuestions = (props: Props) => {
   return (
     <AuthCheck role="user">
       <div>
@@ -21,6 +22,7 @@ const Company = (props: Props) => {
           maxLength={50}
           onChange={(e) => {
             props.setGeneralQuestions({
+              ...props.generalQuestions,
               industryBelong: e.target.value,
             });
           }}></input>
@@ -28,6 +30,7 @@ const Company = (props: Props) => {
         <select
           onChange={(e) => {
             props.setGeneralQuestions({
+              ...props.generalQuestions,
               amountEmployees: e.target.value,
             });
           }}>
@@ -43,6 +46,7 @@ const Company = (props: Props) => {
           maxLength={50}
           onChange={(e) => {
             props.setGeneralQuestions({
+              ...props.generalQuestions,
               companyPosition: e.target.value,
             });
           }}></input>
@@ -58,4 +62,4 @@ const Company = (props: Props) => {
   );
 };
 
-export default Company;
+export default GeneralQuestions;

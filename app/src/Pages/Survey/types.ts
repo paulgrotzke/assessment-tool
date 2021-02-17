@@ -22,11 +22,7 @@ export type Counter = {
   value: number;
 };
 
-export interface Answer {
-  [questionId: string]: AnswerValue;
-}
-
-type AnswerValue = {
+export type Answer = {
   value: number | boolean;
   digitalCapability: string;
   focusArea: string;
