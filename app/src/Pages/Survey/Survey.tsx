@@ -52,7 +52,7 @@ const Survey = () => {
   const ref = firestore.collection('questions');
   const [data] = useCollection(ref);
   const questions: t.Question[] = [];
-  data?.docs.map((doc: t.Document) =>
+  data?.docs.map((doc: t.QuestionDocument) =>
     questions.push({
       id: doc.id,
       focusArea: doc.data().focusArea,
@@ -60,7 +60,6 @@ const Survey = () => {
       practiceItem: doc.data().practiceItem,
     }),
   );
-  const amountQuestions = questions.length;
 
   //
   //
@@ -113,22 +112,7 @@ const Survey = () => {
   // RESULTS
   //
   const [showResults, setShowResults] = useState<boolean>(false);
-  // const resultsRef = firestore
-  //   .collection('surveys')
-  //   .doc(localDocRef)
-  //   .collection('answers');
-  // const [resultsData] = useCollection(resultsRef);
-  // const results = [];
-  // resultsData?.docs.map((doc: t.Document) =>
-  //   results.push({
-  //     id: doc.id,
-  //     value: doc.data().value,
-  //     focusArea: doc.data().focusArea,
-  //     digitalCapability: doc.data().digitalCapability,
-  //     practiceItem: doc.data().practiceItem,
-  //   }),
-  // );
-  // console.log(results);
+
 
   if (showGeneralQuestions)
     return (
@@ -178,7 +162,6 @@ const Survey = () => {
                 postAnswer={postAnswer}
                 counter={counter.value}
                 setCounter={setCounter}
-                amountQuestions={amountQuestions}
                 raiting={raiting.value}
                 answer={answer}
                 setShowFeedback={setShowFeedback}

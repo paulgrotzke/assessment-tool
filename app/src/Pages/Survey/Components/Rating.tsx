@@ -39,7 +39,6 @@ const Raiting = (props: Props) => {
                   });
                   //@ts-ignore
                   input = [false, false, false, false, false];
-                  console.log(input);
                   input[i] = true;
                 }}></input>
             );

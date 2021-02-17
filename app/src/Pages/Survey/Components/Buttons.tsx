@@ -1,14 +1,17 @@
+import useQuestions from '../Hooks/useQuesations';
+
 type Props = {
   postAnswer: () => void;
   counter: number;
   setCounter: ({ value: number }) => void;
-  amountQuestions: number;
   raiting: number | boolean;
   answer: number;
   setShowFeedback: (bool: boolean) => void;
 };
 
 const Buttons = (props: Props) => {
+  const questions = useQuestions();
+  const amountQuestions = questions.length;
   return (
     <div>
       {props.counter > 0 && (
@@ -22,7 +25,7 @@ const Buttons = (props: Props) => {
           Previous Question
         </button>
       )}
-      {props.amountQuestions - 1 === props.counter && (
+      {amountQuestions - 1 === props.counter && (
         <button
           disabled={!props.raiting}
           onClick={() => {
@@ -32,19 +35,18 @@ const Buttons = (props: Props) => {
           Finish Survey
         </button>
       )}
-      {props.amountQuestions > 1 &&
-        props.amountQuestions - 1 !== props.counter && (
-          <button
-            disabled={!props.raiting}
-            onClick={() => {
-              props.postAnswer();
-              props.setCounter({
-                value: props.counter + 1,
-              });
-            }}>
-            Next Question
-          </button>
-        )}
+      {amountQuestions > 1 && amountQuestions - 1 !== props.counter && (
+        <button
+          disabled={!props.raiting}
+          onClick={() => {
+            props.postAnswer();
+            props.setCounter({
+              value: props.counter + 1,
+            });
+          }}>
+          Next Question
+        </button>
+      )}
     </div>
   );
 };

@@ -5,7 +5,7 @@ export type Question = {
   practiceItem: string;
 };
 
-export type Document = {
+export type QuestionDocument = {
   id: string;
   data: () => Question;
 };
@@ -39,4 +39,9 @@ export type FeedbackAnswer = {
   comprehensiveness: number;
   consistency: number;
   problemAdequacy: number;
+};
+
+export type AnswerDocument = {
+  id: string;
+  data: () => Answer;
 };
