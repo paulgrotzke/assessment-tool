@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AuthCheck from '../../Components/AuthCheck';
-import Raiting from './Components/Rating';
-import * as t from './types';
+import AuthCheck from '../../../Components/AuthCheck';
+import Raiting from './Rating';
+import * as t from '../types';
 
 const Feedback = () => {
   // const [raiting, setRaiting] = useState<t.Raiting>({

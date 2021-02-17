@@ -1,6 +1,6 @@
 import React from 'react';
-import AuthCheck from '../../Components/AuthCheck';
-import useLocalDocRef from './Hooks/useLocalDocRef';
+import AuthCheck from '../../../Components/AuthCheck';
+import useLocalDocRef from '../Hooks/useLocalDocRef';
 
 const Results = () => {
   const localDocRef = useLocalDocRef();

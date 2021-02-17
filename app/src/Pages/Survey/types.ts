@@ -32,3 +32,9 @@ type AnswerValue = {
   focusArea: string;
   practiceItem: string;
 };
+
+export type GeneralQuestionsAnswer = {
+  industryBelong?: string;
+  amountEmployees?: string;
+  companyPosition?: string;
+};

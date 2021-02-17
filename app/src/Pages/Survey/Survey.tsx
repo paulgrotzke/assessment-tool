@@ -7,9 +7,9 @@ import useLocalDocRef from './Hooks/useLocalDocRef';
 import Buttons from './Components/Buttons';
 import { firestore } from '../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import Company from './Components/Company';
 
 const Survey = () => {
-  //TODO: seems to be not working with private mode in chrome - recheck
   const localDocRef = useLocalDocRef();
   const [counter, setCounter] = useState<t.Counter>({ value: 0 });
   const [raiting, setRaiting] = useState<t.Raiting>({
@@ -19,6 +19,19 @@ const Survey = () => {
     focusArea: '',
     practiceItem: '',
   });
+  const [
+    generalQuestions,
+    setGeneralQuestions,
+  ] = useState<t.GeneralQuestionsAnswer>({
+    industryBelong: '',
+    amountEmployees: '',
+    companyPosition: '',
+  });
+
+  const [
+    showGeneralQuestions,
+    setShowGeneralQuestions,
+  ] = useState<boolean>(true);
 
   const ref = firestore.collection('questions');
   const [data] = useCollection(ref);
@@ -58,6 +71,24 @@ const Survey = () => {
     await newAnswerRef.set(answer, { merge: true });
     await newAnswerRef.set(counter, { merge: true });
   };
+
+  const postgeneralQuestion = async () => {
+    const newAnswerRef = firestore
+      .collection('answers')
+      .doc(localDocRef);
+    await newAnswerRef.set(generalQuestions, { merge: true });
+  };
+
+  if (showGeneralQuestions)
+    return (
+      <AuthCheck role="user">
+        <Company
+          setGeneralQuestions={setGeneralQuestions}
+          setShowGeneralQuestions={setShowGeneralQuestions}
+          postgeneralQuestion={postgeneralQuestion}
+        />
+      </AuthCheck>
+    );
 
   return (
     <AuthCheck role="user">
