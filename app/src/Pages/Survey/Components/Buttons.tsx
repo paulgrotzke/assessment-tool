@@ -1,6 +1,3 @@
-import { useHistory } from 'react-router-dom';
-import * as t from '../types';
-
 type Props = {
   postAnswer: () => void;
   counter: number;
@@ -8,11 +5,10 @@ type Props = {
   amountQuestions: number;
   raiting: number | boolean;
   answer: number;
+  setShowFeedback: (bool: boolean) => void;
 };
 
 const Buttons = (props: Props) => {
-  const history = useHistory();
-
   return (
     <div>
       {props.counter > 0 && (
@@ -31,7 +27,7 @@ const Buttons = (props: Props) => {
           disabled={!props.raiting}
           onClick={() => {
             props.postAnswer();
-            history.push('/feedback');
+            props.setShowFeedback(true);
           }}>
           Finish Survey
         </button>

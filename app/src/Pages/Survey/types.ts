@@ -34,3 +34,9 @@ export type GeneralQuestionsAnswer = {
   amountEmployees?: string;
   companyPosition?: string;
 };
+
+export type FeedbackAnswer = {
+  comprehensiveness: number;
+  consistency: number;
+  problemAdequacy: number;
+};

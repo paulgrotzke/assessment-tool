@@ -7,19 +7,21 @@ import useLocalDocRef from './Hooks/useLocalDocRef';
 import Buttons from './Components/Buttons';
 import { firestore } from '../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import Company from './Components/GeneralQuestions';
+import GeneralQuestions from './Components/GeneralQuestions';
+import Results from './Components/Results';
+import Feedback from './Components/Feedback';
 
 const Survey = () => {
   const localDocRef = useLocalDocRef();
-  const [counter, setCounter] = useState<t.Counter>({ value: 0 });
-  const [raiting, setRaiting] = useState<t.Raiting>({
-    questionId: '',
-    value: false,
-    digitalCapability: '',
-    focusArea: '',
-    practiceItem: '',
-  });
-  let [
+
+  //
+  // GENERALQUESTIONS - questions before survey
+  //
+  const [
+    showGeneralQuestions,
+    setShowGeneralQuestions,
+  ] = useState<boolean>(true);
+  const [
     generalQuestions,
     setGeneralQuestions,
   ] = useState<t.GeneralQuestionsAnswer>({
@@ -28,10 +30,24 @@ const Survey = () => {
     companyPosition: '',
   });
 
-  const [
-    showGeneralQuestions,
-    setShowGeneralQuestions,
-  ] = useState<boolean>(true);
+  const postgeneralQuestion = async () => {
+    const newAnswerRef = firestore
+      .collection('surveys')
+      .doc(localDocRef);
+    await newAnswerRef.set(generalQuestions, { merge: true });
+  };
+
+  //
+  // QUESTIONS - survey questions
+  //
+  const [counter, setCounter] = useState<t.Counter>({ value: 0 });
+  const [raiting, setRaiting] = useState<t.Raiting>({
+    questionId: '',
+    value: false,
+    digitalCapability: '',
+    focusArea: '',
+    practiceItem: '',
+  });
 
   const ref = firestore.collection('questions');
   const [data] = useCollection(ref);
@@ -46,8 +62,10 @@ const Survey = () => {
   );
   const amountQuestions = questions.length;
 
-  console.log(generalQuestions);
-
+  //
+  //
+  //
+  // TODO REFACTOR
   const answerRef = firestore.collection('surveys');
   const [answers] = useCollection(answerRef);
   let answer = 0;
@@ -57,6 +75,7 @@ const Survey = () => {
     }
   });
 
+  // post survey answer
   const postAnswer = async () => {
     const answer: t.Answer = {
       value: raiting.value,
@@ -74,22 +93,72 @@ const Survey = () => {
     await newAnswerRef.set(counter, { merge: true });
   };
 
-  const postgeneralQuestion = async () => {
+  //
+  // Feedback
+  //
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const [feedback, setFeedback] = useState<t.FeedbackAnswer>({
+    comprehensiveness: 0,
+    consistency: 0,
+    problemAdequacy: 0,
+  });
+  const postFeedback = async () => {
     const newAnswerRef = firestore
       .collection('surveys')
       .doc(localDocRef);
-    await newAnswerRef.set(generalQuestions, { merge: true });
+    await newAnswerRef.set(feedback, { merge: true });
   };
+
+  //
+  // RESULTS
+  //
+  const [showResults, setShowResults] = useState<boolean>(false);
+  // const resultsRef = firestore
+  //   .collection('surveys')
+  //   .doc(localDocRef)
+  //   .collection('answers');
+  // const [resultsData] = useCollection(resultsRef);
+  // const results = [];
+  // resultsData?.docs.map((doc: t.Document) =>
+  //   results.push({
+  //     id: doc.id,
+  //     value: doc.data().value,
+  //     focusArea: doc.data().focusArea,
+  //     digitalCapability: doc.data().digitalCapability,
+  //     practiceItem: doc.data().practiceItem,
+  //   }),
+  // );
+  // console.log(results);
 
   if (showGeneralQuestions)
     return (
       <AuthCheck role="user">
-        <Company
+        <GeneralQuestions
           generalQuestions={generalQuestions}
           setGeneralQuestions={setGeneralQuestions}
           setShowGeneralQuestions={setShowGeneralQuestions}
           postgeneralQuestion={postgeneralQuestion}
         />
+      </AuthCheck>
+    );
+
+  if (showFeedback)
+    return (
+      <AuthCheck role="user">
+        <Feedback
+          setShowResults={setShowResults}
+          postFeedback={postFeedback}
+          feedback={feedback}
+          setFeedback={setFeedback}
+          setShowFeedback={setShowFeedback}
+        />
+      </AuthCheck>
+    );
+
+  if (showResults)
+    return (
+      <AuthCheck role="user">
+        <Results />
       </AuthCheck>
     );
 
@@ -101,11 +170,8 @@ const Survey = () => {
             <div key={i}>
               <Question question={question} />
               <Raiting
-                min={'Not implemented'}
-                max={'Fully implemented'}
                 setRaiting={setRaiting}
                 question={question}
-                text={true}
                 answer={answer}
               />
               <Buttons
@@ -115,6 +181,7 @@ const Survey = () => {
                 amountQuestions={amountQuestions}
                 raiting={raiting.value}
                 answer={answer}
+                setShowFeedback={setShowFeedback}
               />
             </div>
           );

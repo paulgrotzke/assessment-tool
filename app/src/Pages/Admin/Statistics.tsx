@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AuthCheck from '../../Components/AuthCheck';
 import { firestore } from '../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -8,7 +8,6 @@ const Statistics = () => {
   const surveyRef = firestore.collection('surveys');
   const [surveyData] = useCollection(surveyRef);
   const [currentSurvey, setCurrentSurvey] = useState(-1);
-
   const surveys: t.Survey[] = [];
   surveyData?.docs.forEach((doc: t.Document) => {
     surveys.push(doc.data());
@@ -23,15 +22,6 @@ const Statistics = () => {
     },
   );
 
-  // let amountEmployees: {
-  //   low: (string | number)[];
-  //   middle: (string | number)[];
-  //   high: (string | number)[];
-  // } = {
-  //   low: [],
-  //   middle: [],
-  //   high: [],
-  // };
   let amountEmployees: string[] = [];
   let companyPosition: string[] = [];
   let industryBelong: string[] = [];
@@ -40,39 +30,6 @@ const Statistics = () => {
     amountEmployees.push(generalQuestions[m].amountEmployees);
     companyPosition.push(generalQuestions[m].companyPosition);
     industryBelong.push(generalQuestions[m].industryBelong);
-    // if (generalQuestions[m].amountEmployees === '1-249') {
-    //   amountEmployees = {
-    //     ...amountEmployees,
-    //     low: [
-    //       ...amountEmployees.low,
-    //       amountEmployees.low.push(
-    //         generalQuestions[m].amountEmployees,
-    //       ),
-    //     ],
-    //   };
-    // }
-    // if (generalQuestions[m].amountEmployees === '250-999') {
-    //   amountEmployees = {
-    //     ...amountEmployees,
-    //     middle: [
-    //       ...amountEmployees.middle,
-    //       amountEmployees.middle.push(
-    //         generalQuestions[m].amountEmployees,
-    //       ),
-    //     ],
-    //   };
-    // }
-    // if (generalQuestions[m].amountEmployees === '>1000') {
-    //   amountEmployees = {
-    //     ...amountEmployees,
-    //     high: [
-    //       ...amountEmployees.high,
-    //       amountEmployees.high.push(
-    //         generalQuestions[m].amountEmployees,
-    //       ),
-    //     ],
-    //   };
-    // }
   }
 
   const companyPositionValues = {};
@@ -96,10 +53,6 @@ const Statistics = () => {
     ++amountEmployeesValues[amountEmployees[i]];
   }
 
-  console.log(amountEmployeesValues);
-  console.log(industryBelongValues);
-  console.log(companyPositionValues);
-
   if (currentSurvey !== -1) {
     return (
       <AuthCheck role="admin">
@@ -120,17 +73,27 @@ const Statistics = () => {
       <b>
         <p># Participants by industry</p>
       </b>
-      <p>todo</p>
+      {Object.entries(industryBelongValues).map(([key, value]) => (
+        <li>
+          {key}: {value}
+        </li>
+      ))}
       <b>
         <p># Participants by company size</p>
       </b>
-      <li>1-249: </li>
-      <li>250-999: </li>
-      <li>greater 1000:</li>
+      {Object.entries(amountEmployeesValues).map(([key, value]) => (
+        <li>
+          {key}: {value}
+        </li>
+      ))}
       <b>
         <p># Participants by position</p>
       </b>
-      <p>todo</p>
+      {Object.entries(companyPositionValues).map(([key, value]) => (
+        <li>
+          {key}: {value}
+        </li>
+      ))}
       <b>
         <p>Ø - Feedback</p>
       </b>

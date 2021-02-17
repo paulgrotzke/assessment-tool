@@ -55,7 +55,7 @@ const GeneralQuestions = (props: Props) => {
             props.postgeneralQuestion();
             props.setShowGeneralQuestions(false);
           }}>
-          Next Question
+          Start survey
         </button>
       </div>
     </AuthCheck>
