@@ -37,3 +37,4 @@ export type GeneralQuestionsDocument = {
   id: string;
   data: () => GeneralQuestions;
 };
+
