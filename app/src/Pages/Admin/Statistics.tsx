@@ -22,6 +22,18 @@ const Statistics = () => {
     },
   );
 
+  const ref = firestore.collection('questions');
+  const [data] = useCollection(ref);
+  const questions: t.Question[] = [];
+  data?.docs.map((doc: t.QuestionDocument) =>
+    questions.push({
+      id: doc.id,
+      focusArea: doc.data().focusArea,
+      digitalCapability: doc.data().digitalCapability,
+      practiceItem: doc.data().practiceItem,
+    }),
+  );
+
   let amountEmployees: string[] = [];
   let companyPosition: string[] = [];
   let industryBelong: string[] = [];
@@ -31,6 +43,8 @@ const Statistics = () => {
     companyPosition.push(generalQuestions[m].companyPosition);
     industryBelong.push(generalQuestions[m].industryBelong);
   }
+
+  //use memo hook nutzen
 
   const companyPositionValues = {};
   for (let i = 0; i < companyPosition.length; i++) {
@@ -53,138 +67,17 @@ const Statistics = () => {
     ++amountEmployeesValues[amountEmployees[i]];
   }
 
-  let questionList = [];
-  const ref = firestore.collection('questions');
-  const [data] = useCollection(ref);
-  const questions: t.Question[] = [];
-  data?.docs.map((doc: t.QuestionDocument) =>
-    questions.push({
-      id: doc.id,
-      focusArea: doc.data().focusArea,
-      digitalCapability: doc.data().digitalCapability,
-      practiceItem: doc.data().practiceItem,
-    }),
-  );
-  console.log(questions);
-
-  for (let m in questions) {
-    if (
-      Object.keys(questionList).length === 0 &&
-      questions.length !== 0
-    ) {
-      //@ts-ignore
-      questionList.push({
-        [questions[m]['focusArea']]: {
-          [questions[m]['digitalCapability']]: {
-            [questions[m]['practiceItem']]: 0,
-          },
-        },
-      });
-      //@ts-ignore
-      questionList.push({
-        [questions[m]['focusArea']]: {
-          [questions[m]['digitalCapability']]: {
-            [questions[m]['practiceItem']]: 0,
-          },
-        },
-      });
-    }
-    for (let n in questionList) {
-      if (
-        questions[m].focusArea === Object.keys(questionList[n])[m]
-      ) {
-        if (
-          questions[m].digitalCapability ===
-          Object.keys(
-            questionList[n][Object.keys(questionList[n])[m]],
-          )[m]
-        ) {
-          console.log(questionList)
-          console.log(Object.keys(questionList))
-          //@ts-ignore
-          // questionList.push({
-          //   ...questionList,
-          //   [Object.keys(questionList)[m]]: {
-          //     [Object.keys(questionList[n])[m]]: {
-          //       [questions[m]['practiceItem']]: 0,
-          //     },
-          //   },
-          // });
-        }
-        // questionList = {
-        //   ...questionList,
-        //   [Object.keys(questionList)[m]]: {
-        //     ...Object.keys(questionList[n]),
-        //     [questions[m]['digitalCapability']]: {
-        //       [questions[m]['practiceItem']]:
-        //         questions[m]['practiceItem'],
-        //     },
-        //   },
-        // };
-      }
-      // questionList = {
-      //   ...questionList,
-      //   [questions[m]['focusArea']]: {
-      //     [questions[m]['digitalCapability']]: {
-      //       [questions[m]['practiceItem']]: 0,
-      //     },
-      //   },
-      // };
-    }
+  const areas = {};
+  for (const question of questions) {
+    const { focusArea, digitalCapability, practiceItem } = question;
+    if (!areas[focusArea]) areas[focusArea] = {};
+    if (!areas[focusArea][digitalCapability])
+      areas[focusArea][digitalCapability] = {};
+    areas[focusArea][digitalCapability][practiceItem] = 0;
   }
-
-  // for (let m in questions) {
-  //   if (
-  //     Object.keys(questionList).length === 0 &&
-  //     questions.length !== 0
-  //   ) {
-  //     //@ts-ignore
-  //     questionList.push({
-  //       [questions[m]['focusArea']]: {
-  //         [questions[m]['digitalCapability']]: {
-  //           [questions[m]['practiceItem']]: 0,
-  //         },
-  //       },
-  //     })
-  //   }
-  //   for (let n in questionList) {
-  //     if (questions[m].focusArea === Object.keys(questionList)[m]) {
-  //       if (
-  //         questions[m].digitalCapability ===
-  //         Object.keys(questionList[n])[m]
-  //       ) {
-  //         questionList = {
-  //           ...questionList,
-  //           [Object.keys(questionList)[m]]: {
-  //             [Object.keys(questionList[n])[m]]: {
-  //               [questions[m]['practiceItem']]: 0,
-  //             },
-  //           },
-  //         };
-  //       }
-  //       questionList = {
-  //         ...questionList,
-  //         [Object.keys(questionList)[m]]: {
-  //           ...Object.keys(questionList[n]),
-  //           [questions[m]['digitalCapability']]: {
-  //             [questions[m]['practiceItem']]:
-  //               questions[m]['practiceItem'],
-  //           },
-  //         },
-  //       };
-  //     }
-  //     questionList = {
-  //       ...questionList,
-  //       [questions[m]['focusArea']]: {
-  //         [questions[m]['digitalCapability']]: {
-  //           [questions[m]['practiceItem']]: 0,
-  //         },
-  //       },
-  //     };
-  //   }
-  // }
-
-  console.log(questionList);
+  const questionList = Object.keys(areas).map((key) => ({
+    [key]: areas[key],
+  }));
 
   if (currentSurvey !== -1) {
     return (
@@ -236,6 +129,32 @@ const Statistics = () => {
       <p>todo</p>
       <p>Ø - Problem adequacy</p>
       <p>todo</p>
+      <div>
+        {questionList.map((question) => (
+          <div>
+            {Object.keys(question)}
+            {Object.keys(question[Object.keys(question)[0]]).map(
+              (capabilities) => (
+                <li>
+                  {capabilities}
+                  {Object.keys(
+                    question[Object.keys(question)[0]][capabilities],
+                  ).map((practiceItem) => (
+                    <li
+                      style={{
+                        marginLeft: 20,
+                        marginTop: 10,
+                        marginBottom: 10,
+                      }}>
+                      {practiceItem}
+                    </li>
+                  ))}
+                </li>
+              ),
+            )}
+          </div>
+        ))}
+      </div>
     </AuthCheck>
   );
 };
