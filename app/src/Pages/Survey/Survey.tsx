@@ -83,7 +83,7 @@ const Survey = () => {
       digitalCapability: raiting.digitalCapability,
       practiceItem: raiting.practiceItem,
     };
-    
+
     const newAnswerRef = firestore
       .collection('surveys')
       .doc(localDocRef)
@@ -113,24 +113,11 @@ const Survey = () => {
   // RESULTS
   //
   const [showResults, setShowResults] = useState<boolean>(false);
-  const results = useResults(localDocRef);
 
-  const areas = {};
-  for (const result of results) {
-    const { answerValue, focusArea, digitalCapability, practiceItem } = result;
-    if (!areas[focusArea]) areas[focusArea] = {};
-    if (!areas[focusArea][digitalCapability])
-      areas[focusArea][digitalCapability] = {};
-    areas[focusArea][digitalCapability][practiceItem] = answerValue;
-  }
-  const resultList = Object.keys(areas).map((key) => ({
-    [key]: areas[key],
-  }));
-
-  if (showResults || results.length === questions.length)
+  if (showResults)
     return (
       <AuthCheck role="user">
-        <Results resultList={resultList} />
+        <Results />
       </AuthCheck>
     );
 

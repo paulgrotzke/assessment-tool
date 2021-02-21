@@ -1,13 +1,15 @@
 import { firestore } from '../../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import * as t from '../types';
+import useLocalDocRef from './useLocalDocRef';
 
-const useResults = (localDocRef) => {
+const useResults = () => {
+  const localDocRef = useLocalDocRef();
   const resultsRef = firestore
     .collection('surveys')
     .doc(localDocRef)
     .collection('answers');
-  const [resultsData, loading, error] = useCollection(resultsRef);
+  const [resultsData] = useCollection(resultsRef);
 
   const results: t.Answer[] = [];
   resultsData?.docs.map((doc: t.AnswerDocument) =>

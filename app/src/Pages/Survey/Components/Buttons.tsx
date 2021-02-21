@@ -12,6 +12,8 @@ type Props = {
 const Buttons = (props: Props) => {
   const questions = useQuestions();
   const amountQuestions = questions.length;
+  console.log(amountQuestions)
+  console.log(props.counter)
   return (
     <div>
       {props.counter > 0 && (
@@ -32,7 +34,7 @@ const Buttons = (props: Props) => {
             props.postAnswer();
             props.setShowFeedback(true);
           }}>
-          Finish Survey
+          Go To Feedback
         </button>
       )}
       {amountQuestions > 1 && amountQuestions - 1 !== props.counter && (

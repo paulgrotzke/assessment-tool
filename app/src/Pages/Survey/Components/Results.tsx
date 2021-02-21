@@ -1,12 +1,27 @@
 import React from 'react';
 import AuthCheck from '../../../Components/AuthCheck';
-import * as t from '../types';
+import useResults from '../Hooks/useResults';
 
-type Props = {
-  resultList: any;
-};
+const Results = () => {
+  const results = useResults();
 
-const Results = (props: Props) => {
+  const areas = {};
+  for (const result of results) {
+    const {
+      answerValue,
+      focusArea,
+      digitalCapability,
+      practiceItem,
+    } = result;
+    if (!areas[focusArea]) areas[focusArea] = {};
+    if (!areas[focusArea][digitalCapability])
+      areas[focusArea][digitalCapability] = {};
+    areas[focusArea][digitalCapability][practiceItem] = answerValue;
+  }
+  const resultList = Object.keys(areas).map((key) => ({
+    [key]: areas[key],
+  }));
+
   return (
     <AuthCheck role="user">
       <h1>Great!</h1>
@@ -20,7 +35,7 @@ const Results = (props: Props) => {
         in PDF format.
       </p>
       <div>
-        {props.resultList.map((result) => (
+        {resultList.map((result) => (
           <div>
             {Object.keys(result)}
             {Object.keys(result[Object.keys(result)[0]]).map(
@@ -36,7 +51,10 @@ const Results = (props: Props) => {
                         marginTop: 10,
                         marginBottom: 10,
                       }}>
-                      {practiceItem[0] + ": " + practiceItem[1] + " Punkte"}
+                      {practiceItem[0] +
+                        ': ' +
+                        practiceItem[1] +
+                        ' Punkte'}
                     </li>
                   ))}
                 </li>
