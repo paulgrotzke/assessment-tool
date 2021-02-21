@@ -3,6 +3,7 @@ import AuthCheck from '../../Components/AuthCheck';
 import { firestore } from '../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import * as t from './types';
+import useResults from '../Survey/Hooks/useResults';
 
 const Statistics = () => {
   const surveyRef = firestore.collection('surveys');
@@ -34,14 +35,23 @@ const Statistics = () => {
     }),
   );
 
+
   let amountEmployees: string[] = [];
   let companyPosition: string[] = [];
   let industryBelong: string[] = [];
+  let comprehensiveness: number = 0;
+  let consistency: number = 0;
+  let problemAdequacy: number = 0;
 
   for (let m in generalQuestions) {
     amountEmployees.push(generalQuestions[m].amountEmployees);
     companyPosition.push(generalQuestions[m].companyPosition);
     industryBelong.push(generalQuestions[m].industryBelong);
+    comprehensiveness =
+      comprehensiveness + generalQuestions[m].comprehensiveness;
+    consistency = consistency + generalQuestions[m].consistency;
+    problemAdequacy =
+      problemAdequacy + generalQuestions[m].problemAdequacy;
   }
 
   //use memo hook nutzen
@@ -124,11 +134,11 @@ const Statistics = () => {
         <p>Ø - Feedback</p>
       </b>
       <p>Ø - Comprehensiveness</p>
-      <p>todo</p>
+      <p>{comprehensiveness / surveys.length}</p>
       <p>Ø - Consistency</p>
-      <p>todo</p>
+      <p>{consistency / surveys.length}</p>
       <p>Ø - Problem adequacy</p>
-      <p>todo</p>
+      <p>{problemAdequacy / surveys.length}</p>
       <div>
         {questionList.map((question) => (
           <div>

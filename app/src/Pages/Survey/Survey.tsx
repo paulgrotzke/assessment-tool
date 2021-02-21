@@ -10,6 +10,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import GeneralQuestions from './Components/GeneralQuestions';
 import Results from './Components/Results';
 import Feedback from './Components/Feedback';
+import useResults from './Hooks/useResults';
 
 const Survey = () => {
   const localDocRef = useLocalDocRef();
@@ -43,7 +44,7 @@ const Survey = () => {
   const [counter, setCounter] = useState<t.Counter>({ value: 0 });
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
-    value: false,
+    value: 0,
     digitalCapability: '',
     focusArea: '',
     practiceItem: '',
@@ -77,12 +78,12 @@ const Survey = () => {
   // post survey answer
   const postAnswer = async () => {
     const answer: t.Answer = {
-      value: raiting.value,
+      answerValue: raiting.value,
       focusArea: raiting.focusArea,
       digitalCapability: raiting.digitalCapability,
       practiceItem: raiting.practiceItem,
     };
-
+    
     const newAnswerRef = firestore
       .collection('surveys')
       .doc(localDocRef)
@@ -112,7 +113,26 @@ const Survey = () => {
   // RESULTS
   //
   const [showResults, setShowResults] = useState<boolean>(false);
+  const results = useResults(localDocRef);
 
+  const areas = {};
+  for (const result of results) {
+    const { answerValue, focusArea, digitalCapability, practiceItem } = result;
+    if (!areas[focusArea]) areas[focusArea] = {};
+    if (!areas[focusArea][digitalCapability])
+      areas[focusArea][digitalCapability] = {};
+    areas[focusArea][digitalCapability][practiceItem] = answerValue;
+  }
+  const resultList = Object.keys(areas).map((key) => ({
+    [key]: areas[key],
+  }));
+
+  if (showResults || results.length === questions.length)
+    return (
+      <AuthCheck role="user">
+        <Results resultList={resultList} />
+      </AuthCheck>
+    );
 
   if (showGeneralQuestions)
     return (
@@ -136,13 +156,6 @@ const Survey = () => {
           setFeedback={setFeedback}
           setShowFeedback={setShowFeedback}
         />
-      </AuthCheck>
-    );
-
-  if (showResults)
-    return (
-      <AuthCheck role="user">
-        <Results />
       </AuthCheck>
     );
 

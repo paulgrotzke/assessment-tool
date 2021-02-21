@@ -23,7 +23,7 @@ export type Counter = {
 };
 
 export type Answer = {
-  value: number | boolean;
+  answerValue: number | boolean;
   digitalCapability: string;
   focusArea: string;
   practiceItem: string;

@@ -31,6 +31,9 @@ export type GeneralQuestions = {
   industryBelong: string;
   amountEmployees: string;
   companyPosition: string;
+  comprehensiveness: number;
+  consistency: number;
+  problemAdequacy: number;
 };
 
 export type GeneralQuestionsDocument = {
