@@ -30,7 +30,6 @@ const Feedback = (props: Props) => {
     false,
     false,
   ];
-
   return (
     <div>
       <h2>Great!</h2>
@@ -55,7 +54,7 @@ const Feedback = (props: Props) => {
                 ...props.feedback,
                 comprehensiveness: i + 1,
               });
-              //@ts-ignore
+              // @ts-ignore
               comprehensivenessInput = [
                 false,
                 false,
@@ -120,7 +119,7 @@ const Feedback = (props: Props) => {
           props.setShowFeedback(false);
           props.postFeedback();
         }}>
-        Show results
+        Finish Survey
       </button>
     </div>
   );

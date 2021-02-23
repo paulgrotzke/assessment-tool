@@ -22,6 +22,9 @@ const Results = () => {
     [key]: areas[key],
   }));
 
+  console.log(resultList)
+  console.log(results)
+
   return (
     <AuthCheck role="user">
       <h1>Great!</h1>

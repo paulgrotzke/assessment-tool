@@ -3,7 +3,6 @@ import AuthCheck from '../../Components/AuthCheck';
 import { firestore } from '../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import * as t from './types';
-import useResults from '../Survey/Hooks/useResults';
 
 const Statistics = () => {
   const surveyRef = firestore.collection('surveys');
@@ -35,6 +34,76 @@ const Statistics = () => {
     }),
   );
 
+  const docsRef = firestore.collection('surveys');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [docsData] = useCollection(docsRef);
+  const results: any = [];
+  const docs: string[] = [];
+  docsData?.docs.map((doc: any) => docs.push(doc.id));
+
+  const getStatistics = async () => {
+    for (let doc of docs) {
+      const resultsRef = firestore
+        .collection('surveys')
+        .doc(doc)
+        .collection('answers');
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      await resultsRef.get().then((result) => {
+        result.docs.map((doc: any) =>
+          results.push({
+            answerValue: doc.data().answerValue,
+            digitalCapability: doc.data().digitalCapability,
+            focusArea: doc.data().focusArea,
+            practiceItem: doc.data().practiceItem,
+          }),
+        );
+      });
+      const areas = {};
+      for (const result of results) {
+        const {
+          answerValue,
+          focusArea,
+          digitalCapability,
+          practiceItem,
+        } = result;
+        if (!areas[focusArea]) {
+          areas[focusArea] = {};
+        }
+        if (!areas[focusArea][digitalCapability]) {
+          areas[focusArea][digitalCapability] = {};
+        }
+        if (
+          Object.keys(areas[focusArea][digitalCapability]).length !==
+          0
+        ) {
+          let test;
+          for (let key of Object.keys(
+            areas[focusArea][digitalCapability],
+          )) {
+            if (key === practiceItem) {
+              areas[focusArea][digitalCapability][
+                practiceItem
+              ] += answerValue;
+              test = true;
+            }
+          }
+          if (!test) {
+            areas[focusArea][digitalCapability][
+              practiceItem
+            ] = answerValue;
+          }
+        } else {
+          areas[focusArea][digitalCapability][
+            practiceItem
+          ] = answerValue;
+        }
+      }
+      const resultList = Object.keys(areas).map((key) => ({
+        [key]: areas[key],
+      }));
+      console.log(resultList);
+    }
+  };
 
   let amountEmployees: string[] = [];
   let companyPosition: string[] = [];
@@ -165,6 +234,12 @@ const Statistics = () => {
           </div>
         ))}
       </div>
+      <p
+        onClick={() => {
+          getStatistics();
+        }}>
+        getStatistics
+      </p>
     </AuthCheck>
   );
 };
