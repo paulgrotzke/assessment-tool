@@ -76,7 +76,7 @@ const Statistics = () => {
           Object.keys(areas[focusArea][digitalCapability]).length !==
           0
         ) {
-          let test;
+          let indicator;
           for (let key of Object.keys(
             areas[focusArea][digitalCapability],
           )) {
@@ -84,10 +84,10 @@ const Statistics = () => {
               areas[focusArea][digitalCapability][
                 practiceItem
               ] += answerValue;
-              test = true;
+              indicator = true;
             }
           }
-          if (!test) {
+          if (!indicator) {
             areas[focusArea][digitalCapability][
               practiceItem
             ] = answerValue;
