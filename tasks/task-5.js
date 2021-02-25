@@ -119,6 +119,7 @@ const expectedResult = {
     },
     friends: {
       'id-2': {
+        id: 'id-2',
         name: 'user-2',
         address: {
           street: 'street 2',
@@ -168,6 +169,7 @@ const expectedResult = {
 // unflatt to object
 
 const result = format(users);
+console.log(JSON.stringify(result, null, 2));
 console.log(JSON.stringify(expectedResult, null, 2));
 console.log(
   JSON.stringify(result, null, 2) ===
