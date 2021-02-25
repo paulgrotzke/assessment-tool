@@ -30,6 +30,7 @@ const users = [
 
 function format(users) {
   let result = {};
+  let formattedUsers = {};
   for (let key in users) {
     const {
       id,
@@ -37,10 +38,31 @@ function format(users) {
       address: { street, city },
       friends,
     } = users[key];
+    formattedUsers = {
+      ...formattedUsers,
+      [id]: {
+        id: id,
+        name: name,
+        address: {
+          street: street,
+          city: city,
+        },
+        friends: friends,
+      },
+    };
+  }
+
+  for (let key in users) {
+    const {
+      id,
+      name,
+      address: { street, city },
+      friends,
+    } = users[key];
+
     if (friends.length > 0) {
       for (let i = 0; i < friends.length; i++) {
         if (result[id] !== undefined) {
-          // console.log(result[id]['friends'])
           result = {
             ...result,
             [id]: {
@@ -51,7 +73,7 @@ function format(users) {
               },
               friends: {
                 ...result[id]['friends'],
-                [friends[i]]: {},
+                [friends[i]]: formattedUsers[friends[i]],
               },
             },
           };
@@ -65,7 +87,7 @@ function format(users) {
                 city: city,
               },
               friends: {
-                [friends[i]]: {},
+                [friends[i]]: formattedUsers[friends[i]],
               },
             },
           };
@@ -100,7 +122,7 @@ const expectedResult = {
         name: 'user-2',
         address: {
           street: 'street 2',
-          city: 'city 1',
+          city: 'city 2',
         },
         friends: ['id-1', 'id-3'],
       },
@@ -146,8 +168,8 @@ const expectedResult = {
 // unflatt to object
 
 const result = format(users);
-console.log(JSON.stringify(result, null, 2));
-// console.log(
-//   JSON.stringify(result, null, 2) ===
-//     JSON.stringify(expectedResult, null, 2),
-// );
+console.log(JSON.stringify(expectedResult, null, 2));
+console.log(
+  JSON.stringify(result, null, 2) ===
+    JSON.stringify(expectedResult, null, 2),
+);
