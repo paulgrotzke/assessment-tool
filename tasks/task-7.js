@@ -99,8 +99,28 @@ function format(users) {
       };
     }
   }
-  // console.log(transformFriends);
-  //{ 'id-1': { 'id-1': true, 'id-3': true }, 'id-2': [], 'id-3': [] }
+
+  let finalFriends = {};
+  for (let key in transformFriends) {
+    if (transformFriends[key].length !== 0) {
+      for (let innerKey in transformFriends[key]) {
+        if (key !== innerKey) {
+          finalFriends = {
+            ...finalFriends,
+            [key]: {
+              ...finalFriends,
+              [innerKey]: true,
+            },
+          };
+        }
+      }
+    } else {
+      finalFriends = {
+        ...finalFriends,
+        [key]: [],
+      };
+    }
+  }
 
   let result = [];
   for (let key in users) {
@@ -112,60 +132,22 @@ function format(users) {
         city: users[key]['address']['city'],
       },
       friends: users[key]['friends'],
-      subFriends: transformFriends[users[key]['id']],
+      subFriends: [] /* finalFriends[users[key]['id']] */,
     });
   }
 
-  //subfriends: { 'id-1': [ 'id-2' ], 'id-2': [ 'id-1', 'id-3' ], 'id-3': [] }
-
-  // let finalFriends = {};
-  // for (let key of Object.keys(subFriends)) {
-  //   if (subFriends[key].length === 0) {
-  //     finalFriends = {
-  //       ...finalFriends,
-  //       [key]: [],
-  //     };
-  //   }
-  //   for (let m in subFriends[key]) {
-  //     finalFriends = {
-  //       ...finalFriends,
-  //       [key]: {
-  //         ...finalFriends[key],
-  //         [subFriends[key][m]]: true,
-  //       },
-  //     };
-  //   }
-  // }
-  // finalfriends
-  // {
-  //   'id-1': { 'id-2': true },
-  //   'id-2': { 'id-1': true, 'id-3': true },
-  //   'id-3': []
-  // }
-  // let finalFriends2 = {};
-  // for (let key in finalFriends) {
-  //   if (Object.keys(finalFriends[key]).length !== 0) {
-  //     for (let innerKey in finalFriends[key]) {
-  //       finalFriends2 = {
-  //         ...finalFriends2,
-  //         [key]: finalFriends[innerKey],
-  //       };
-  //     }
-  //   } else {
-  //     finalFriends2 = {
-  //       ...finalFriends2,
-  //       [key]: [],
-  //     };
-  //   }
-  // }
-  // for (let key in finalFriends2) {
-  //   if (finalFriends2[key].length !== 0) {
-  //     for (let innerKey in finalFriends2[key]) {
-  //       // console.log(innerKey);
-  //     }
-  //   }
-  // }
-  // console.log(finalFriends2);
+  for (let key in result) {
+    for (let friendsKey in finalFriends) {
+      console.log(Object.keys(finalFriends[friendsKey]).toString());
+      if (result[key]['id'] === friendsKey) {
+        if (Object.keys(finalFriends[friendsKey]).length > 0) {
+          result[key]['subFriends'].push(
+            Object.keys(finalFriends[friendsKey]).toString(),
+          );
+        }
+      }
+    }
+  }
 
   return result;
 }
@@ -173,3 +155,7 @@ function format(users) {
 const result = format(users);
 
 console.log(JSON.stringify(result, null, 2));
+console.log(
+  JSON.stringify(result, null, 2) ===
+    JSON.stringify(expectedResult, null, 2),
+);
