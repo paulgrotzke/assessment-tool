@@ -132,7 +132,7 @@ function format(users) {
         city: users[key]['address']['city'],
       },
       friends: users[key]['friends'],
-      subFriends: [] /* finalFriends[users[key]['id']] */,
+      subFriends: [],
     });
   }
 
