@@ -63,23 +63,46 @@ const expectedResult = [
 
 // update sub-friends (-> friends that friends have and that are not in the own friend-list)
 function format(users) {
+  // let formattedFriends = {};
+  // for (let key in users) {
+  //   formattedFriends = {
+  //     ...formattedFriends,
+  //     [users[key]['id']]: users[key]['friends'],
+  //   };
+  // }
+  // console.log(formattedFriends);
+
   let formattedFriends = {};
   for (let key in users) {
-    formattedFriends = {
-      ...formattedFriends,
-      [users[key]['id']]: users[key]['friends'],
-    };
-  }
-  console.log(formattedFriends);
-
-  let subFriends = [];
-  for (let key in formattedFriends) {
-    console.log(key);
-    for (let secondKey in formattedFriends) {
-      if (formattedFriends[key]) {
+    if (users[key]['friends'].length > 0) {
+      for (let secondKey in users) {
+        if (users[key]['id'] === users[secondKey]['id']) {
+          formattedFriends = {
+            ...formattedFriends,
+            [users[key]['id']]: {
+              ...formattedFriends[users[key]['id']],
+              [users[secondKey]['id']]: false,
+            },
+          }; 
+        } 
+        else {
+          formattedFriends = {
+            ...formattedFriends,
+            [users[key]['id']]: {
+              ...formattedFriends[users[key]['id']],
+              [users[secondKey]['id']]: true,
+            },
+          };
+        }
       }
+    } else {
+      formattedFriends = {
+        ...formattedFriends,
+        [users[key]['id']]: [],
+      };
     }
   }
+  console.log(formattedFriends);
 
   let result = [];
   for (let key in users) {
