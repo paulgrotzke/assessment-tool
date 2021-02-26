@@ -63,46 +63,44 @@ const expectedResult = [
 
 // update sub-friends (-> friends that friends have and that are not in the own friend-list)
 function format(users) {
-  // let formattedFriends = {};
-  // for (let key in users) {
-  //   formattedFriends = {
-  //     ...formattedFriends,
-  //     [users[key]['id']]: users[key]['friends'],
-  //   };
-  // }
-  // console.log(formattedFriends);
-
-  let formattedFriends = {};
+  let friends = {};
   for (let key in users) {
-    if (users[key]['friends'].length > 0) {
-      for (let secondKey in users) {
-        if (users[key]['id'] === users[secondKey]['id']) {
-          formattedFriends = {
-            ...formattedFriends,
-            [users[key]['id']]: {
-              ...formattedFriends[users[key]['id']],
-              [users[secondKey]['id']]: false,
-            },
-          }; 
-        } 
-        else {
-          formattedFriends = {
-            ...formattedFriends,
-            [users[key]['id']]: {
-              ...formattedFriends[users[key]['id']],
-              [users[secondKey]['id']]: true,
-            },
-          };
-        }
+    if (users[key]['friends'].length !== 0) {
+      for (let m in users[key]['friends']) {
+        friends = {
+          ...friends,
+          [users[key]['id']]: {
+            ...friends[users[key]['id']],
+            [users[key]['friends'][m]]: true,
+          },
+        };
       }
     } else {
-      formattedFriends = {
-        ...formattedFriends,
+      friends = {
+        ...friends,
         [users[key]['id']]: [],
       };
     }
   }
-  console.log(formattedFriends);
+
+  let transformFriends = {};
+  for (let key in friends) {
+    if (Object.keys(friends[key]).length !== 0) {
+      for (let innerKey in friends[key]) {
+        transformFriends = {
+          ...transformFriends,
+          [key]: friends[innerKey],
+        };
+      }
+    } else {
+      transformFriends = {
+        ...transformFriends,
+        [key]: [],
+      };
+    }
+  }
+  // console.log(transformFriends);
+  //{ 'id-1': { 'id-1': true, 'id-3': true }, 'id-2': [], 'id-3': [] }
 
   let result = [];
   for (let key in users) {
@@ -114,13 +112,64 @@ function format(users) {
         city: users[key]['address']['city'],
       },
       friends: users[key]['friends'],
-      subFriends: [],
+      subFriends: transformFriends[users[key]['id']],
     });
   }
+
+  //subfriends: { 'id-1': [ 'id-2' ], 'id-2': [ 'id-1', 'id-3' ], 'id-3': [] }
+
+  // let finalFriends = {};
+  // for (let key of Object.keys(subFriends)) {
+  //   if (subFriends[key].length === 0) {
+  //     finalFriends = {
+  //       ...finalFriends,
+  //       [key]: [],
+  //     };
+  //   }
+  //   for (let m in subFriends[key]) {
+  //     finalFriends = {
+  //       ...finalFriends,
+  //       [key]: {
+  //         ...finalFriends[key],
+  //         [subFriends[key][m]]: true,
+  //       },
+  //     };
+  //   }
+  // }
+  // finalfriends
+  // {
+  //   'id-1': { 'id-2': true },
+  //   'id-2': { 'id-1': true, 'id-3': true },
+  //   'id-3': []
+  // }
+  // let finalFriends2 = {};
+  // for (let key in finalFriends) {
+  //   if (Object.keys(finalFriends[key]).length !== 0) {
+  //     for (let innerKey in finalFriends[key]) {
+  //       finalFriends2 = {
+  //         ...finalFriends2,
+  //         [key]: finalFriends[innerKey],
+  //       };
+  //     }
+  //   } else {
+  //     finalFriends2 = {
+  //       ...finalFriends2,
+  //       [key]: [],
+  //     };
+  //   }
+  // }
+  // for (let key in finalFriends2) {
+  //   if (finalFriends2[key].length !== 0) {
+  //     for (let innerKey in finalFriends2[key]) {
+  //       // console.log(innerKey);
+  //     }
+  //   }
+  // }
+  // console.log(finalFriends2);
 
   return result;
 }
 
 const result = format(users);
 
-// console.log(JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result, null, 2));
