@@ -60,22 +60,31 @@ function format(users) {
   for (let key in users) {
     result = {
       ...result,
-      [users[key]['address']['city']]: [
-        ...result[users[key]['address']['city']],
-        {
-          id: key,
-          name: users[key]['name'],
-          address: {
-            street: users[key]['address']['street'],
-            city: users[key]['address']['city'],
-          },
-        },
-      ],
+      [users[key]['address']['city']]: [],
     };
   }
+
+  for (let key in result) {
+    for (let innerKey in users) {
+      if (key === users[innerKey]['address']['city']) {
+        result[key].push({
+          id: innerKey,
+          name: users[innerKey]['name'],
+          address: {
+            street: users[innerKey]['address']['street'],
+            city: users[innerKey]['address']['city'],
+          },
+        });
+      }
+    }
+  }
+
   return result;
 }
 
 const result = format(users);
 console.log(JSON.stringify(result, null, 2));
-console.log(JSON.stringify(result, null, 2) === JSON.stringify(expectedResult, null, 2))
+console.log(
+  JSON.stringify(result, null, 2) ===
+    JSON.stringify(expectedResult, null, 2),
+);
