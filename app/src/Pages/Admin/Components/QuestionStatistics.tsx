@@ -58,12 +58,14 @@ const QuestionStatistics = (props: Props) => {
         [key]: areas[key],
       })),
     );
+    console.log(statistics);
   };
 
   return (
     <div>
       {statistics.map((question) => (
         <div>
+          {console.log(question)}
           {Object.keys(question)}
           {Object.keys(question[Object.keys(question)[0]]).map((capabilities) => (
             <li>
@@ -76,7 +78,8 @@ const QuestionStatistics = (props: Props) => {
                       marginTop: 10,
                       marginBottom: 10,
                     }}>
-                    {practiceItem}
+                    {practiceItem}:{' '}
+                    {question[Object.keys(question)[0]][capabilities][practiceItem]}
                   </li>
                 ),
               )}
