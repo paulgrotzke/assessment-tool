@@ -17,10 +17,7 @@ const Delete = (props: Props) => {
       'Are you sure to delete? All answers for this questions will be deleted too.',
     );
     if (confirm) {
-      await firestore
-        .collection('questions')
-        .doc(questionId)
-        .delete();
+      await firestore.collection('questions').doc(questionId).delete();
     }
   };
 

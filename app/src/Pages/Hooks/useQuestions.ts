@@ -1,11 +1,8 @@
-import { firestore } from '../../../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import useLocalDocRef from './useLocalDocRef';
-import * as t from '../types';
+import { firestore } from '../../lib/firebase';
+import * as t from '../Survey/types';
 
 const useQuestions = () => {
-  const localDocRef = useLocalDocRef();
-
   const ref = firestore.collection('questions');
   const [data] = useCollection(ref);
   const questions: t.Question[] = [];

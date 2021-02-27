@@ -6,10 +6,16 @@ type Props = {
   generalQuestions: t.GeneralQuestionsAnswer;
   setGeneralQuestions: (answer: t.GeneralQuestionsAnswer) => void;
   setShowGeneralQuestions: (bool: boolean) => void;
-  postgeneralQuestion: () => void;
+  localDocRef: string;
+  firestore: any;
 };
 
 const GeneralQuestions = (props: Props) => {
+  const postgeneralQuestion = async () => {
+    const newAnswerRef = props.firestore.collection('surveys').doc(props.localDocRef);
+    await newAnswerRef.set(props.generalQuestions, { merge: true });
+  };
+
   return (
     <AuthCheck role="user">
       <div>
@@ -52,7 +58,7 @@ const GeneralQuestions = (props: Props) => {
           }}></input>
         <button
           onClick={() => {
-            props.postgeneralQuestion();
+            postgeneralQuestion();
             props.setShowGeneralQuestions(false);
           }}>
           Start survey

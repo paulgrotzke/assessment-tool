@@ -1,46 +1,28 @@
 import React, { useState } from 'react';
-import AuthCheck from '../../Components/AuthCheck';
-import Raiting from './Components/Rating';
-import * as t from './types';
-import Question from './Components/Question';
-import useLocalDocRef from './Hooks/useLocalDocRef';
-import Buttons from './Components/Buttons';
 import { firestore } from '../../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import GeneralQuestions from './Components/GeneralQuestions';
-import Results from './Components/Results';
+import * as t from './types';
+import useLocalDocRef from './Hooks/useLocalDocRef';
+import useQuestions from '../Hooks/useQuestions';
+import AuthCheck from '../../Components/AuthCheck';
+import Buttons from './Components/Buttons';
 import Feedback from './Components/Feedback';
-import useResults from './Hooks/useResults';
+import GeneralQuestions from './Components/GeneralQuestions';
+import Raiting from './Components/Rating';
+import Results from './Components/Results';
+import Question from './Components/Question';
 
 const Survey = () => {
   const localDocRef = useLocalDocRef();
+  const questions = useQuestions();
 
-  //
-  // GENERALQUESTIONS - questions before survey
-  //
-  const [
-    showGeneralQuestions,
-    setShowGeneralQuestions,
-  ] = useState<boolean>(true);
-  const [
-    generalQuestions,
-    setGeneralQuestions,
-  ] = useState<t.GeneralQuestionsAnswer>({
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const [generalQuestions, setGeneralQuestions] = useState<t.GeneralQuestionsAnswer>({
     industryBelong: '',
     amountEmployees: '',
     companyPosition: '',
   });
-
-  const postgeneralQuestion = async () => {
-    const newAnswerRef = firestore
-      .collection('surveys')
-      .doc(localDocRef);
-    await newAnswerRef.set(generalQuestions, { merge: true });
-  };
-
-  //
-  // QUESTIONS - survey questions
-  //
+  const [showGeneralQuestions, setShowGeneralQuestions] = useState<boolean>(true);
   const [counter, setCounter] = useState<t.Counter>({ value: 0 });
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
@@ -49,70 +31,6 @@ const Survey = () => {
     focusArea: '',
     practiceItem: '',
   });
-
-  const ref = firestore.collection('questions');
-  const [data] = useCollection(ref);
-  const questions: t.Question[] = [];
-  data?.docs.map((doc: t.QuestionDocument) =>
-    questions.push({
-      id: doc.id,
-      focusArea: doc.data().focusArea,
-      digitalCapability: doc.data().digitalCapability,
-      practiceItem: doc.data().practiceItem,
-    }),
-  );
-
-  //
-  //
-  //
-  // TODO REFACTOR
-  const answerRef = firestore.collection('surveys');
-  const [answers] = useCollection(answerRef);
-  let answer = 0;
-  answers?.docs.forEach((doc): void => {
-    if (doc.id === localDocRef) {
-      answer = doc.data()[questions[counter.value].id]?.value;
-    }
-  });
-
-  // post survey answer
-  const postAnswer = async () => {
-    const answer: t.Answer = {
-      answerValue: raiting.value,
-      focusArea: raiting.focusArea,
-      digitalCapability: raiting.digitalCapability,
-      practiceItem: raiting.practiceItem,
-    };
-
-    const newAnswerRef = firestore
-      .collection('surveys')
-      .doc(localDocRef)
-      .collection('answers')
-      .doc(raiting.questionId);
-    await newAnswerRef.set(answer, { merge: true });
-    await newAnswerRef.set(counter, { merge: true });
-  };
-
-  //
-  // Feedback
-  //
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  const [feedback, setFeedback] = useState<t.FeedbackAnswer>({
-    comprehensiveness: 0,
-    consistency: 0,
-    problemAdequacy: 0,
-  });
-  const postFeedback = async () => {
-    const newAnswerRef = firestore
-      .collection('surveys')
-      .doc(localDocRef);
-    await newAnswerRef.set(feedback, { merge: true });
-  };
-
-  //
-  // RESULTS
-  //
-  const [showResults, setShowResults] = useState<boolean>(false);
 
   if (showResults)
     return (
@@ -128,7 +46,8 @@ const Survey = () => {
           generalQuestions={generalQuestions}
           setGeneralQuestions={setGeneralQuestions}
           setShowGeneralQuestions={setShowGeneralQuestions}
-          postgeneralQuestion={postgeneralQuestion}
+          localDocRef={localDocRef}
+          firestore={firestore}
         />
       </AuthCheck>
     );
@@ -138,10 +57,9 @@ const Survey = () => {
       <AuthCheck role="user">
         <Feedback
           setShowResults={setShowResults}
-          postFeedback={postFeedback}
-          feedback={feedback}
-          setFeedback={setFeedback}
           setShowFeedback={setShowFeedback}
+          localDocRef={localDocRef}
+          firestore={firestore}
         />
       </AuthCheck>
     );
@@ -153,18 +71,14 @@ const Survey = () => {
           return (
             <div key={i}>
               <Question question={question} />
-              <Raiting
-                setRaiting={setRaiting}
-                question={question}
-                answer={answer}
-              />
+              <Raiting setRaiting={setRaiting} question={question} />
               <Buttons
-                postAnswer={postAnswer}
-                counter={counter.value}
+                counter={counter}
                 setCounter={setCounter}
-                raiting={raiting.value}
-                answer={answer}
+                raiting={raiting}
                 setShowFeedback={setShowFeedback}
+                localDocRef={localDocRef}
+                firestore={firestore}
               />
             </div>
           );

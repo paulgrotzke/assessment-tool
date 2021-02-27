@@ -1,44 +1,37 @@
+import { useState } from 'react';
 import * as t from '../types';
 
 type Props = {
   setShowResults: (bool: boolean) => void;
-  postFeedback: () => void;
-  feedback: t.FeedbackAnswer;
-  setFeedback: (answer: t.FeedbackAnswer) => void;
   setShowFeedback: (bool: boolean) => void;
+  localDocRef: string;
+  firestore: any;
 };
 
 const Feedback = (props: Props) => {
-  let comprehensivenessInput: boolean[] = [
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-  let consistencyInput: boolean[] = [
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-  let problemAdequacyInput: boolean[] = [
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  let comprehensivenessInput = new Array(5).fill(false);
+  let consistencyInput = new Array(5).fill(false);
+  let problemAdequacyInput = new Array(5).fill(false);
+
+  const [feedback, setFeedback] = useState<t.FeedbackAnswer>({
+    comprehensiveness: 0,
+    consistency: 0,
+    problemAdequacy: 0,
+  });
+
+  const postFeedback = async () => {
+    const newAnswerRef = props.firestore.collection('surveys').doc(props.localDocRef);
+    await newAnswerRef.set(feedback, { merge: true });
+  };
+
   return (
     <div>
       <h2>Great!</h2>
       <h4>You have successfully passed all assessment questions!</h4>
       <p>
-        In order to improve our tool continously, I would like to ask
-        you for some feedback. Please rate the assessment tool
-        including all dimensions, digital capabilities and practice
-        items with regard to the three criteria:
+        In order to improve our tool continously, I would like to ask you for some
+        feedback. Please rate the assessment tool including all dimensions, digital
+        capabilities and practice items with regard to the three criteria:
       </p>
       <p>Comprehensiveness, consistency and problem adequacy</p>
       <p>No comprehensiveness</p>
@@ -50,18 +43,11 @@ const Feedback = (props: Props) => {
             name="comprehensivenessInput"
             checked={comprehensivenessInput[i]}
             onClick={() => {
-              props.setFeedback({
-                ...props.feedback,
+              setFeedback({
+                ...feedback,
                 comprehensiveness: i + 1,
               });
-              // @ts-ignore
-              comprehensivenessInput = [
-                false,
-                false,
-                false,
-                false,
-                false,
-              ];
+              comprehensivenessInput.fill(false);
               comprehensivenessInput[i] = true;
             }}></input>
         );
@@ -76,12 +62,11 @@ const Feedback = (props: Props) => {
             name="consistencyInput"
             checked={consistencyInput[i]}
             onClick={() => {
-              props.setFeedback({
-                ...props.feedback,
+              setFeedback({
+                ...feedback,
                 consistency: i + 1,
               });
-              //@ts-ignore
-              consistencyInput = [false, false, false, false, false];
+              consistencyInput.fill(false);
               consistencyInput[i] = true;
             }}></input>
         );
@@ -96,18 +81,11 @@ const Feedback = (props: Props) => {
             name="problemAdequacyInput"
             checked={problemAdequacyInput[i]}
             onClick={() => {
-              props.setFeedback({
-                ...props.feedback,
+              setFeedback({
+                ...feedback,
                 problemAdequacy: i + 1,
               });
-              //@ts-ignore
-              problemAdequacyInput = [
-                false,
-                false,
-                false,
-                false,
-                false,
-              ];
+              problemAdequacyInput.fill(false);
               problemAdequacyInput[i] = true;
             }}></input>
         );
@@ -117,7 +95,7 @@ const Feedback = (props: Props) => {
         onClick={() => {
           props.setShowResults(true);
           props.setShowFeedback(false);
-          props.postFeedback();
+          postFeedback();
         }}>
         Finish Survey
       </button>

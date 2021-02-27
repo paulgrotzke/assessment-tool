@@ -41,3 +41,9 @@ export type GeneralQuestionsDocument = {
   data: () => GeneralQuestions;
 };
 
+export type SurveyList = {
+  answerValue: number,
+  digitalCapability: string;
+  focusArea: string;
+  practiceItem: string;
+}
