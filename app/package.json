@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.1.7",
     "firebase": "^8.2.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -14,6 +10,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "styled-components": "^5.2.1",
+    "tailwindcss": "^2.0.3",
+    "twin.macro": "^2.2.3",
     "typescript": "^4.1.2"
   },
   "scripts": {
@@ -39,5 +37,25 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "babelMacros": {
+    "twin": {
+      "preset": "styled-components",
+      "styled": {
+        "import": "default",
+        "from": "styled-components"
+      },
+      "css": {
+        "import": "css",
+        "from": "styled-components"
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/styled-components": "^5.1.7"
   }
 }
