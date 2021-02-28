@@ -10,7 +10,6 @@ type Props = {
 const Question = (props: Props) => {
   return (
     <Wrapper>
-      {console.log(props.counter.value)}
       <h2>
         Question <span className="question">{props.counter.value + 1} </span>
         of {props.questionLength}

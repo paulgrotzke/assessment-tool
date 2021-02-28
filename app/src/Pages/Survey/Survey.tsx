@@ -33,6 +33,8 @@ const Survey = () => {
     practiceItem: '',
   });
 
+  console.log(raiting)
+
   if (showResults)
     return (
       <AuthCheck role="user">
@@ -82,6 +84,8 @@ const Survey = () => {
                   counter={counter}
                   setCounter={setCounter}
                   raiting={raiting}
+                  setRaiting={setRaiting}
+                  setShowGeneralQuestions={setShowGeneralQuestions}
                   setShowFeedback={setShowFeedback}
                   localDocRef={localDocRef}
                   firestore={firestore}
@@ -100,7 +104,7 @@ export default Survey;
 
 const Wrapper = styled.div`
   ${tw`
-    max-w-lg bg-white px-10 py-6 rounded-md shadow-2xl
+    max-w-xl bg-white px-10 py-6 rounded-md shadow-2xl
   `}
 
   > h2 {

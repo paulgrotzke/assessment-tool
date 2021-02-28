@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Raiting = (props: Props) => {
-  let input = new Array(5).fill(false);
+  let bubbles = new Array(5).fill(false);
 
   return (
     <Wrapper>
@@ -15,9 +15,9 @@ const Raiting = (props: Props) => {
       <p>To which level has your company implemented the practice item</p>
       <Checkboxes>
         <p className="text-left">Not implemented</p>
-        {input.map((input, i) => {
+        {bubbles.map((input, i) => {
           return (
-            <input
+            <Input
               className="bubbles"
               key={i + 1}
               type="radio"
@@ -31,9 +31,9 @@ const Raiting = (props: Props) => {
                   digitalCapability: props.question.digitalCapability,
                   practiceItem: props.question.practiceItem,
                 });
-                input.fill(false);
-                input[i] = true;
-              }}></input>
+                bubbles.fill(false);
+                bubbles[i] = true;
+              }}></Input>
           );
         })}
         <p className="text-right">Fully implemented</p>
@@ -46,13 +46,12 @@ export default Raiting;
 
 const Wrapper = styled.div`
   ${tw`
-      rounded-md shadow-xl p-4
+      rounded-md shadow-xl p-4 mt-6 bg-gray-100 mb-6
     `}
 
   > h2 {
     ${tw`
       mb-6
-      pt-8
       font-extrabold text-2xl uppercase
     `}
 
@@ -65,7 +64,7 @@ const Wrapper = styled.div`
 
   > h3 {
     ${tw`
-      mt-4
+      mt-2
       mb-1
       font-semibold text-lg
     `}
@@ -74,7 +73,7 @@ const Wrapper = styled.div`
 
 const Checkboxes = styled.div`
   ${tw`
-      flex mt-2 w-full
+      flex mt-4 w-full 
     `}
 
   > .text-left {
@@ -88,10 +87,10 @@ const Checkboxes = styled.div`
       flex-1 text-right font-semibold
     `}
   }
+`;
 
-  > .bubbles {
-    ${tw`
-      flex-none mt-1 mx-1
+const Input = styled.input`
+  ${tw`
+      flex-none mt-1 mx-1 checked:bg-indigo-500
     `}
-  }
 `;
