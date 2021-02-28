@@ -1,3 +1,4 @@
+import tw, { styled } from 'twin.macro';
 import useQuestions from '../../Hooks/useQuestions';
 import * as t from '../types';
 
@@ -37,7 +38,7 @@ const Buttons = (props: Props) => {
     <div>
       {console.log(props.raiting)}
       {props.counter.value > 0 && (
-        <button
+        <Button
           onClick={() => {
             props.setCounter({
               value: props.counter.value - 1,
@@ -45,21 +46,21 @@ const Buttons = (props: Props) => {
             postAnswer();
           }}>
           Previous Question
-        </button>
+        </Button>
       )}
       {amountQuestions - 1 === props.counter.value && (
-        <button
+        <Button
           disabled={!props.raiting}
           onClick={() => {
             postAnswer();
             props.setShowFeedback(true);
           }}>
           Go To Feedback
-        </button>
+        </Button>
       )}
       {amountQuestions > 1 &&
         amountQuestions - 1 !== props.counter.value && (
-          <button
+          <Button
             disabled={!props.raiting}
             onClick={() => {
               props.setCounter({
@@ -68,10 +69,19 @@ const Buttons = (props: Props) => {
               postAnswer();
             }}>
             Next Question
-          </button>
+          </Button>
         )}
     </div>
   );
 };
 
 export default Buttons;
+
+const Button = styled.button`
+  ${tw`
+    bg-indigo-600 rounded-md py-2 px-6 mt-4
+    text-white
+    focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
+    disabled:opacity-50 disabled:cursor-not-allowed
+  `}
+`;
