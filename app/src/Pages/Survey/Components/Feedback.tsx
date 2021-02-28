@@ -98,6 +98,11 @@ const Feedback = (props: Props) => {
         <p className="text-right">Full problem adequacy</p>
       </Checkboxes>
       <Button
+        disabled={
+          feedback.comprehensiveness === 0 ||
+          feedback.consistency === 0 ||
+          feedback.problemAdequacy === 0
+        }
         onClick={() => {
           props.setShowResults(true);
           props.setShowFeedback(false);

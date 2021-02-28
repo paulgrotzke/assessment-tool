@@ -24,8 +24,6 @@ const Buttons = (props: Props) => {
       digitalCapability: props.raiting.digitalCapability,
       practiceItem: props.raiting.practiceItem,
     };
-    console.log(answer);
-    console.log(props.counter);
 
     const newAnswerRef = props.firestore
       .collection('surveys')
@@ -68,7 +66,7 @@ const Buttons = (props: Props) => {
       )}
       {amountQuestions - 1 === props.counter.value && (
         <Button
-          disabled={!props.raiting}
+          disabled={props.raiting.value === 0}
           onClick={() => {
             postAnswer();
             props.setShowFeedback(true);

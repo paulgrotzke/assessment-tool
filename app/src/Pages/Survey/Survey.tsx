@@ -33,12 +33,12 @@ const Survey = () => {
     practiceItem: '',
   });
 
-  console.log(raiting)
-
   if (showResults)
     return (
       <AuthCheck role="user">
-        <Results />
+        <Wrapper>
+          <Results />
+        </Wrapper>
       </AuthCheck>
     );
 
@@ -78,7 +78,11 @@ const Survey = () => {
           if (counter.value === i) {
             return (
               <div key={i}>
-                <Question question={question} counter={counter} questionLength={questions.length} />
+                <Question
+                  question={question}
+                  counter={counter}
+                  questionLength={questions.length}
+                />
                 <Raiting setRaiting={setRaiting} question={question} />
                 <Buttons
                   counter={counter}

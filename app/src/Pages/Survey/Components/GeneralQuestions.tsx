@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import tw, { styled } from 'twin.macro';
-import AuthCheck from '../../../Components/AuthCheck';
 import * as t from '../types';
 
 type Props = {
@@ -30,7 +29,6 @@ const GeneralQuestions = (props: Props) => {
   }, [props.generalQuestions]);
 
   return (
-    <AuthCheck role="user">
       <Wrapper>
         <h2>General Questions</h2>
         <h3>How many employees work in the company?</h3>
@@ -78,7 +76,6 @@ const GeneralQuestions = (props: Props) => {
           Start survey
         </Button>
       </Wrapper>
-    </AuthCheck>
   );
 };
 

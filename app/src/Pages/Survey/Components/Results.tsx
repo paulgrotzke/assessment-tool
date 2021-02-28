@@ -1,6 +1,5 @@
 import React from 'react';
 import tw, { styled } from 'twin.macro';
-import AuthCheck from '../../../Components/AuthCheck';
 import useResults from '../Hooks/useResults';
 
 const Results = () => {
@@ -35,14 +34,7 @@ const Results = () => {
                 {capabilities}
                 {Object.entries(result[Object.keys(result)[0]][capabilities]).map(
                   (practiceItem) => (
-                    <li
-                      style={{
-                        marginLeft: 20,
-                        marginTop: 10,
-                        marginBottom: 10,
-                      }}>
-                      {practiceItem[0] + ': ' + practiceItem[1] + ' Punkte'}
-                    </li>
+                    <li>{practiceItem[0] + ': ' + practiceItem[1] + ' Punkte'}</li>
                   ),
                 )}
               </li>

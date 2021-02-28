@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthCheck from '../../Components/AuthCheck';
+import tw, { styled } from 'twin.macro';
 import GeneralStatistics from './Components/GeneralStatistics';
 import QuestionStatistics from './Components/QuestionStatistics';
 import useSurveys from './Hooks/useSurveys';
@@ -7,11 +7,13 @@ import useSurveys from './Hooks/useSurveys';
 const Statistics = () => {
   const surveys = useSurveys();
   return (
-    <AuthCheck role="admin">
+    <Wrapper>
       <GeneralStatistics surveys={surveys} />
-      <QuestionStatistics surveys={surveys}/>
-    </AuthCheck>
+      <QuestionStatistics surveys={surveys} />
+    </Wrapper>
   );
 };
 
 export default Statistics;
+
+const Wrapper = styled.div``;
