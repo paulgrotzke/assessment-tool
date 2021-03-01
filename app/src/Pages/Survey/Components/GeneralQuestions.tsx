@@ -84,6 +84,7 @@ const GeneralQuestions = (props: Props) => {
 export default GeneralQuestions;
 
 const Wrapper = styled.div`
+
   > h2 {
     ${tw`
       mb-6

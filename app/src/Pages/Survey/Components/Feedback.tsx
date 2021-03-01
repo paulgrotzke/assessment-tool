@@ -119,17 +119,13 @@ export default Feedback;
 const Wrapper = styled.div`
   > h2 {
     ${tw`
-      mb-6
-      pt-8
-      font-extrabold text-2xl uppercase
+      mb-6 pt-8 font-extrabold text-2xl uppercase
     `}
   }
 
   > h3 {
     ${tw`
-      mt-4
-      mb-1
-      font-semibold text-lg
+      mt-4 mb-1 font-semibold text-lg
     `}
   }
 `;

@@ -14,22 +14,24 @@ const Buttons = (props: Props) => {
     <Wrapper>
       <Button
         onClick={() => {
-          props.setShowGeneral(true);
           props.setShowQuestionStatistics(false);
           props.setShowConfiguration(false);
+          props.setShowGeneral(true);
         }}>
         General
       </Button>
       <Button
         onClick={() => {
-          props.setShowQuestionStatistics(true);
           props.setShowConfiguration(false);
           props.setShowGeneral(false);
+          props.setShowQuestionStatistics(true);
         }}>
         Question Statistics
       </Button>
       <Button
         onClick={() => {
+          props.setShowGeneral(false);
+          props.setShowQuestionStatistics(false);
           props.setShowConfiguration(true);
         }}>
         Config
