@@ -32,7 +32,7 @@ const Results = () => {
                 {Object.entries(result[Object.keys(result)[0]][capabilities]).map(
                   (practiceItem) => (
                     <div className="result">
-                      <div className="practiceItem">{practiceItem[0] + ': '}</div>
+                      <div className="practiceItem">{practiceItem[0] + ' '}</div>
                       <div className="points">{practiceItem[1] + ' P.'}</div>
                     </div>
                   ),

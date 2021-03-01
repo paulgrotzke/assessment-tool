@@ -1,4 +1,5 @@
 import * as t from '../types';
+import tw, { styled } from 'twin.macro';
 
 type Props = {
   surveys: {
@@ -40,47 +41,101 @@ const GeneralStatistics = (props: Props) => {
   }
 
   return (
-    <div>
-      <h1> General Statistics</h1>
-      <p>Ø - digital Score</p>
-      <p>todo</p>
-      <p># Participants</p>
-      <p>{surveyList.length}</p>
-      <b>
-        <p># Participants by industry</p>
-      </b>
-      {Object.entries(industryBelongValues).map(([key, value]) => (
-        <li>
-          {key}: {value}
-        </li>
-      ))}
-      <b>
-        <p># Participants by company size</p>
-      </b>
-      {Object.entries(amountEmployeesValues).map(([key, value]) => (
-        <li>
-          {key}: {value}
-        </li>
-      ))}
-      <b>
-        <p># Participants by position</p>
-      </b>
-      {Object.entries(companyPositionValues).map(([key, value]) => (
-        <li>
-          {key}: {value}
-        </li>
-      ))}
-      <b>
-        <p>Ø - Feedback</p>
-      </b>
-      <p>Ø - Comprehensiveness</p>
-      <p>{comprehensiveness / surveyList.length}</p>
-      <p>Ø - Consistency</p>
-      <p>{consistency / surveyList.length}</p>
-      <p>Ø - Problem adequacy</p>
-      <p>{problemAdequacy / surveyList.length}</p>
-    </div>
+    <Wrapper>
+      <h2> General Statistics</h2>
+      <Area>
+        <div className="result">
+          <div className="criteria">Ø - digital Score</div>
+          <div className="points">todo</div>
+        </div>
+        <div className="result">
+          <div className="criteria"># Participants</div>
+          <div className="points">{surveyList.length}</div>
+        </div>
+      </Area>
+      <Area>
+        <h3>Participants by industry</h3>
+        {Object.entries(industryBelongValues).map(([key, value]) => (
+          <div className="result">
+            <div className="criteria">{key}:</div>
+            {/* @ts-ignore */}
+            <div className="points">{value}</div>
+          </div>
+        ))}
+      </Area>
+      <Area>
+        <h3>Participants by company size</h3>
+        {Object.entries(amountEmployeesValues).map(([key, value]) => (
+          <div className="result">
+            <div className="criteria">{key}:</div>
+            {/* @ts-ignore */}
+            <div className="points">{value}</div>
+          </div>
+        ))}
+      </Area>
+      <Area>
+        <h3>Participants by position</h3>
+        {Object.entries(companyPositionValues).map(([key, value]) => (
+          <div className="result">
+            <div className="criteria"> {key}:</div>
+            <div className="points"> {value}</div>
+          </div>
+        ))}
+      </Area>
+      <Area>
+        <h3>Feedback</h3>
+        <div className="result">
+          <p className="criteria">Comprehensiveness</p>
+          <p className="points">{comprehensiveness / surveyList.length}</p>
+        </div>
+        <div className="result">
+          <p className="criteria">Consistency</p>
+          <p className="points">{consistency / surveyList.length}</p>
+        </div>
+        <div className="result">
+          <p className="criteria">Problem adequacy</p>
+          <p className="points">{problemAdequacy / surveyList.length}</p>
+        </div>
+      </Area>
+    </Wrapper>
   );
 };
 
 export default GeneralStatistics;
+
+const Wrapper = styled.div`
+  > h2 {
+    ${tw`
+      mb-2 mt-6
+      font-extrabold text-2xl uppercase
+    `}
+  }
+`;
+
+const Area = styled.div`
+  ${tw`
+    mt-3
+  `}
+  > h3 {
+    ${tw`
+      font-semibold text-lg
+    `}
+  }
+  > .result {
+    ${tw`
+        grid grid-cols-5 py-1
+      `}
+
+    > .criteria {
+      ${tw`
+        col-span-4
+        `}
+    }
+
+    > .points {
+      ${tw`
+        text-right font-semibold
+        `}
+    }
+  }
+`;

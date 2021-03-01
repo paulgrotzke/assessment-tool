@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import tw, { styled } from 'twin.macro';
 import { firestore } from '../../../lib/firebase';
 import * as t from '../types';
 
@@ -11,10 +12,10 @@ type Props = {
 
 const QuestionStatistics = (props: Props) => {
   const docs = props.surveys.docs;
-  const surveyList: t.SurveyList[] = [];
   const [statistics, setStatistics]: any = useState([]);
 
-  const getStatistics = async () => {
+  useMemo(async () => {
+    const surveyList: t.SurveyList[] = [];
     for (let docId of docs) {
       const resultsRef = firestore.collection('surveys').doc(docId).collection('answers');
       await resultsRef.get().then((result) => {
@@ -58,43 +59,88 @@ const QuestionStatistics = (props: Props) => {
         [key]: areas[key],
       })),
     );
-    console.log(statistics);
-  };
+  }, [docs]);
 
   return (
-    <div>
+    <Wrapper>
+      <h2>Question Statistics</h2>
       {statistics.map((question) => (
-        <div>
-          {console.log(question)}
-          {Object.keys(question)}
+        <FocusArea>
+          <h3>{Object.keys(question)}</h3>
           {Object.keys(question[Object.keys(question)[0]]).map((capabilities) => (
-            <li>
-              {capabilities}
+            <div className="capa-wrapper">
+              <p className="capabilities">{capabilities}</p>
               {Object.keys(question[Object.keys(question)[0]][capabilities]).map(
                 (practiceItem) => (
-                  <li
-                    style={{
-                      marginLeft: 20,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    }}>
-                    {practiceItem}:{' '}
-                    {question[Object.keys(question)[0]][capabilities][practiceItem]}
-                  </li>
+                  <div className="result">
+                    <div className="practiceItem">{practiceItem} </div>
+                    <div className="points">
+                      {question[Object.keys(question)[0]][capabilities][practiceItem]}
+                    </div>
+                  </div>
                 ),
               )}
-            </li>
+            </div>
           ))}
-        </div>
+        </FocusArea>
       ))}
-      <p
-        onClick={() => {
-          getStatistics();
-        }}>
-        getStatistics
-      </p>
-    </div>
+    </Wrapper>
   );
 };
 
 export default QuestionStatistics;
+
+const Wrapper = styled.div`
+  > h2 {
+    ${tw`
+      mb-6 mt-6
+      font-extrabold text-2xl uppercase
+    `}
+  }
+`;
+
+const FocusArea = styled.div`
+  ${tw`
+     rounded-md shadow-2xl mt-6 bg-gray-100 mb-6
+    `}
+
+  > h3 {
+    ${tw`
+      px-4 py-2
+      mt-2 mb-1
+      font-semibold text-xl text-white
+      bg-indigo-600 rounded-sm
+    `}
+  }
+
+  > .capa-wrapper {
+    ${tw`
+     px-4 py-2
+    `}
+
+    > .capabilities {
+      ${tw`
+      font-semibold text-lg
+      
+    `}
+    }
+
+    > .result {
+      ${tw`
+        grid grid-cols-5 py-1
+      `}
+
+      > .practiceItem {
+        ${tw`
+        col-span-4
+        `}
+      }
+
+      > .points {
+        ${tw`
+        text-right font-semibold
+        `}
+      }
+    }
+  }
+`;
