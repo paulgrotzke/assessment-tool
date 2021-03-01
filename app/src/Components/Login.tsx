@@ -43,7 +43,7 @@ export default Login;
 
 const Wrapper = styled.div`
   ${tw`
-    max-w-lg space-y-4 bg-white p-8 rounded-md shadow-2xl
+    space-y-4 bg-white p-8 rounded-md shadow-2xl
   `}
 
   > h2 {

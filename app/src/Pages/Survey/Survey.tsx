@@ -120,6 +120,6 @@ export default Survey;
 
 const Wrapper = styled.div`
   ${tw`
-    max-w-xl bg-white px-10 py-6 rounded-md shadow-2xl
+    bg-white px-4 py-6 rounded-md shadow-2xl
   `}
 `;

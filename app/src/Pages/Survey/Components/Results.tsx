@@ -16,9 +16,6 @@ const Results = () => {
     [key]: areas[key],
   }));
 
-  console.log(resultList);
-  console.log(results);
-
   return (
     <Wrapper>
       <h2>Great!</h2>
@@ -30,14 +27,17 @@ const Results = () => {
           <FocusArea>
             <h3>{Object.keys(result)}</h3>
             {Object.keys(result[Object.keys(result)[0]]).map((capabilities) => (
-              <li>
-                {capabilities}
+              <div className="capa-wrapper">
+                <p className="capabilities">{capabilities}</p>
                 {Object.entries(result[Object.keys(result)[0]][capabilities]).map(
                   (practiceItem) => (
-                    <li>{practiceItem[0] + ': ' + practiceItem[1] + ' Punkte'}</li>
+                    <div className="result">
+                      <div className="practiceItem">{practiceItem[0] + ': '}</div>
+                      <div className="points">{practiceItem[1] + ' P.'}</div>
+                    </div>
                   ),
                 )}
-              </li>
+              </div>
             ))}
           </FocusArea>
         ))}
@@ -49,39 +49,56 @@ const Results = () => {
 export default Results;
 
 const Wrapper = styled.div`
-  ${tw`
-      rounded-md shadow-xl p-6 mt-6 bg-gray-100 mb-6
-    `}
-
   > h2 {
     ${tw`
-      mb-6
+      mb-6 mt-6
       font-extrabold text-2xl uppercase
     `}
-
-    > .question {
-      ${tw`
-      text-2xl text-indigo-500
-    `}
-    }
   }
 `;
 
 const FocusArea = styled.div`
   ${tw`
-     rounded-md shadow-xl p-4 mt-6 bg-gray-100 mb-6
+     rounded-md shadow-2xl mt-6 bg-gray-100 mb-6
     `}
 
   > h3 {
     ${tw`
+      px-4 py-2
       mt-2 mb-1
-      font-semibold text-xl text-indigo-600
+      font-semibold text-xl text-white
+      bg-indigo-600 rounded-sm
     `}
   }
-`;
 
-const Input = styled.input`
-  ${tw`
-      flex-none mt-1 mx-1 checked:bg-indigo-500
+  > .capa-wrapper {
+    ${tw`
+     px-4 py-2
     `}
+
+    > .capabilities {
+      ${tw`
+      font-semibold text-lg
+      
+    `}
+    }
+
+    > .result {
+      ${tw`
+        grid grid-cols-5 py-1
+      `}
+
+      > .practiceItem {
+        ${tw`
+        col-span-4
+        `}
+      }
+
+      > .points {
+        ${tw`
+        text-right font-semibold
+        `}
+      }
+    }
+  }
 `;
