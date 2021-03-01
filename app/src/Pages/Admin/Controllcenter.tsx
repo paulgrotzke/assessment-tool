@@ -5,14 +5,21 @@ import useQuestions from '../Hooks/useQuestions';
 import AuthCheck from '../../Components/AuthCheck';
 import Delete from './Components/Delete';
 import Edit from './Components/Edit';
+import useSurveys from './Hooks/useSurveys';
+import GeneralStatistics from './Components/GeneralStatistics';
+import QuestionStatistics from './Components/QuestionStatistics';
 
 const Controllcenter = () => {
   const questions = useQuestions();
+  const surveys = useSurveys();
 
   const [focusArea, setFocusArea] = useState('');
   const [digitalCapability, setDigitalCapability] = useState('');
   const [practiceItem, setPracticeItem] = useState('');
   const [edit, setEdit] = useState(false);
+
+  const [showQuestionStatistics, setShowQuestionStatistics] = useState(false);
+  const [showConfiguration, setShowConfiguration] = useState(false);
 
   const changeEditState = () => {
     setEdit(!edit);
@@ -29,42 +36,56 @@ const Controllcenter = () => {
     };
     await newQuestionRef.set(data);
   };
+
+  if (showConfiguration) {
+    <QuestionStatistics surveys={surveys} />;
+  }
+
+  if (showConfiguration) {
+    return (
+      <AuthCheck role="admin">
+        <Wrapper>
+          <h2>Digify - Controll Center</h2>
+          <p>Here you can add/edit/delete assessment question and view statistics</p>
+          <Button>Edit assessment</Button>
+          <Button>View Statistics</Button>
+          <Button>Link</Button>
+          <h3>Focus area</h3>
+          <Input
+            placeholder="Insert focus area"
+            value={focusArea}
+            onChange={(e) => setFocusArea(e.target.value)}></Input>
+          <h3>Digital Capability</h3>
+          <Input
+            placeholder="Insert digital capability"
+            value={digitalCapability}
+            onChange={(e) => setDigitalCapability(e.target.value)}></Input>
+          <h3>Practice Item</h3>
+          <Input
+            placeholder="Insert practice item"
+            value={practiceItem}
+            onChange={(e) => setPracticeItem(e.target.value)}
+            onClick={() => postQuestion}></Input>
+          <Button>Create</Button>
+          <h3>Current Questions</h3>
+          {questions?.map((question, i) => (
+            <FocusArea>
+              <h3>{question.focusArea}</h3>
+              <li>{question.digitalCapability}</li>
+              <li>{question.practiceItem}</li>
+              <Delete question={question} />
+              <p onClick={() => setEdit(true)}>Edit</p>
+              {edit && <Edit question={question} changeEditState={changeEditState} />}
+            </FocusArea>
+          ))}
+        </Wrapper>
+      </AuthCheck>
+    );
+  }
   return (
     <AuthCheck role="admin">
       <Wrapper>
-        <h2>Digify - Controll Center</h2>
-        <p>Here you can add/edit/delete assessment question and view statistics</p>
-        <Button>Edit assessment</Button>
-        <Button>View Statistics</Button>
-        <Button>Link</Button>
-        <h3>Focus area</h3>
-        <Input
-          placeholder="Insert focus area"
-          value={focusArea}
-          onChange={(e) => setFocusArea(e.target.value)}></Input>
-        <h3>Digital Capability</h3>
-        <Input
-          placeholder="Insert digital capability"
-          value={digitalCapability}
-          onChange={(e) => setDigitalCapability(e.target.value)}></Input>
-        <h3>Practice Item</h3>
-        <Input
-          placeholder="Insert practice item"
-          value={practiceItem}
-          onChange={(e) => setPracticeItem(e.target.value)}
-          onClick={() => postQuestion}></Input>
-        <Button>Create</Button>
-        <h3>Current Questions</h3>
-        {questions?.map((question, i) => (
-          <FocusArea>
-            <h3>{question.focusArea}</h3>
-            <li>{question.digitalCapability}</li>
-            <li>{question.practiceItem}</li>
-            <Delete question={question} />
-            <p onClick={() => setEdit(true)}>Edit</p>
-            {edit && <Edit question={question} changeEditState={changeEditState} />}
-          </FocusArea>
-        ))}
+        <GeneralStatistics surveys={surveys} />
       </Wrapper>
     </AuthCheck>
   );

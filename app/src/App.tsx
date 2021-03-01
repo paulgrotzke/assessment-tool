@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import tw, { css, styled } from 'twin.macro'
-import Disclaimer from './Pages/Survey/Disclaimer';
+import tw, { styled } from 'twin.macro';
 import Survey from './Pages/Survey/Survey';
-import Statistics from './Pages/Admin/Statistics';
 import Controllcenter from './Pages/Admin/Controllcenter';
 
 function App() {
@@ -11,22 +9,13 @@ function App() {
     <Wrapper>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/disclaimer">
-            <Disclaimer />
-          </Route>
-          <Route exact path="/survey">
+          <Route exact path="/">
             <Survey />
           </Route>
-          <Route exact path="/admin/controllcenter">
+          <Route exact path="/admin">
             <Controllcenter />
           </Route>
-          <Route exact path="/admin/statistics">
-            <Statistics />
-          </Route>
-          <Redirect from="/" to="/survey" />
-          <Route>
-            <Survey />
-          </Route>
+          <Redirect from="/" to="/" />
         </Switch>
       </BrowserRouter>
     </Wrapper>
@@ -39,5 +28,5 @@ const Wrapper = styled.div(() => [
   tw`
     min-h-screen justify-center items-center flex
     bg-gradient-to-t from-indigo-500 to-indigo-100
-  `
-])
+  `,
+]);

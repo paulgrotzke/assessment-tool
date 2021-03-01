@@ -6,6 +6,7 @@ type Props = {
   generalQuestions: t.GeneralQuestionsAnswer;
   setGeneralQuestions: (answer: t.GeneralQuestionsAnswer) => void;
   setShowGeneralQuestions: (bool: boolean) => void;
+  setShowSurvey: (bool: boolean) => void;
   localDocRef: string;
   firestore: any;
 };
@@ -29,53 +30,54 @@ const GeneralQuestions = (props: Props) => {
   }, [props.generalQuestions]);
 
   return (
-      <Wrapper>
-        <h2>General Questions</h2>
-        <h3>How many employees work in the company?</h3>
-        <Select
-          onChange={(e) => {
-            props.setGeneralQuestions({
-              ...props.generalQuestions,
-              amountEmployees: e.target.value,
-            });
-          }}>
-          <option className="placeholder">Please choose an option.</option>
-          <option value="1-249">1-249</option>
-          <option value="250-999">250-999</option>
-          <option value=">1000">greater 1000</option>
-        </Select>
-        <h3>To which industry does the company belong?</h3>
-        <Input
-          placeholder="your answer (up to 50 chars)"
-          type="text"
-          maxLength={50}
-          onChange={(e) => {
-            props.setGeneralQuestions({
-              ...props.generalQuestions,
-              industryBelong: e.target.value,
-            });
-          }}></Input>
-        <h3>What is your position in the company?</h3>
+    <Wrapper>
+      <h2>General Questions</h2>
+      <h3>How many employees work in the company?</h3>
+      <Select
+        onChange={(e) => {
+          props.setGeneralQuestions({
+            ...props.generalQuestions,
+            amountEmployees: e.target.value,
+          });
+        }}>
+        <option className="placeholder">Please choose an option.</option>
+        <option value="1-249">1-249</option>
+        <option value="250-999">250-999</option>
+        <option value=">1000">greater 1000</option>
+      </Select>
+      <h3>To which industry does the company belong?</h3>
+      <Input
+        placeholder="your answer (up to 50 chars)"
+        type="text"
+        maxLength={50}
+        onChange={(e) => {
+          props.setGeneralQuestions({
+            ...props.generalQuestions,
+            industryBelong: e.target.value,
+          });
+        }}></Input>
+      <h3>What is your position in the company?</h3>
 
-        <Input
-          placeholder="your answer (up to 50 chars)"
-          type="text"
-          maxLength={50}
-          onChange={(e) => {
-            props.setGeneralQuestions({
-              ...props.generalQuestions,
-              companyPosition: e.target.value,
-            });
-          }}></Input>
-        <Button
-          disabled={isEmpty}
-          onClick={() => {
-            postgeneralQuestion();
-            props.setShowGeneralQuestions(false);
-          }}>
-          Start survey
-        </Button>
-      </Wrapper>
+      <Input
+        placeholder="your answer (up to 50 chars)"
+        type="text"
+        maxLength={50}
+        onChange={(e) => {
+          props.setGeneralQuestions({
+            ...props.generalQuestions,
+            companyPosition: e.target.value,
+          });
+        }}></Input>
+      <Button
+        disabled={isEmpty}
+        onClick={() => {
+          postgeneralQuestion();
+          props.setShowGeneralQuestions(false);
+          props.setShowSurvey(true);
+        }}>
+        Start survey
+      </Button>
+    </Wrapper>
   );
 };
 
