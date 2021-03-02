@@ -1,6 +1,8 @@
 import tw, { styled } from 'twin.macro';
 
 type Props = {
+  showAddNew: boolean;
+  setShowAddNew: (bool: boolean) => void;
   showGeneral: boolean;
   setShowGeneral: (bool: boolean) => void;
   showQuestionStatistics: boolean;
@@ -16,6 +18,7 @@ const Buttons = (props: Props) => {
         onClick={() => {
           props.setShowQuestionStatistics(false);
           props.setShowConfiguration(false);
+          props.setShowAddNew(false);
           props.setShowGeneral(true);
         }}>
         General
@@ -24,17 +27,28 @@ const Buttons = (props: Props) => {
         onClick={() => {
           props.setShowConfiguration(false);
           props.setShowGeneral(false);
+          props.setShowAddNew(false);
           props.setShowQuestionStatistics(true);
         }}>
-        Question Statistics
+        Statistics
       </Button>
       <Button
         onClick={() => {
           props.setShowGeneral(false);
           props.setShowQuestionStatistics(false);
+          props.setShowAddNew(false);
           props.setShowConfiguration(true);
         }}>
         Config
+      </Button>
+      <Button
+        onClick={() => {
+          props.setShowGeneral(false);
+          props.setShowQuestionStatistics(false);
+          props.setShowConfiguration(false);
+          props.setShowAddNew(true);
+        }}>
+        Add
       </Button>
     </Wrapper>
   );
@@ -42,19 +56,11 @@ const Buttons = (props: Props) => {
 
 export default Buttons;
 
-const Wrapper = styled.div`
-  > h2 {
-    ${tw`
-      mb-6 mt-6
-      font-extrabold text-2xl uppercase
-    `}
-  }
-`;
+const Wrapper = styled.div``;
 
 const Button = styled.button`
   ${tw`
-    bg-indigo-600 rounded-md py-2 px-6 mx-1
-    text-white
-    focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
+    mr-1 p-1 mb-1
+    uppercase border-2 border-indigo-500 rounded-md
   `}
 `;

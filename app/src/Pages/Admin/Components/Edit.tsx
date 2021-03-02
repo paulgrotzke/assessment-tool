@@ -4,7 +4,7 @@ import tw, { styled } from 'twin.macro';
 
 type Props = {
   question: Question;
-  changeEditState: () => void;
+  setEdit: (number: number) => void;
 };
 
 type Question = {
@@ -45,11 +45,11 @@ const Edit = (props: Props) => {
         placeholder="Insert practice item"
         value={editPracticeItem}
         onChange={(e) => setEditPracticeItem(e.target.value)}></Input>
-      <Button onClick={props.changeEditState}>discard</Button>
+      <Button onClick={() => props.setEdit(0)}>discard</Button>
       <Button
         onClick={() => {
           updateQuestion(props.question.id);
-          props.changeEditState();
+          props.setEdit(0);
         }}>
         save
       </Button>

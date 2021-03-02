@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import tw, { styled } from 'twin.macro';
+import tw, { styled, css } from 'twin.macro';
 import AuthCheck from '../../Components/AuthCheck';
 import useSurveys from './Hooks/useSurveys';
 import GeneralStatistics from './Components/GeneralStatistics';
 import QuestionStatistics from './Components/QuestionStatistics';
 import Buttons from './Components/Buttons';
 import Configuration from './Components/Configuration';
+import NewQuestion from './Components/NewQuestion';
 
 const Controllcenter = () => {
   const surveys = useSurveys();
@@ -17,12 +18,15 @@ const Controllcenter = () => {
   const [showQuestionStatistics, setShowQuestionStatistics] = useState(false);
   const [showGeneral, setShowGeneral] = useState(false);
   const [showConfiguration, setShowConfiguration] = useState(false);
+  const [showAddNew, setShowAddNew] = useState(false);
 
   if (showQuestionStatistics) {
     return (
       <AuthCheck role="admin">
         <Wrapper>
           <Buttons
+            showAddNew={showAddNew}
+            setShowAddNew={setShowAddNew}
             showGeneral={showGeneral}
             setShowGeneral={setShowGeneral}
             showQuestionStatistics={showQuestionStatistics}
@@ -36,11 +40,13 @@ const Controllcenter = () => {
     );
   }
 
-  if (showConfiguration) {
+  if (showAddNew) {
     return (
       <AuthCheck role="admin">
         <Wrapper>
           <Buttons
+            showAddNew={showAddNew}
+            setShowAddNew={setShowAddNew}
             showGeneral={showGeneral}
             setShowGeneral={setShowGeneral}
             showQuestionStatistics={showQuestionStatistics}
@@ -48,7 +54,7 @@ const Controllcenter = () => {
             showConfiguration={showConfiguration}
             setShowConfiguration={setShowConfiguration}
           />
-          <Configuration
+          <NewQuestion
             focusArea={focusArea}
             setFocusArea={setFocusArea}
             digitalCapability={digitalCapability}
@@ -60,10 +66,36 @@ const Controllcenter = () => {
       </AuthCheck>
     );
   }
+
+  if (showConfiguration) {
+    return (
+      <AuthCheck role="admin">
+        <Wrapper>
+          <Buttons
+            showAddNew={showAddNew}
+            setShowAddNew={setShowAddNew}
+            showGeneral={showGeneral}
+            setShowGeneral={setShowGeneral}
+            showQuestionStatistics={showQuestionStatistics}
+            setShowQuestionStatistics={setShowQuestionStatistics}
+            showConfiguration={showConfiguration}
+            setShowConfiguration={setShowConfiguration}
+          />
+          <Configuration
+            focusArea={focusArea}
+            digitalCapability={digitalCapability}
+            practiceItem={practiceItem}
+          />
+        </Wrapper>
+      </AuthCheck>
+    );
+  }
   return (
     <AuthCheck role="admin">
       <Wrapper>
         <Buttons
+          showAddNew={showAddNew}
+          setShowAddNew={setShowAddNew}
           showGeneral={showGeneral}
           setShowGeneral={setShowGeneral}
           showQuestionStatistics={showQuestionStatistics}
@@ -81,8 +113,9 @@ export default Controllcenter;
 
 const Wrapper = styled.div`
   ${tw`
-    bg-white px-10 py-6 rounded-md shadow-2xl
+    bg-white px-4 md:px-10 py-6 rounded-md shadow-2xl my-10 h-5/6
     w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 2xl:w-4/12
+    overflow-y-scroll
   `}
 
   > h2 {

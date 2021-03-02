@@ -26,7 +26,7 @@ export default App;
 
 const Wrapper = styled.div(() => [
   tw`
-    min-h-screen justify-center items-center flex
+    h-screen justify-center items-center flex
     bg-gradient-to-t from-indigo-500 to-indigo-100
   `,
 ]);

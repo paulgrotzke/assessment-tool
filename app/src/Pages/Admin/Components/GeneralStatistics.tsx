@@ -108,6 +108,7 @@ const Wrapper = styled.div`
     ${tw`
       mb-2 mt-6
       font-extrabold text-2xl uppercase
+      overflow-y-scroll
     `}
   }
 `;

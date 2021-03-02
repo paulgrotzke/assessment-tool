@@ -7,32 +7,14 @@ import Edit from './Edit';
 
 type Props = {
   focusArea: string;
-  setFocusArea: (bostringol: string) => void;
   digitalCapability: string;
-  setDigitalCapability: (string: string) => void;
   practiceItem: string;
-  setPracticeItem: (string: string) => void;
 };
 
 const Configuration = (props: Props) => {
   const questions = useQuestions();
-  const [edit, setEdit] = useState(false);
 
-  const changeEditState = () => {
-    setEdit(!edit);
-  };
-
-  const postQuestion = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newQuestionRef = firestore.collection('questions').doc();
-
-    const data = {
-      focusArea: props.focusArea,
-      digitalCapability: props.digitalCapability,
-      practiceItem: props.practiceItem,
-    };
-    await newQuestionRef.set(data);
-  };
+  const [edit, setEdit] = useState(0);
 
   const deleteQuestion = async (questionId) => {
     const confirm = window.confirm(
@@ -43,36 +25,25 @@ const Configuration = (props: Props) => {
     }
   };
 
+  console.log(edit);
+
   return (
     <Wrapper>
-      <h2>Add new questions</h2>
-      <h3>Focus area</h3>
-      <Input
-        placeholder="Insert focus area"
-        value={props.focusArea}
-        onChange={(e) => props.setFocusArea(e.target.value)}></Input>
-      <h3>Digital Capability</h3>
-      <Input
-        placeholder="Insert digital capability"
-        value={props.digitalCapability}
-        onChange={(e) => props.setDigitalCapability(e.target.value)}></Input>
-      <h3>Practice Item</h3>
-      <Input
-        placeholder="Insert practice item"
-        value={props.practiceItem}
-        onChange={(e) => props.setPracticeItem(e.target.value)}></Input>
-      <Button onClick={() => postQuestion}>Create</Button>
-      <h2>Current Questions</h2>
+      <h2>Config current Questions</h2>
       {questions?.map((question, i) => (
         <FocusArea>
           <div className="header">
             <h3>{question.focusArea}</h3>
-            <BsPencil onClick={() => setEdit(!edit)} />
+            <BsPencil
+              onClick={() => {
+                setEdit(i + 1);
+              }}
+            />
             <BsTrash onClick={() => deleteQuestion(question.id)} />
           </div>
           <div>{question.digitalCapability}</div>
           <div>{question.practiceItem}</div>
-          {edit && <Edit question={question} changeEditState={changeEditState} />}
+          {edit === i + 1 && <Edit question={question} setEdit={setEdit} />}
         </FocusArea>
       ))}
     </Wrapper>
@@ -95,24 +66,6 @@ const Wrapper = styled.div`
       font-semibold text-lg
     `}
   }
-`;
-
-const Input = styled.input`
-  ${tw`
-    p-2 w-full m-0
-    rounded-md shadow-sm border border-gray-300
-    focus:outline-none focus:ring focus:ring-indigo-400
-    placeholder-black text-black
-  `}
-`;
-
-const Button = styled.button`
-  ${tw`
-    bg-indigo-600 rounded-md py-2 px-6 mt-4
-    text-white
-    focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
-    disabled:opacity-50 disabled:cursor-not-allowed
-  `}
 `;
 
 const FocusArea = styled.div`
