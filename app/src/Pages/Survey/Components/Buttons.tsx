@@ -96,7 +96,7 @@ export default Buttons;
 
 const Button = styled.button`
   ${tw`
-    bg-indigo-600 rounded-md py-2 px-6 mt-4
+    bg-indigo-600 rounded-md py-2 px-4 mt-4
     text-white border-2 border-indigo-600
     hover:bg-indigo-500 hover:border-indigo-500
     disabled:opacity-50 disabled:cursor-not-allowed
@@ -105,7 +105,7 @@ const Button = styled.button`
 
 const PrevButton = styled.button`
   ${tw`
-    rounded-md py-2 px-4 mt-4 mr-4
+    rounded-md py-2 px-2 mt-4 mr-4
     text-indigo-600 border-2 border-indigo-600
     hover:bg-gray-100
   `}

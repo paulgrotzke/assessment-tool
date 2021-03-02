@@ -12,9 +12,11 @@ const Raiting = (props: Props) => {
   return (
     <Wrapper>
       <h3>Rate your company</h3>
-      <p>To which level has your company implemented the practice item</p>
+      <p>
+        To which level has your company <b>implemented</b> the practice item
+      </p>
       <Checkboxes>
-        <p className="text-left">Not implemented</p>
+        <p className="text-left">Not</p>
         {bubbles.map((input, i) => {
           return (
             <Input
@@ -36,7 +38,7 @@ const Raiting = (props: Props) => {
               }}></Input>
           );
         })}
-        <p className="text-right">Fully implemented</p>
+        <p className="text-right">Fully</p>
       </Checkboxes>
     </Wrapper>
   );
@@ -64,8 +66,7 @@ const Wrapper = styled.div`
 
   > h3 {
     ${tw`
-      mt-2
-      mb-1
+      mt-2 mb-1
       font-semibold text-lg
     `}
   }
@@ -73,18 +74,18 @@ const Wrapper = styled.div`
 
 const Checkboxes = styled.div`
   ${tw`
-      flex mt-4 w-full 
+      flex mt-4
     `}
 
   > .text-left {
     ${tw`
-      flex-1 text-left font-semibold
+      flex-1 text-right font-semibold mr-3
     `}
   }
 
   > .text-right {
     ${tw`
-      flex-1 text-right font-semibold
+      flex-1 text-left font-semibold ml-3
     `}
   }
 `;
