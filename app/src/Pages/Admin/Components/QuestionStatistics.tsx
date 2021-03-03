@@ -61,6 +61,8 @@ const QuestionStatistics = (props: Props) => {
     );
   }, [docs]);
 
+  console.log(statistics)
+
   return (
     <Wrapper>
       <h2>Question Statistics</h2>

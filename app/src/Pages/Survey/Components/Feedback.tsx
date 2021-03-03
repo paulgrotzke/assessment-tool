@@ -142,7 +142,7 @@ const Wrapper = styled.div`
 
   > .area {
     ${tw`
-      my-6 py-3 text-center sm:w-4/6 xl:w-3/6 justify-center items-center
+      my-6 py-3 text-center
       rounded-md shadow-2xl bg-gray-100
     `}
 

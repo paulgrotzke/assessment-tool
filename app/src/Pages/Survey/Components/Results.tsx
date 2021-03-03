@@ -6,23 +6,49 @@ const Results = () => {
   const results = useResults();
 
   const areas = {};
+  let capabilityScoring = {};
+  let focusAreaScoring = {};
   for (const result of results) {
     const { answerValue, focusArea, digitalCapability, practiceItem } = result;
-    if (!areas[focusArea]) areas[focusArea] = {};
-    if (!areas[focusArea][digitalCapability]) areas[focusArea][digitalCapability] = {};
+    if (!areas[focusArea]) {
+      areas[focusArea] = {};
+      capabilityScoring[focusArea] = {};
+    }
+    if (!areas[focusArea][digitalCapability]) {
+      areas[focusArea][digitalCapability] = {};
+      capabilityScoring[focusArea][digitalCapability] = 0;
+      focusAreaScoring[focusArea] = 0;
+    }
     areas[focusArea][digitalCapability][practiceItem] = answerValue;
+    capabilityScoring[focusArea][digitalCapability] += answerValue;
+    focusAreaScoring[focusArea] +=
+      capabilityScoring[focusArea][digitalCapability];
   }
   const resultList = Object.keys(areas).map((key) => ({
     [key]: areas[key],
   }));
 
+  console.log(capabilityScoring)
+  // console.log(focusAreaScoring);
+  // for (let focusArea in capabilityScoring) {
+  //   console.log(capabilityScoring[focusArea])
+  //   if (!focusAreaScoring[focusArea]) {
+  //     focusAreaScoring[focusArea] = 0
+  //   }
+  //   // focusAreaScoring[focusArea] +=
+  //   // focusAreaScoring[focusArea] +
+  // }
+  // console.log(focusAreaScoring)
+
   return (
     <Wrapper>
       <div className="no-print">
         <h2>Great!</h2>
+        <p>You have successfully passed the assessment.</p>
         <p>
-          You have successfully passed the assessment. You can{' '}
-          <span onClick={() => window.print()}>save</span> your results if you want to.
+          You can
+          <span onClick={() => window.print()}> save</span> your results if you
+          want to.
         </p>
       </div>
       <div className="printable">
@@ -32,14 +58,14 @@ const Results = () => {
             {Object.keys(result[Object.keys(result)[0]]).map((capabilities) => (
               <div className="capa-wrapper">
                 <p className="capabilities">{capabilities}</p>
-                {Object.entries(result[Object.keys(result)[0]][capabilities]).map(
-                  (practiceItem) => (
-                    <div className="result">
-                      <div className="practiceItem">{practiceItem[0] + ' '}</div>
-                      <div className="points">{practiceItem[1] + ' P.'}</div>
-                    </div>
-                  ),
-                )}
+                {Object.entries(
+                  result[Object.keys(result)[0]][capabilities],
+                ).map((practiceItem) => (
+                  <div className="result">
+                    <div className="practiceItem">{practiceItem[0] + ' '}</div>
+                    <div className="points">{practiceItem[1] + ' P.'}</div>
+                  </div>
+                ))}
               </div>
             ))}
           </FocusArea>
