@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import tw, { styled } from 'twin.macro';
 import useResults from '../Hooks/useResults';
 
@@ -30,6 +30,8 @@ const Results = () => {
   console.log(capabilityScoring);
   console.log(focusAreaScoring);
 
+  let scoring = 0;
+
   return (
     <Wrapper>
       <div className="no-print">
@@ -42,33 +44,45 @@ const Results = () => {
         </p>
       </div>
       <div className="printable">
-        {resultList.map((result) => (
-          <FocusArea>
-            <div className="header">
-              <p>{Object.keys(result)}</p>
-              <h3>
-                {(
-                  focusAreaScoring[Object.keys(result)[0]] /
-                  Object.keys(result[Object.keys(result)[0]]).length
-                ).toFixed(2)}{' '}
-                Pt.
-              </h3>
-            </div>
-            {Object.keys(result[Object.keys(result)[0]]).map((capabilities) => (
-              <div className="capa-wrapper">
-                <p className="capabilities">{capabilities}</p>
-                {Object.entries(
-                  result[Object.keys(result)[0]][capabilities],
-                ).map((practiceItem) => (
-                  <div className="result">
-                    <div className="practiceItem">{practiceItem[0] + ' '}</div>
-                    <div className="points">{practiceItem[1] + ' P.'}</div>
-                  </div>
-                ))}
+        {resultList.map((result) => {
+          scoring +=
+            focusAreaScoring[Object.keys(result)[0]] /
+            Object.keys(result[Object.keys(result)[0]]).length;
+          return (
+            <FocusArea>
+              <div className="header">
+                <p>{Object.keys(result)}</p>
+                <h3>
+                  {(
+                    focusAreaScoring[Object.keys(result)[0]] /
+                    Object.keys(result[Object.keys(result)[0]]).length
+                  ).toFixed(2)}{' '}
+                  Pt.
+                </h3>
               </div>
-            ))}
-          </FocusArea>
-        ))}
+              {Object.keys(result[Object.keys(result)[0]]).map(
+                (capabilities) => (
+                  <div className="capa-wrapper">
+                    <p className="capabilities">{capabilities}</p>
+                    {Object.entries(
+                      result[Object.keys(result)[0]][capabilities],
+                    ).map((practiceItem) => (
+                      <div className="result">
+                        <div className="practiceItem">
+                          {practiceItem[0] + ' '}
+                        </div>
+                        <div className="points">{practiceItem[1] + ' P.'}</div>
+                      </div>
+                    ))}
+                  </div>
+                ),
+              )}
+            </FocusArea>
+          );
+        })}
+        <Result>
+          <p>{scoring/resultList.length}</p>
+        </Result>
       </div>
     </Wrapper>
   );
@@ -168,3 +182,5 @@ const FocusArea = styled.div`
     }
   }
 `;
+
+const Result = styled.div``
