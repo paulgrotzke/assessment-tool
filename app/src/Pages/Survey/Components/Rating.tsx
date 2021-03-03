@@ -93,5 +93,6 @@ const Checkboxes = styled.div`
 const Input = styled.input`
   ${tw`
       flex-none mt-1 mx-1 checked:bg-indigo-500
+      cursor-pointer
     `}
 `;

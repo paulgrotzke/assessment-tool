@@ -86,7 +86,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   ${tw`
-    bg-indigo-600 rounded-md py-1 px-6 mt-4
+    bg-indigo-600 rounded-md py-1 px-6 mt-4 mr-2
     text-white
     focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
     disabled:opacity-50 disabled:cursor-not-allowed

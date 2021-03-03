@@ -17,7 +17,10 @@ const QuestionStatistics = (props: Props) => {
   useMemo(async () => {
     const surveyList: t.SurveyList[] = [];
     for (let docId of docs) {
-      const resultsRef = firestore.collection('surveys').doc(docId).collection('answers');
+      const resultsRef = firestore
+        .collection('surveys')
+        .doc(docId)
+        .collection('answers');
       await resultsRef.get().then((result) => {
         result.docs.map((doc: any) =>
           surveyList.push({
@@ -54,6 +57,22 @@ const QuestionStatistics = (props: Props) => {
         areas[focusArea][digitalCapability][practiceItem] = answerValue;
       }
     }
+
+    // console.log(Object.keys(areas).length);
+
+    let test = {};
+    for (let key in areas) {
+      test = {
+        ...test,
+        [key]: (Object.keys(areas[key]).length)
+      }
+    }
+
+    console.log(areas)
+
+    // Focus3 > Capability1 = (21/ props.surveys.surveyData.length + 15 /  props.surveys.surveyData.length + 24 /  props.surveys.surveyData.length)
+
+
     setStatistics(
       Object.keys(areas).map((key) => ({
         [key]: areas[key],
@@ -61,29 +80,37 @@ const QuestionStatistics = (props: Props) => {
     );
   }, [docs]);
 
-  console.log(statistics)
-
   return (
     <Wrapper>
       <h2>Question Statistics</h2>
-      {statistics.map((question) => (
+      <div className="result">
+        <div className="criteria">Ø - digital Score</div>
+        <div className="points">todo</div>
+      </div>
+      {statistics.map((question, i) => (
         <FocusArea>
           <h3>{Object.keys(question)}</h3>
-          {Object.keys(question[Object.keys(question)[0]]).map((capabilities) => (
-            <div className="capa-wrapper">
-              <p className="capabilities">{capabilities}</p>
-              {Object.keys(question[Object.keys(question)[0]][capabilities]).map(
-                (practiceItem) => (
+          {Object.keys(question[Object.keys(question)[0]]).map(
+            (capabilities, i) => (
+              <div className="capa-wrapper">
+                <p className="capabilities">{capabilities}</p>
+                {Object.keys(
+                  question[Object.keys(question)[0]][capabilities],
+                ).map((practiceItem, i) => (
                   <div className="result">
                     <div className="practiceItem">{practiceItem} </div>
                     <div className="points">
-                      {question[Object.keys(question)[0]][capabilities][practiceItem]}
+                      {
+                        question[Object.keys(question)[0]][capabilities][
+                          practiceItem
+                        ] / props.surveys.surveyData.length
+                      }
                     </div>
                   </div>
-                ),
-              )}
-            </div>
-          ))}
+                ))}
+              </div>
+            ),
+          )}
         </FocusArea>
       ))}
     </Wrapper>

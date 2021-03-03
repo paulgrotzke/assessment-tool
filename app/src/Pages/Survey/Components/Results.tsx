@@ -8,6 +8,7 @@ const Results = () => {
   const areas = {};
   let capabilityScoring = {};
   let focusAreaScoring = {};
+
   for (const result of results) {
     const { answerValue, focusArea, digitalCapability, practiceItem } = result;
     if (!areas[focusArea]) {
@@ -26,11 +27,19 @@ const Results = () => {
   const resultList = Object.keys(areas).map((key) => ({
     [key]: areas[key],
   }));
-
   console.log(capabilityScoring);
-  console.log(focusAreaScoring);
+
+  // console.log(Object.keys(areas["Focus3"]));
+  // for (let key in capabilityScoring) {
+  //   for (let innerKey in capabilityScoring[key]) {
+  //     console.log(innerKey);
+  //   }
+  // }
+  // console.log(Object.keys(capabilityScoring["Focus1"]).length);
+  // console.log(focusAreaScoring);
 
   let scoring = 0;
+  let capascoring = 0
 
   return (
     <Wrapper>
@@ -52,36 +61,49 @@ const Results = () => {
             <FocusArea>
               <div className="header">
                 <p>{Object.keys(result)}</p>
-                <h3>
+                {/* <h3>
                   {(
                     focusAreaScoring[Object.keys(result)[0]] /
                     Object.keys(result[Object.keys(result)[0]]).length
                   ).toFixed(2)}{' '}
                   Pt.
-                </h3>
+                </h3> */}
               </div>
               {Object.keys(result[Object.keys(result)[0]]).map(
-                (capabilities) => (
-                  <div className="capa-wrapper">
-                    <p className="capabilities">{capabilities}</p>
-                    {Object.entries(
-                      result[Object.keys(result)[0]][capabilities],
-                    ).map((practiceItem) => (
-                      <div className="result">
-                        <div className="practiceItem">
-                          {practiceItem[0] + ' '}
+                (capabilities) => {
+
+                  return (
+                    <div className="capa-wrapper">
+                      <p className="capabilities">{capabilities}</p>
+                      <p className="points">
+                        {capabilityScoring[Object.keys(result)[0]][
+                          capabilities
+                        ] /
+                          Object.entries(
+                            result[Object.keys(result)[0]][capabilities],
+                          ).length}
+                      </p>
+                      {Object.entries(
+                        result[Object.keys(result)[0]][capabilities],
+                      ).map((practiceItem) => (
+                        <div className="result">
+                          <div className="practiceItem">
+                            {practiceItem[0] + ' '}
+                          </div>
+                          <div className="points">
+                            {practiceItem[1] + ' P.'}
+                          </div>
                         </div>
-                        <div className="points">{practiceItem[1] + ' P.'}</div>
-                      </div>
-                    ))}
-                  </div>
-                ),
+                      ))}
+                    </div>
+                  );
+                },
               )}
             </FocusArea>
           );
         })}
         <Result>
-          <p>{scoring/resultList.length}</p>
+          <p>{scoring / resultList.length}</p>
         </Result>
       </div>
     </Wrapper>
@@ -159,7 +181,6 @@ const FocusArea = styled.div`
     > .capabilities {
       ${tw`
       font-semibold text-lg
-      
     `}
     }
 
@@ -183,4 +204,4 @@ const FocusArea = styled.div`
   }
 `;
 
-const Result = styled.div``
+const Result = styled.div``;

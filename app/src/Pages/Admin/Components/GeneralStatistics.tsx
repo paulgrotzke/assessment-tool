@@ -44,17 +44,12 @@ const GeneralStatistics = (props: Props) => {
     <Wrapper>
       <h2> General Statistics</h2>
       <Area>
+        <h3>Participants by industry</h3>
         <div className="result">
-          <div className="criteria">Ø - digital Score</div>
-          <div className="points">todo</div>
-        </div>
-        <div className="result">
-          <div className="criteria"># Participants</div>
+          <div className="criteria">Number of Participants:</div>
+          {/* @ts-ignore */}
           <div className="points">{surveyList.length}</div>
         </div>
-      </Area>
-      <Area>
-        <h3>Participants by industry</h3>
         {Object.entries(industryBelongValues).map(([key, value]) => (
           <div className="result">
             <div className="criteria">{key}:</div>
