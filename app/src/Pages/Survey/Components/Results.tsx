@@ -13,32 +13,22 @@ const Results = () => {
     if (!areas[focusArea]) {
       areas[focusArea] = {};
       capabilityScoring[focusArea] = {};
+      focusAreaScoring[focusArea] = 0;
     }
     if (!areas[focusArea][digitalCapability]) {
       areas[focusArea][digitalCapability] = {};
       capabilityScoring[focusArea][digitalCapability] = 0;
-      focusAreaScoring[focusArea] = 0;
     }
     areas[focusArea][digitalCapability][practiceItem] = answerValue;
     capabilityScoring[focusArea][digitalCapability] += answerValue;
-    focusAreaScoring[focusArea] +=
-      capabilityScoring[focusArea][digitalCapability];
+    focusAreaScoring[focusArea] += answerValue;
   }
   const resultList = Object.keys(areas).map((key) => ({
     [key]: areas[key],
   }));
 
-  console.log(capabilityScoring)
-  // console.log(focusAreaScoring);
-  // for (let focusArea in capabilityScoring) {
-  //   console.log(capabilityScoring[focusArea])
-  //   if (!focusAreaScoring[focusArea]) {
-  //     focusAreaScoring[focusArea] = 0
-  //   }
-  //   // focusAreaScoring[focusArea] +=
-  //   // focusAreaScoring[focusArea] +
-  // }
-  // console.log(focusAreaScoring)
+  console.log(capabilityScoring);
+  console.log(focusAreaScoring);
 
   return (
     <Wrapper>
@@ -54,7 +44,16 @@ const Results = () => {
       <div className="printable">
         {resultList.map((result) => (
           <FocusArea>
-            <h3>{Object.keys(result)}</h3>
+            <div className="header">
+              <p>{Object.keys(result)}</p>
+              <h3>
+                {(
+                  focusAreaScoring[Object.keys(result)[0]] /
+                  Object.keys(result[Object.keys(result)[0]]).length
+                ).toFixed(2)}{' '}
+                Pt.
+              </h3>
+            </div>
             {Object.keys(result[Object.keys(result)[0]]).map((capabilities) => (
               <div className="capa-wrapper">
                 <p className="capabilities">{capabilities}</p>
@@ -114,6 +113,28 @@ const FocusArea = styled.div`
       font-semibold text-xl text-white
       bg-indigo-600 rounded-sm
     `}
+  }
+
+  > .header {
+    ${tw`
+      flex
+      bg-indigo-600 rounded-sm
+      px-4 py-2 mt-2 mb-1
+    `}
+
+    > p {
+      ${tw`
+      flex-1
+      font-semibold text-xl text-white 
+      `}
+    }
+
+    > h3 {
+      ${tw`
+      flex-1
+      font-semibold text-xl text-white text-right
+    `}
+    }
   }
 
   > .capa-wrapper {
