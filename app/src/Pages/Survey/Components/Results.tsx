@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import tw, { styled } from 'twin.macro';
 import useResults from '../Hooks/useResults';
 
@@ -8,8 +8,6 @@ const Results = () => {
   const areas = {};
   let capabilityScoring = {};
   let capabilityLength = {};
-  let focusAreaScoring = {};
-  let focusAreaLength = {};
 
   for (const result of results) {
     const { answerValue, focusArea, digitalCapability, practiceItem } = result;
@@ -17,8 +15,6 @@ const Results = () => {
       areas[focusArea] = {};
       capabilityScoring[focusArea] = {};
       capabilityLength[focusArea] = {};
-      focusAreaScoring[focusArea] = 0;
-      focusAreaLength[focusArea] = 0;
     }
     if (!areas[focusArea][digitalCapability]) {
       areas[focusArea][digitalCapability] = {};
@@ -28,56 +24,54 @@ const Results = () => {
     areas[focusArea][digitalCapability][practiceItem] = answerValue;
     capabilityScoring[focusArea][digitalCapability] += answerValue;
     capabilityLength[focusArea][digitalCapability] += 1;
-    focusAreaScoring[focusArea] += answerValue;
-    focusAreaScoring[focusArea] += 1;
   }
   const resultList = Object.keys(areas).map((key) => ({
     [key]: areas[key],
   }));
-  console.log(capabilityScoring);
-  console.log(capabilityLength);
 
-  let test = {};
-  let test2 = {};
+  let subScoring = {};
+  let scoring = {};
+  let finalScoring = 0;
   for (let focusArea in capabilityScoring) {
     for (let capability in capabilityScoring[focusArea]) {
-      test = {
-        ...test,
+      subScoring = {
+        ...subScoring,
         [focusArea]: {
-          ...test[focusArea],
+          ...subScoring[focusArea],
           [capability]:
             capabilityScoring[focusArea][capability] /
             capabilityLength[focusArea][capability],
         },
       };
     }
-    test2 = {
-      ...test2,
+    scoring = {
+      ...scoring,
       [focusArea]: 0,
     };
-    for (let key in test[focusArea]) {
-      test2 = {
-        ...test2,
-        [focusArea]: test2[focusArea] + test[focusArea][key],
+    for (let key in subScoring[focusArea]) {
+      scoring = {
+        ...scoring,
+        [focusArea]: scoring[focusArea] + subScoring[focusArea][key],
       };
     }
-    test2 = {
-      ...test2,
-      [focusArea]: test2[focusArea] / Object.keys(test[focusArea]).length,
+    scoring = {
+      ...scoring,
+      [focusArea]:
+        scoring[focusArea] / Object.keys(subScoring[focusArea]).length,
     };
-
-    // console.log(test[focusArea]);
+  }
+  for (let key in scoring) {
+    finalScoring = finalScoring + scoring[key];
   }
 
-  console.log(test2);
-
-  let scoring = 0;
+  finalScoring = finalScoring / Object.keys(scoring).length;
 
   return (
     <Wrapper>
       <div className="no-print">
         <h2>Great!</h2>
         <p>You have successfully passed the assessment.</p>
+        <Result>You have reached {finalScoring.toFixed(2)} Points</Result>
         <p>
           You can
           <span onClick={() => window.print()}> save</span> your results if you
@@ -86,34 +80,16 @@ const Results = () => {
       </div>
       <div className="printable">
         {resultList.map((result) => {
-          scoring +=
-            focusAreaScoring[Object.keys(result)[0]] /
-            Object.keys(result[Object.keys(result)[0]]).length;
           return (
             <FocusArea>
               <div className="header">
                 <p>{Object.keys(result)}</p>
-                {/* <h3>
-                  {(
-                    focusAreaScoring[Object.keys(result)[0]] /
-                    Object.keys(result[Object.keys(result)[0]]).length
-                  ).toFixed(2)}{' '}
-                  Pt.
-                </h3> */}
               </div>
               {Object.keys(result[Object.keys(result)[0]]).map(
                 (capabilities) => {
                   return (
                     <div className="capa-wrapper">
                       <p className="capabilities">{capabilities}</p>
-                      <p className="points">
-                        {capabilityScoring[Object.keys(result)[0]][
-                          capabilities
-                        ] /
-                          Object.entries(
-                            result[Object.keys(result)[0]][capabilities],
-                          ).length}
-                      </p>
                       {Object.entries(
                         result[Object.keys(result)[0]][capabilities],
                       ).map((practiceItem) => (
@@ -133,9 +109,6 @@ const Results = () => {
             </FocusArea>
           );
         })}
-        <Result>
-          <p>{scoring / resultList.length}</p>
-        </Result>
       </div>
     </Wrapper>
   );
