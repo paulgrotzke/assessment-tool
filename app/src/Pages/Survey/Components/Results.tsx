@@ -38,6 +38,7 @@ const Results = () => {
   console.log(capabilityLength);
 
   let test = {};
+  let test2 = {};
   for (let focusArea in capabilityScoring) {
     for (let capability in capabilityScoring[focusArea]) {
       test = {
@@ -50,9 +51,25 @@ const Results = () => {
         },
       };
     }
+    test2 = {
+      ...test2,
+      [focusArea]: 0,
+    };
+    for (let key in test[focusArea]) {
+      test2 = {
+        ...test2,
+        [focusArea]: test2[focusArea] + test[focusArea][key],
+      };
+    }
+    test2 = {
+      ...test2,
+      [focusArea]: test2[focusArea] / Object.keys(test[focusArea]).length,
+    };
+
+    // console.log(test[focusArea]);
   }
 
-  console.log(test);
+  console.log(test2);
 
   let scoring = 0;
 
