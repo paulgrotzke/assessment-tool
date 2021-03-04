@@ -7,39 +7,54 @@ const Results = () => {
 
   const areas = {};
   let capabilityScoring = {};
+  let capabilityLength = {};
   let focusAreaScoring = {};
+  let focusAreaLength = {};
 
   for (const result of results) {
     const { answerValue, focusArea, digitalCapability, practiceItem } = result;
     if (!areas[focusArea]) {
       areas[focusArea] = {};
       capabilityScoring[focusArea] = {};
+      capabilityLength[focusArea] = {};
       focusAreaScoring[focusArea] = 0;
+      focusAreaLength[focusArea] = 0;
     }
     if (!areas[focusArea][digitalCapability]) {
       areas[focusArea][digitalCapability] = {};
       capabilityScoring[focusArea][digitalCapability] = 0;
+      capabilityLength[focusArea][digitalCapability] = 0;
     }
     areas[focusArea][digitalCapability][practiceItem] = answerValue;
     capabilityScoring[focusArea][digitalCapability] += answerValue;
+    capabilityLength[focusArea][digitalCapability] += 1;
     focusAreaScoring[focusArea] += answerValue;
+    focusAreaScoring[focusArea] += 1;
   }
   const resultList = Object.keys(areas).map((key) => ({
     [key]: areas[key],
   }));
   console.log(capabilityScoring);
+  console.log(capabilityLength);
 
-  // console.log(Object.keys(areas["Focus3"]));
-  // for (let key in capabilityScoring) {
-  //   for (let innerKey in capabilityScoring[key]) {
-  //     console.log(innerKey);
-  //   }
-  // }
-  // console.log(Object.keys(capabilityScoring["Focus1"]).length);
-  // console.log(focusAreaScoring);
+  let test = {};
+  for (let focusArea in capabilityScoring) {
+    for (let capability in capabilityScoring[focusArea]) {
+      test = {
+        ...test,
+        [focusArea]: {
+          ...test[focusArea],
+          [capability]:
+            capabilityScoring[focusArea][capability] /
+            capabilityLength[focusArea][capability],
+        },
+      };
+    }
+  }
+
+  console.log(test);
 
   let scoring = 0;
-  let capascoring = 0
 
   return (
     <Wrapper>
@@ -71,7 +86,6 @@ const Results = () => {
               </div>
               {Object.keys(result[Object.keys(result)[0]]).map(
                 (capabilities) => {
-
                   return (
                     <div className="capa-wrapper">
                       <p className="capabilities">{capabilities}</p>
