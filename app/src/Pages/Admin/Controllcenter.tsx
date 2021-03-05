@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import tw, { styled, css } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import AuthCheck from '../../Components/AuthCheck';
 import useSurveys from './Hooks/useSurveys';
 import GeneralStatistics from './Components/GeneralStatistics';
 import QuestionStatistics from './Components/QuestionStatistics';
 import Buttons from './Components/Buttons';
-import Configuration from './Components/Configuration';
 import NewQuestion from './Components/NewQuestion';
 
 const Controllcenter = () => {
@@ -17,7 +16,6 @@ const Controllcenter = () => {
 
   const [showQuestionStatistics, setShowQuestionStatistics] = useState(false);
   const [showGeneral, setShowGeneral] = useState(false);
-  const [showConfiguration, setShowConfiguration] = useState(false);
   const [showAddNew, setShowAddNew] = useState(false);
 
   if (showQuestionStatistics) {
@@ -31,8 +29,6 @@ const Controllcenter = () => {
             setShowGeneral={setShowGeneral}
             showQuestionStatistics={showQuestionStatistics}
             setShowQuestionStatistics={setShowQuestionStatistics}
-            showConfiguration={showConfiguration}
-            setShowConfiguration={setShowConfiguration}
           />
           <QuestionStatistics surveys={surveys} />
         </Wrapper>
@@ -51,8 +47,6 @@ const Controllcenter = () => {
             setShowGeneral={setShowGeneral}
             showQuestionStatistics={showQuestionStatistics}
             setShowQuestionStatistics={setShowQuestionStatistics}
-            showConfiguration={showConfiguration}
-            setShowConfiguration={setShowConfiguration}
           />
           <NewQuestion
             focusArea={focusArea}
@@ -67,29 +61,6 @@ const Controllcenter = () => {
     );
   }
 
-  if (showConfiguration) {
-    return (
-      <AuthCheck role="admin">
-        <Wrapper>
-          <Buttons
-            showAddNew={showAddNew}
-            setShowAddNew={setShowAddNew}
-            showGeneral={showGeneral}
-            setShowGeneral={setShowGeneral}
-            showQuestionStatistics={showQuestionStatistics}
-            setShowQuestionStatistics={setShowQuestionStatistics}
-            showConfiguration={showConfiguration}
-            setShowConfiguration={setShowConfiguration}
-          />
-          <Configuration
-            focusArea={focusArea}
-            digitalCapability={digitalCapability}
-            practiceItem={practiceItem}
-          />
-        </Wrapper>
-      </AuthCheck>
-    );
-  }
   return (
     <AuthCheck role="admin">
       <Wrapper>
@@ -100,8 +71,6 @@ const Controllcenter = () => {
           setShowGeneral={setShowGeneral}
           showQuestionStatistics={showQuestionStatistics}
           setShowQuestionStatistics={setShowQuestionStatistics}
-          showConfiguration={showConfiguration}
-          setShowConfiguration={setShowConfiguration}
         />
         <GeneralStatistics surveys={surveys} />
       </Wrapper>

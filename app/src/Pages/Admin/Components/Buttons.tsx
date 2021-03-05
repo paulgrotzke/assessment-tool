@@ -7,8 +7,6 @@ type Props = {
   setShowGeneral: (bool: boolean) => void;
   showQuestionStatistics: boolean;
   setShowQuestionStatistics: (bool: boolean) => void;
-  showConfiguration: boolean;
-  setShowConfiguration: (bool: boolean) => void;
 };
 
 const Buttons = (props: Props) => {
@@ -17,7 +15,6 @@ const Buttons = (props: Props) => {
       <Button
         onClick={() => {
           props.setShowQuestionStatistics(false);
-          props.setShowConfiguration(false);
           props.setShowAddNew(false);
           props.setShowGeneral(true);
         }}>
@@ -25,7 +22,6 @@ const Buttons = (props: Props) => {
       </Button>
       <Button
         onClick={() => {
-          props.setShowConfiguration(false);
           props.setShowGeneral(false);
           props.setShowAddNew(false);
           props.setShowQuestionStatistics(true);
@@ -36,16 +32,6 @@ const Buttons = (props: Props) => {
         onClick={() => {
           props.setShowGeneral(false);
           props.setShowQuestionStatistics(false);
-          props.setShowAddNew(false);
-          props.setShowConfiguration(true);
-        }}>
-        Config
-      </Button>
-      <Button
-        onClick={() => {
-          props.setShowGeneral(false);
-          props.setShowQuestionStatistics(false);
-          props.setShowConfiguration(false);
           props.setShowAddNew(true);
         }}>
         Add

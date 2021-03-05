@@ -71,11 +71,15 @@ const Results = () => {
       <div className="no-print">
         <h2>Great!</h2>
         <p>You have successfully passed the assessment.</p>
-        <Result>You have reached {finalScoring.toFixed(2)} Points</Result>
+        <p>Congratulations you have reached a total digital score of</p>
+        <p className="result">{finalScoring.toFixed(2)} Points</p>
+        <p>In general results can range from:</p>
         <p>
-          You can
-          <span onClick={() => window.print()}> save</span> your results if you
-          want to.
+          <b>0.00</b> - traditional non-digital incumbent
+        </p>
+        <p>to</p>
+        <p>
+          <b>4.00</b> - digital enterprise
         </p>
       </div>
       <div className="printable">
@@ -110,6 +114,13 @@ const Results = () => {
           );
         })}
       </div>
+      <div className="no-print">
+        <p>
+          You can
+          <span onClick={() => window.print()}> save</span> your results if you
+          want to.
+        </p>
+      </div>
     </Wrapper>
   );
 };
@@ -131,6 +142,12 @@ const Wrapper = styled.div`
       text-indigo-600 hover:text-indigo-500
     `}
       }
+    }
+    > .result {
+      ${tw`
+        my-2
+        font-extrabold text-indigo-600 text-xl
+      `}
     }
   }
 
@@ -207,5 +224,3 @@ const FocusArea = styled.div`
     }
   }
 `;
-
-const Result = styled.div``;

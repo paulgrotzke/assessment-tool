@@ -14,6 +14,8 @@ const QuestionStatistics = (props: Props) => {
   const docs = props.surveys.docs;
   const [statistics, setStatistics]: any = useState([]);
   const [scoring, setScoring] = useState(0);
+  const [capaScoring, setCapaScoring] = useState({});
+  const [focusScoring, setFocusScoring] = useState({});
 
   useMemo(async () => {
     const surveyList: t.SurveyList[] = [];
@@ -126,48 +128,67 @@ const QuestionStatistics = (props: Props) => {
       finalScoring = finalScoring + scoring[key];
     }
 
+    setCapaScoring(subScoring);
+    setFocusScoring(scoring);
+
     finalScoring = finalScoring / Object.keys(scoring).length;
     setScoring(finalScoring);
   }, [docs]);
 
-  return (
-    <Wrapper>
-      <h2>Question Statistics</h2>
-      <div className="result">
-        <div className="criteria">Ø - digital Score</div>
-        <div className="points">{scoring}</div>
-      </div>
-      {statistics.map((result) => {
-        return (
-          <FocusArea>
-            <div className="header">
-              <p>{Object.keys(result)}</p>
-            </div>
-            {Object.keys(result[Object.keys(result)[0]]).map((capabilities) => {
-              return (
-                <div className="capa-wrapper">
-                  <p className="capabilities">{capabilities}</p>
-                  {Object.entries(
-                    result[Object.keys(result)[0]][capabilities],
-                  ).map((practiceItem) => (
-                    <div className="result">
-                      <div className="practiceItem">
-                        {practiceItem[0] + ' '}
+  if (scoring !== 0) {
+    return (
+      <Wrapper>
+        <h2>Question Statistics</h2>
+        <div className="result">
+          <div className="criteria">Ø - digital Score</div>
+          <div className="points">{scoring}</div>
+        </div>
+        {statistics.map((result) => {
+          return (
+            <FocusArea>
+              <div className="header">
+                <p className="focusArea">{Object.keys(result)}</p>
+                <p className="scoring">
+                  {(focusScoring[Object.keys(result)[0]]).toFixed(2)}
+                </p>
+              </div>
+              {Object.keys(result[Object.keys(result)[0]]).map(
+                (capabilities) => {
+                  return (
+                    <div className="capa-wrapper">
+                      <div className="capa-scoring">
+                        <p className="capabilities">{capabilities}</p>
+                        <p className="scoring">
+                          {capaScoring[Object.keys(result)[0]][
+                            capabilities
+                          ].toFixed(2)}
+                        </p>
                       </div>
-                      <div className="points">
-                        {/* @ts-ignore */}
-                        {(practiceItem[1] / docs.length).toFixed(2) + ' P.'}
-                      </div>
+                      {Object.entries(
+                        result[Object.keys(result)[0]][capabilities],
+                      ).map((practiceItem) => (
+                        <div className="result">
+                          <div className="practiceItem">
+                            {practiceItem[0] + ' '}
+                          </div>
+                          <div className="points">
+                            {/* @ts-ignore */}
+                            {(practiceItem[1] / docs.length).toFixed(2) + ' P.'}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              );
-            })}
-          </FocusArea>
-        );
-      })}
-    </Wrapper>
-  );
+                  );
+                },
+              )}
+            </FocusArea>
+          );
+        })}
+      </Wrapper>
+    );
+  }
+
+  return <></>;
 };
 
 export default QuestionStatistics;
@@ -202,18 +223,18 @@ const FocusArea = styled.div`
       px-4 py-2 mt-2 mb-1
     `}
 
-    > p {
+    > .focusArea {
       ${tw`
       flex-1
       font-semibold text-xl text-white 
       `}
     }
 
-    > h3 {
+    > .scoring {
       ${tw`
       flex-1
       font-semibold text-xl text-white text-right
-    `}
+      `}
     }
   }
 
@@ -222,10 +243,23 @@ const FocusArea = styled.div`
      px-4 py-2
     `}
 
-    > .capabilities {
+    > .capa-scoring {
       ${tw`
-      font-semibold text-lg
-    `}
+          flex
+        `}
+      > .capabilities {
+        ${tw`
+          flex-1
+          font-semibold text-lg
+        `}
+      }
+
+      > .scoring {
+        ${tw`
+          flex-1
+          font-semibold text-lg text-right
+        `}
+      }
     }
 
     > .result {
@@ -241,7 +275,7 @@ const FocusArea = styled.div`
 
       > .points {
         ${tw`
-        text-right font-semibold
+        text-right
         `}
       }
     }

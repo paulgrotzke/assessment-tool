@@ -1,5 +1,9 @@
+import { useState } from 'react';
+import { BsTrash, BsPencil } from 'react-icons/bs';
 import tw, { styled } from 'twin.macro';
 import { firestore } from '../../../lib/firebase';
+import useQuestions from '../../Hooks/useQuestions';
+import Edit from './Edit';
 
 type Props = {
   focusArea: string;
@@ -11,6 +15,9 @@ type Props = {
 };
 
 const NewQuestion = (props: Props) => {
+  const questions = useQuestions();
+  const [edit, setEdit] = useState(0);
+
   const postQuestion = async () => {
     const newQuestionRef = firestore.collection('questions').doc();
 
@@ -20,6 +27,15 @@ const NewQuestion = (props: Props) => {
       practiceItem: props.practiceItem,
     };
     await newQuestionRef.set(data);
+  };
+
+  const deleteQuestion = async (questionId) => {
+    const confirm = window.confirm(
+      'Are you sure to delete? All answers for this questions will be deleted too.',
+    );
+    if (confirm) {
+      await firestore.collection('questions').doc(questionId).delete();
+    }
   };
 
   return (
@@ -41,6 +57,23 @@ const NewQuestion = (props: Props) => {
         value={props.practiceItem}
         onChange={(e) => props.setPracticeItem(e.target.value)}></Input>
       <Button onClick={() => postQuestion()}>Create</Button>
+      <h2>Config current Questions</h2>
+      {questions?.map((question, i) => (
+        <FocusArea>
+          <div className="header">
+            <h3>{question.focusArea}</h3>
+            <BsPencil
+              onClick={() => {
+                setEdit(i + 1);
+              }}
+            />
+            <BsTrash onClick={() => deleteQuestion(question.id)} />
+          </div>
+          <div>{question.digitalCapability}</div>
+          <div>{question.practiceItem}</div>
+          {edit === i + 1 && <Edit question={question} setEdit={setEdit} />}
+        </FocusArea>
+      ))}
     </Wrapper>
   );
 };
@@ -79,4 +112,21 @@ const Button = styled.button`
     focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
     disabled:opacity-50 disabled:cursor-not-allowed
   `}
+`;
+
+const FocusArea = styled.div`
+  ${tw`
+     rounded-md shadow-xl p-4 mt-6 bg-gray-100 mb-6
+    `}
+
+  > .header {
+    ${tw`grid grid-cols-12`}
+
+    > h3 {
+      ${tw`
+      mb-1 col-span-10
+      font-semibold text-xl
+    `}
+    }
+  }
 `;
