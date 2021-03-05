@@ -1,40 +1,45 @@
-import React, { useState } from 'react';
-import { firestore } from '../../lib/firebase';
-import * as t from './types';
-import useLocalDocRef from './Hooks/useLocalDocRef';
-import useQuestions from '../Hooks/useQuestions';
-import AuthCheck from '../../Components/AuthCheck';
-import Buttons from './Components/Buttons';
-import Feedback from './Components/Feedback';
-import GeneralQuestions from './Components/GeneralQuestions';
-import Raiting from './Components/Rating';
-import Results from './Components/Results';
-import Question from './Components/Question';
-import tw, { styled } from 'twin.macro';
-import Disclaimer from './Disclaimer';
+import { useState } from 'react'
+import { firestore } from '../../lib/firebase'
+import * as t from './types'
+import useLocalDocRef from './Hooks/useLocalDocRef'
+import useQuestions from '../Hooks/useQuestions'
+import AuthCheck from '../../Components/AuthCheck'
+import Buttons from './Components/Buttons'
+import Feedback from './Components/Feedback'
+import GeneralQuestions from './Components/GeneralQuestions'
+import Raiting from './Components/Rating'
+import Results from './Components/Results'
+import Question from './Components/Question'
+import tw, { styled } from 'twin.macro'
+import Disclaimer from './Disclaimer'
 
 const Survey = () => {
-  const localDocRef = useLocalDocRef();
-  const questions = useQuestions();
+  const localDocRef = useLocalDocRef()
+  const questions = useQuestions()
+  console.log(questions)
 
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  const [showResults, setShowResults] = useState<boolean>(false);
-  const [showSurvey, setShowSurvey] = useState<boolean>(false);
-  const [showGeneralQuestions, setShowGeneralQuestions] = useState<boolean>(false);
-  const [generalQuestions, setGeneralQuestions] = useState<t.GeneralQuestionsAnswer>({
+  const [showFeedback, setShowFeedback] = useState<boolean>(false)
+  const [showResults, setShowResults] = useState<boolean>(false)
+  const [showSurvey, setShowSurvey] = useState<boolean>(false)
+  const [showGeneralQuestions, setShowGeneralQuestions] = useState<boolean>(
+    false
+  )
+  const [
+    generalQuestions,
+    setGeneralQuestions,
+  ] = useState<t.GeneralQuestionsAnswer>({
     industryBelong: '',
     amountEmployees: '',
     companyPosition: '',
-  });
-  const [counter, setCounter] = useState<t.Counter>({ value: 0 });
+  })
+  const [counter, setCounter] = useState<t.Counter>({ value: 0 })
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
     value: 0,
     digitalCapability: '',
     focusArea: '',
     practiceItem: '',
-  });
-
+  })
 
   if (showResults)
     return (
@@ -43,7 +48,7 @@ const Survey = () => {
           <Results />
         </Wrapper>
       </AuthCheck>
-    );
+    )
 
   if (showGeneralQuestions)
     return (
@@ -59,7 +64,7 @@ const Survey = () => {
           />
         </Wrapper>
       </AuthCheck>
-    );
+    )
 
   if (showFeedback)
     return (
@@ -73,7 +78,7 @@ const Survey = () => {
           />
         </Wrapper>
       </AuthCheck>
-    );
+    )
 
   if (showSurvey)
     return (
@@ -100,28 +105,31 @@ const Survey = () => {
                     firestore={firestore}
                   />
                 </div>
-              );
+              )
             }
-            return <div key={i}></div>;
+            return <div key={i}></div>
           })}
         </Wrapper>
       </AuthCheck>
-    );
+    )
 
   return (
     <AuthCheck role="user">
       <Wrapper>
-        <Disclaimer setShowGeneralQuestions={setShowGeneralQuestions}></Disclaimer>
+        <Disclaimer
+          setShowGeneralQuestions={setShowGeneralQuestions}
+        ></Disclaimer>
       </Wrapper>
     </AuthCheck>
-  );
-};
+  )
+}
 
-export default Survey;
+export default Survey
 
 const Wrapper = styled.div`
   ${tw`
-    bg-white px-4 py-6 rounded-md shadow-2xl
     w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-6/12 2xl:w-6/12
+    px-4 py-6
+    bg-white rounded-md shadow-2xl
   `}
-`;
+`

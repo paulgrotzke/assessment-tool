@@ -1,38 +1,41 @@
-import { useState } from 'react';
-import tw, { styled } from 'twin.macro';
-import * as t from '../types';
+import { useState } from 'react'
+import tw, { styled } from 'twin.macro'
+import * as t from '../types'
 
 type Props = {
-  setShowResults: (bool: boolean) => void;
-  setShowFeedback: (bool: boolean) => void;
-  localDocRef: string;
-  firestore: any;
-};
+  setShowResults: (bool: boolean) => void
+  setShowFeedback: (bool: boolean) => void
+  localDocRef: string
+  firestore: any
+}
 
 const Feedback = (props: Props) => {
-  let comprehensivenessInput = new Array(5).fill(false);
-  let consistencyInput = new Array(5).fill(false);
-  let problemAdequacyInput = new Array(5).fill(false);
+  let comprehensivenessInput = new Array(5).fill(false)
+  let consistencyInput = new Array(5).fill(false)
+  let problemAdequacyInput = new Array(5).fill(false)
 
   const [feedback, setFeedback] = useState<t.FeedbackAnswer>({
     comprehensiveness: 0,
     consistency: 0,
     problemAdequacy: 0,
-  });
+  })
 
   const postFeedback = async () => {
-    const newAnswerRef = props.firestore.collection('surveys').doc(props.localDocRef);
-    await newAnswerRef.set(feedback, { merge: true });
-  };
+    const newAnswerRef = props.firestore
+      .collection('surveys')
+      .doc(props.localDocRef)
+    await newAnswerRef.set(feedback, { merge: true })
+  }
 
   return (
     <Wrapper>
       <h2>Great!</h2>
       <h4>You have successfully passed all assessment questions!</h4>
       <p>
-        In order to improve our tool continously, I would like to ask you for some
-        feedback. Please rate the assessment tool including all dimensions, digital
-        capabilities and practice items with regard to the three criteria:
+        In order to improve our tool continously, I would like to ask you for
+        some feedback. Please rate the assessment tool including all dimensions,
+        digital capabilities and practice items with regard to the three
+        criteria:
       </p>
       <div className="area">
         <h4>Comprehensiveness</h4>
@@ -49,11 +52,12 @@ const Feedback = (props: Props) => {
                   setFeedback({
                     ...feedback,
                     comprehensiveness: i + 1,
-                  });
-                  comprehensivenessInput.fill(false);
-                  comprehensivenessInput[i] = true;
-                }}></Input>
-            );
+                  })
+                  comprehensivenessInput.fill(false)
+                  comprehensivenessInput[i] = true
+                }}
+              ></Input>
+            )
           })}
           <p className="text-right">Full</p>
         </Checkboxes>
@@ -73,11 +77,12 @@ const Feedback = (props: Props) => {
                   setFeedback({
                     ...feedback,
                     consistency: i + 1,
-                  });
-                  consistencyInput.fill(false);
-                  consistencyInput[i] = true;
-                }}></Input>
-            );
+                  })
+                  consistencyInput.fill(false)
+                  consistencyInput[i] = true
+                }}
+              ></Input>
+            )
           })}
           <p className="text-right">Full</p>
         </Checkboxes>
@@ -97,11 +102,12 @@ const Feedback = (props: Props) => {
                   setFeedback({
                     ...feedback,
                     problemAdequacy: i + 1,
-                  });
-                  problemAdequacyInput.fill(false);
-                  problemAdequacyInput[i] = true;
-                }}></Input>
-            );
+                  })
+                  problemAdequacyInput.fill(false)
+                  problemAdequacyInput[i] = true
+                }}
+              ></Input>
+            )
           })}
           <p className="text-right">Full</p>
         </Checkboxes>
@@ -113,17 +119,18 @@ const Feedback = (props: Props) => {
           feedback.problemAdequacy === 0
         }
         onClick={() => {
-          props.setShowResults(true);
-          props.setShowFeedback(false);
-          postFeedback();
-        }}>
+          props.setShowResults(true)
+          props.setShowFeedback(false)
+          postFeedback()
+        }}
+      >
         Finish Survey
       </Button>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Feedback;
+export default Feedback
 
 const Wrapper = styled.div`
   > h2 {
@@ -142,8 +149,8 @@ const Wrapper = styled.div`
 
   > .area {
     ${tw`
-      my-6 py-3 text-center
-      rounded-md shadow-2xl bg-gray-100
+      my-6 py-3
+      rounded-md shadow-2xl bg-gray-100 text-center
     `}
 
     ${tw`
@@ -151,32 +158,38 @@ const Wrapper = styled.div`
       font-semibold text-lg
     `}
   }
-`;
+`
 
 const Checkboxes = styled.div`
   ${tw`
-      flex font-semibold
+      flex 
+      font-semibold
     `}
 
   > .text-left {
     ${tw`
-      flex-1 text-right mr-3
+      flex-1 
+      mr-3
+      text-right 
     `}
   }
 
   > .text-right {
     ${tw`
-      flex-1 text-left ml-3
+      flex-1
+      ml-3
+      text-left
     `}
   }
-`;
+`
 
 const Input = styled.input`
   ${tw`
-      flex-none my-1 mx-1
+      flex-none 
+      my-1 mx-1
       checked:bg-indigo-500
     `}
-`;
+`
 
 const Button = styled.button`
   ${tw`
@@ -185,4 +198,4 @@ const Button = styled.button`
     focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
     disabled:opacity-50 disabled:cursor-not-allowed
   `}
-`;
+`

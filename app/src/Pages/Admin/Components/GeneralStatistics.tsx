@@ -1,43 +1,43 @@
-import * as t from '../types';
-import tw, { styled } from 'twin.macro';
+import * as t from '../types'
+import tw, { styled } from 'twin.macro'
 
 type Props = {
   surveys: {
-    surveyData: t.GeneralQuestions[];
-    docs: string[];
-  };
-};
+    surveyData: t.GeneralQuestions[]
+    docs: string[]
+  }
+}
 
 const GeneralStatistics = (props: Props) => {
-  const surveyList = props.surveys.surveyData;
+  const surveyList = props.surveys.surveyData
 
-  let amountEmployees: string[] = [];
-  let companyPosition: string[] = [];
-  let industryBelong: string[] = [];
-  let comprehensiveness: number = 0;
-  let consistency: number = 0;
-  let problemAdequacy: number = 0;
-  const companyPositionValues = {};
-  const industryBelongValues = {};
-  const amountEmployeesValues = {};
+  let amountEmployees: string[] = []
+  let companyPosition: string[] = []
+  let industryBelong: string[] = []
+  let comprehensiveness: number = 0
+  let consistency: number = 0
+  let problemAdequacy: number = 0
+  const companyPositionValues = {}
+  const industryBelongValues = {}
+  const amountEmployeesValues = {}
 
   for (let i in surveyList) {
-    amountEmployees.push(surveyList[i].amountEmployees);
-    companyPosition.push(surveyList[i].companyPosition);
-    industryBelong.push(surveyList[i].industryBelong);
-    comprehensiveness = comprehensiveness + surveyList[i].comprehensiveness;
-    consistency = consistency + surveyList[i].consistency;
-    problemAdequacy = problemAdequacy + surveyList[i].problemAdequacy;
+    amountEmployees.push(surveyList[i].amountEmployees)
+    companyPosition.push(surveyList[i].companyPosition)
+    industryBelong.push(surveyList[i].industryBelong)
+    comprehensiveness = comprehensiveness + surveyList[i].comprehensiveness
+    consistency = consistency + surveyList[i].consistency
+    problemAdequacy = problemAdequacy + surveyList[i].problemAdequacy
 
     if (!companyPositionValues[companyPosition[i]])
-      companyPositionValues[companyPosition[i]] = 0;
-    ++companyPositionValues[companyPosition[i]];
+      companyPositionValues[companyPosition[i]] = 0
+    ++companyPositionValues[companyPosition[i]]
     if (!industryBelongValues[industryBelong[i]])
-      industryBelongValues[industryBelong[i]] = 0;
-    ++industryBelongValues[industryBelong[i]];
+      industryBelongValues[industryBelong[i]] = 0
+    ++industryBelongValues[industryBelong[i]]
     if (!amountEmployeesValues[amountEmployees[i]])
-      amountEmployeesValues[amountEmployees[i]] = 0;
-    ++amountEmployeesValues[amountEmployees[i]];
+      amountEmployeesValues[amountEmployees[i]] = 0
+    ++amountEmployeesValues[amountEmployees[i]]
   }
 
   return (
@@ -93,10 +93,10 @@ const GeneralStatistics = (props: Props) => {
         </div>
       </Area>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default GeneralStatistics;
+export default GeneralStatistics
 
 const Wrapper = styled.div`
   > h2 {
@@ -105,7 +105,7 @@ const Wrapper = styled.div`
       font-extrabold text-2xl uppercase
     `}
   }
-`;
+`
 
 const Area = styled.div`
   ${tw`
@@ -118,19 +118,20 @@ const Area = styled.div`
   }
   > .result {
     ${tw`
-        grid grid-cols-5 py-1
-      `}
+        grid grid-cols-5 
+        py-1
+    `}
 
     > .criteria {
       ${tw`
         col-span-4
-        `}
+      `}
     }
 
     > .points {
       ${tw`
         text-right font-semibold
-        `}
+      `}
     }
   }
-`;
+`

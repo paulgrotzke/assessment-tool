@@ -1,10 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import tw, { styled } from 'twin.macro';
-import Survey from './Pages/Survey/Survey';
-import Controllcenter from './Pages/Admin/Controllcenter';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import tw, { styled } from 'twin.macro'
+import Survey from './Pages/Survey/Survey'
+import Controllcenter from './Pages/Admin/Controllcenter'
 
-function App() {
+const App = () => {
   return (
     <Wrapper>
       <BrowserRouter>
@@ -19,14 +18,14 @@ function App() {
         </Switch>
       </BrowserRouter>
     </Wrapper>
-  );
+  )
 }
 
-export default App;
+export default App
 
 const Wrapper = styled.div(() => [
   tw`
-    h-screen justify-center items-center flex
+    h-screen flex justify-center items-center
     bg-gradient-to-t from-indigo-500 to-indigo-100
   `,
-]);
+])

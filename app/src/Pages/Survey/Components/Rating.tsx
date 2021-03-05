@@ -1,13 +1,13 @@
-import * as t from '../types';
-import tw, { styled } from 'twin.macro';
+import * as t from '../types'
+import tw, { styled } from 'twin.macro'
 
 type Props = {
-  setRaiting: (raiting: t.Raiting) => void;
-  question: t.Question;
-};
+  setRaiting: (raiting: t.Raiting) => void
+  question: t.Question
+}
 
 const Raiting = (props: Props) => {
-  let bubbles = new Array(5).fill(false);
+  let bubbles = new Array(5).fill(false)
 
   return (
     <Wrapper>
@@ -32,23 +32,25 @@ const Raiting = (props: Props) => {
                   focusArea: props.question.focusArea,
                   digitalCapability: props.question.digitalCapability,
                   practiceItem: props.question.practiceItem,
-                });
-                bubbles.fill(false);
-                bubbles[i] = true;
-              }}></Input>
-          );
+                })
+                bubbles.fill(false)
+                bubbles[i] = true
+              }}
+            ></Input>
+          )
         })}
         <p className="text-right">Fully</p>
       </Checkboxes>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Raiting;
+export default Raiting
 
 const Wrapper = styled.div`
   ${tw`
-      rounded-md shadow-xl p-4 mt-6 bg-gray-100 mb-6
+      p-4 my-6
+      rounded-md shadow-xl bg-gray-100
     `}
 
   > h2 {
@@ -70,29 +72,35 @@ const Wrapper = styled.div`
       font-semibold text-lg
     `}
   }
-`;
+`
 
 const Checkboxes = styled.div`
   ${tw`
-      flex mt-4
+      flex 
+      mt-4
     `}
 
   > .text-left {
     ${tw`
-      flex-1 text-right font-semibold mr-3
+      flex-1 
+      mr-3
+      text-right font-semibold 
     `}
   }
 
   > .text-right {
     ${tw`
-      flex-1 text-left font-semibold ml-3
+      flex-1 
+      ml-3
+      text-left font-semibold
     `}
   }
-`;
+`
 
 const Input = styled.input`
   ${tw`
-      flex-none mt-1 mx-1 checked:bg-indigo-500
-      cursor-pointer
+      flex-none 
+      mt-1 mx-1 
+      checked:bg-indigo-500 cursor-pointer
     `}
-`;
+`

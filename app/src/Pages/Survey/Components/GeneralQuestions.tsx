@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import tw, { styled } from 'twin.macro';
-import * as t from '../types';
+import { useEffect, useState } from 'react'
+import tw, { styled } from 'twin.macro'
+import * as t from '../types'
 
 type Props = {
-  generalQuestions: t.GeneralQuestionsAnswer;
-  setGeneralQuestions: (answer: t.GeneralQuestionsAnswer) => void;
-  setShowGeneralQuestions: (bool: boolean) => void;
-  setShowSurvey: (bool: boolean) => void;
-  localDocRef: string;
-  firestore: any;
-};
+  generalQuestions: t.GeneralQuestionsAnswer
+  setGeneralQuestions: (answer: t.GeneralQuestionsAnswer) => void
+  setShowGeneralQuestions: (bool: boolean) => void
+  setShowSurvey: (bool: boolean) => void
+  localDocRef: string
+  firestore: any
+}
 
 const GeneralQuestions = (props: Props) => {
   const postgeneralQuestion = async () => {
-    const newAnswerRef = props.firestore.collection('surveys').doc(props.localDocRef);
-    await newAnswerRef.set(props.generalQuestions, { merge: true });
-  };
+    const newAnswerRef = props.firestore
+      .collection('surveys')
+      .doc(props.localDocRef)
+    await newAnswerRef.set(props.generalQuestions, { merge: true })
+  }
 
-  const [isEmpty, setIsEmpty] = useState(true);
+  const [isEmpty, setIsEmpty] = useState(true)
 
   useEffect(() => {
     if (
@@ -25,9 +27,9 @@ const GeneralQuestions = (props: Props) => {
       props.generalQuestions.companyPosition?.trim().length !== 0 &&
       props.generalQuestions.industryBelong?.trim().length !== 0
     ) {
-      setIsEmpty(false);
+      setIsEmpty(false)
     }
-  }, [props.generalQuestions]);
+  }, [props.generalQuestions])
 
   return (
     <Wrapper>
@@ -38,8 +40,9 @@ const GeneralQuestions = (props: Props) => {
           props.setGeneralQuestions({
             ...props.generalQuestions,
             amountEmployees: e.target.value,
-          });
-        }}>
+          })
+        }}
+      >
         <option className="placeholder">Please choose an option.</option>
         <option value="1-249">1-249</option>
         <option value="250-999">250-999</option>
@@ -54,8 +57,9 @@ const GeneralQuestions = (props: Props) => {
           props.setGeneralQuestions({
             ...props.generalQuestions,
             industryBelong: e.target.value,
-          });
-        }}></Input>
+          })
+        }}
+      ></Input>
       <h3>What is your position in the company?</h3>
 
       <Input
@@ -66,64 +70,65 @@ const GeneralQuestions = (props: Props) => {
           props.setGeneralQuestions({
             ...props.generalQuestions,
             companyPosition: e.target.value,
-          });
-        }}></Input>
+          })
+        }}
+      ></Input>
       <Button
         disabled={isEmpty}
         onClick={() => {
-          postgeneralQuestion();
-          props.setShowGeneralQuestions(false);
-          props.setShowSurvey(true);
-        }}>
+          postgeneralQuestion()
+          props.setShowGeneralQuestions(false)
+          props.setShowSurvey(true)
+        }}
+      >
         Start survey
       </Button>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default GeneralQuestions;
+export default GeneralQuestions
 
 const Wrapper = styled.div`
-
   > h2 {
     ${tw`
-      mb-6
-      pt-8
+      mb-6 pt-8
       font-extrabold text-2xl uppercase
     `}
   }
 
   > h3 {
     ${tw`
-      mt-4
-      mb-1
+      mt-4 mb-1
       font-semibold text-lg
     `}
   }
-`;
+`
 
 const Select = styled.select`
   ${tw`
-    p-2 w-full m-0
+    w-full
+    p-2 m-0
     rounded-md shadow-sm border border-gray-300
     focus:outline-none focus:ring focus:ring-indigo-400
   `}
-`;
+`
 
 const Input = styled.input`
   ${tw`
-    p-2 w-full m-0
+    w-full 
+    p-2 m-0
     rounded-md shadow-sm border border-gray-300
     focus:outline-none focus:ring focus:ring-indigo-400
     placeholder-black text-black
   `}
-`;
+`
 
 const Button = styled.button`
   ${tw`
-    bg-indigo-600 rounded-md py-2 px-6 mt-4
-    text-white
+    py-2 px-6 mt-4
+    bg-indigo-600 rounded-md text-white
     focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-500
     disabled:opacity-50 disabled:cursor-not-allowed
   `}
-`;
+`

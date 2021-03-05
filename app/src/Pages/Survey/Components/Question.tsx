@@ -1,11 +1,11 @@
-import * as t from '../types';
-import tw, { styled } from 'twin.macro';
+import * as t from '../types'
+import tw, { styled } from 'twin.macro'
 
 type Props = {
-  question: t.Question;
-  counter: t.Counter;
-  questionLength: number;
-};
+  question: t.Question
+  counter: t.Counter
+  questionLength: number
+}
 
 const Question = (props: Props) => {
   return (
@@ -21,16 +21,15 @@ const Question = (props: Props) => {
       <h3>Practice Item</h3>
       <p>{props.question.practiceItem}</p>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Question;
+export default Question
 
 const Wrapper = styled.div`
   > h2 {
     ${tw`
-      mb-6
-      pt-8
+      mb-6 pt-8
       font-extrabold text-2xl uppercase
     `}
 
@@ -43,9 +42,8 @@ const Wrapper = styled.div`
 
   > h3 {
     ${tw`
-      mt-4
-      mb-1
+      mt-4 mb-1
       font-semibold text-lg
     `}
   }
-`;
+`

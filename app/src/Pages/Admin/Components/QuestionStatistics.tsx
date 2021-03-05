@@ -1,29 +1,29 @@
-import { useMemo, useState } from 'react';
-import tw, { styled } from 'twin.macro';
-import { firestore } from '../../../lib/firebase';
-import * as t from '../types';
+import { useMemo, useState } from 'react'
+import tw, { styled } from 'twin.macro'
+import { firestore } from '../../../lib/firebase'
+import * as t from '../types'
 
 type Props = {
   surveys: {
-    surveyData: t.GeneralQuestions[];
-    docs: string[];
-  };
-};
+    surveyData: t.GeneralQuestions[]
+    docs: string[]
+  }
+}
 
 const QuestionStatistics = (props: Props) => {
-  const docs = props.surveys.docs;
-  const [statistics, setStatistics]: any = useState([]);
-  const [scoring, setScoring] = useState(0);
-  const [capaScoring, setCapaScoring] = useState({});
-  const [focusScoring, setFocusScoring] = useState({});
+  const docs = props.surveys.docs
+  const [statistics, setStatistics]: any = useState([])
+  const [scoring, setScoring] = useState(0)
+  const [capaScoring, setCapaScoring] = useState({})
+  const [focusScoring, setFocusScoring] = useState({})
 
   useMemo(async () => {
-    const surveyList: t.SurveyList[] = [];
+    const surveyList: t.SurveyList[] = []
     for (let docId of docs) {
       const resultsRef = firestore
         .collection('surveys')
         .doc(docId)
-        .collection('answers');
+        .collection('answers')
       await resultsRef.get().then((result) => {
         result.docs.map((doc: any) =>
           surveyList.push({
@@ -31,71 +31,66 @@ const QuestionStatistics = (props: Props) => {
             digitalCapability: doc.data().digitalCapability,
             focusArea: doc.data().focusArea,
             practiceItem: doc.data().practiceItem,
-          }),
-        );
-      });
+          })
+        )
+      })
     }
 
-    const areas = {};
-    let capabilityScoring = {};
-    let capabilityLength = {};
+    const areas = {}
+    let capabilityScoring = {}
+    let capabilityLength = {}
 
-    const test = {};
+    const test = {}
     for (const entry of surveyList) {
-      const { answerValue, focusArea, digitalCapability, practiceItem } = entry;
+      const { answerValue, focusArea, digitalCapability, practiceItem } = entry
       if (!test[focusArea]) {
-        test[focusArea] = {};
+        test[focusArea] = {}
       }
       if (!test[focusArea][digitalCapability]) {
-        test[focusArea][digitalCapability] = {};
+        test[focusArea][digitalCapability] = {}
       }
       if (Object.keys(test[focusArea][digitalCapability]).length !== 0) {
-        let indicator;
+        let indicator
         for (let key of Object.keys(test[focusArea][digitalCapability])) {
           if (key === practiceItem) {
-            test[focusArea][digitalCapability][practiceItem] += answerValue;
-            indicator = true;
+            test[focusArea][digitalCapability][practiceItem] += answerValue
+            indicator = true
           }
         }
         if (!indicator) {
-          test[focusArea][digitalCapability][practiceItem] = answerValue;
+          test[focusArea][digitalCapability][practiceItem] = answerValue
         }
       } else {
-        test[focusArea][digitalCapability][practiceItem] = answerValue;
+        test[focusArea][digitalCapability][practiceItem] = answerValue
       }
     }
 
     setStatistics(
       Object.keys(test).map((key) => ({
         [key]: test[key],
-      })),
-    );
+      }))
+    )
 
     for (const result of surveyList) {
-      const {
-        answerValue,
-        focusArea,
-        digitalCapability,
-        practiceItem,
-      } = result;
+      const { answerValue, focusArea, digitalCapability, practiceItem } = result
       if (!areas[focusArea]) {
-        areas[focusArea] = {};
-        capabilityScoring[focusArea] = {};
-        capabilityLength[focusArea] = {};
+        areas[focusArea] = {}
+        capabilityScoring[focusArea] = {}
+        capabilityLength[focusArea] = {}
       }
       if (!areas[focusArea][digitalCapability]) {
-        areas[focusArea][digitalCapability] = {};
-        capabilityScoring[focusArea][digitalCapability] = 0;
-        capabilityLength[focusArea][digitalCapability] = 0;
+        areas[focusArea][digitalCapability] = {}
+        capabilityScoring[focusArea][digitalCapability] = 0
+        capabilityLength[focusArea][digitalCapability] = 0
       }
-      areas[focusArea][digitalCapability][practiceItem] = answerValue;
-      capabilityScoring[focusArea][digitalCapability] += answerValue;
-      capabilityLength[focusArea][digitalCapability] += 1;
+      areas[focusArea][digitalCapability][practiceItem] = answerValue
+      capabilityScoring[focusArea][digitalCapability] += answerValue
+      capabilityLength[focusArea][digitalCapability] += 1
     }
 
-    let subScoring = {};
-    let scoring = {};
-    let finalScoring = 0;
+    let subScoring = {}
+    let scoring = {}
+    let finalScoring = 0
     for (let focusArea in capabilityScoring) {
       for (let capability in capabilityScoring[focusArea]) {
         subScoring = {
@@ -106,34 +101,34 @@ const QuestionStatistics = (props: Props) => {
               capabilityScoring[focusArea][capability] /
               capabilityLength[focusArea][capability],
           },
-        };
+        }
       }
       scoring = {
         ...scoring,
         [focusArea]: 0,
-      };
+      }
       for (let key in subScoring[focusArea]) {
         scoring = {
           ...scoring,
           [focusArea]: scoring[focusArea] + subScoring[focusArea][key],
-        };
+        }
       }
       scoring = {
         ...scoring,
         [focusArea]:
           scoring[focusArea] / Object.keys(subScoring[focusArea]).length,
-      };
+      }
     }
     for (let key in scoring) {
-      finalScoring = finalScoring + scoring[key];
+      finalScoring = finalScoring + scoring[key]
     }
 
-    setCapaScoring(subScoring);
-    setFocusScoring(scoring);
+    setCapaScoring(subScoring)
+    setFocusScoring(scoring)
 
-    finalScoring = finalScoring / Object.keys(scoring).length;
-    setScoring(finalScoring);
-  }, [docs]);
+    finalScoring = finalScoring / Object.keys(scoring).length
+    setScoring(finalScoring)
+  }, [docs])
 
   if (scoring !== 0) {
     return (
@@ -149,7 +144,7 @@ const QuestionStatistics = (props: Props) => {
               <div className="header">
                 <p className="focusArea">{Object.keys(result)}</p>
                 <p className="scoring">
-                  {(focusScoring[Object.keys(result)[0]]).toFixed(2)}
+                  {focusScoring[Object.keys(result)[0]].toFixed(2)}
                 </p>
               </div>
               {Object.keys(result[Object.keys(result)[0]]).map(
@@ -165,7 +160,7 @@ const QuestionStatistics = (props: Props) => {
                         </p>
                       </div>
                       {Object.entries(
-                        result[Object.keys(result)[0]][capabilities],
+                        result[Object.keys(result)[0]][capabilities]
                       ).map((practiceItem) => (
                         <div className="result">
                           <div className="practiceItem">
@@ -178,39 +173,39 @@ const QuestionStatistics = (props: Props) => {
                         </div>
                       ))}
                     </div>
-                  );
-                },
+                  )
+                }
               )}
             </FocusArea>
-          );
+          )
         })}
       </Wrapper>
-    );
+    )
   }
 
-  return <></>;
-};
+  return <></>
+}
 
-export default QuestionStatistics;
+export default QuestionStatistics
 
 const Wrapper = styled.div`
   > h2 {
     ${tw`
-      mb-6 mt-6
+      my-6
       font-extrabold text-2xl uppercase
     `}
   }
-`;
+`
 
 const FocusArea = styled.div`
   ${tw`
-     rounded-md shadow-2xl mt-6 bg-gray-100 mb-6
-    `}
+    my-6 
+    rounded-md shadow-2xl bg-gray-100
+  `}
 
   > h3 {
     ${tw`
-      px-4 py-2
-      mt-2 mb-1
+      px-4 py-2 mt-2 mb-1
       font-semibold text-xl text-white
       bg-indigo-600 rounded-sm
     `}
@@ -219,8 +214,8 @@ const FocusArea = styled.div`
   > .header {
     ${tw`
       flex
-      bg-indigo-600 rounded-sm
       px-4 py-2 mt-2 mb-1
+      bg-indigo-600 rounded-sm
     `}
 
     > .focusArea {
@@ -246,7 +241,8 @@ const FocusArea = styled.div`
     > .capa-scoring {
       ${tw`
           flex
-        `}
+      `}
+
       > .capabilities {
         ${tw`
           flex-1
@@ -264,7 +260,8 @@ const FocusArea = styled.div`
 
     > .result {
       ${tw`
-        grid grid-cols-5 py-1
+        grid grid-cols-5 
+        py-1
       `}
 
       > .practiceItem {
@@ -280,4 +277,4 @@ const FocusArea = styled.div`
       }
     }
   }
-`;
+`

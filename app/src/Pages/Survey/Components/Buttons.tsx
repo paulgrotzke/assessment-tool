@@ -1,21 +1,21 @@
-import tw, { styled } from 'twin.macro';
-import useQuestions from '../../Hooks/useQuestions';
-import * as t from '../types';
+import tw, { styled } from 'twin.macro'
+import useQuestions from '../../Hooks/useQuestions'
+import * as t from '../types'
 
 type Props = {
-  counter: t.Counter;
-  setCounter: ({ value: number }) => void;
-  raiting: t.Raiting;
-  setRaiting: (raiting: t.Raiting) => void;
-  setShowFeedback: (bool: boolean) => void;
-  setShowGeneralQuestions: (bool: boolean) => void;
-  localDocRef: string;
-  firestore: any;
-};
+  counter: t.Counter
+  setCounter: ({ value: number }) => void
+  raiting: t.Raiting
+  setRaiting: (raiting: t.Raiting) => void
+  setShowFeedback: (bool: boolean) => void
+  setShowGeneralQuestions: (bool: boolean) => void
+  localDocRef: string
+  firestore: any
+}
 
 const Buttons = (props: Props) => {
-  const questions = useQuestions();
-  const amountQuestions = questions.length;
+  const questions = useQuestions()
+  const amountQuestions = questions.length
 
   const postAnswer = async () => {
     const answer: t.Answer = {
@@ -23,16 +23,19 @@ const Buttons = (props: Props) => {
       focusArea: props.raiting.focusArea,
       digitalCapability: props.raiting.digitalCapability,
       practiceItem: props.raiting.practiceItem,
-    };
+    }
 
+    console.log(props.counter)
+    console.log(props.localDocRef)
+    console.log(answer)
     const newAnswerRef = props.firestore
       .collection('surveys')
       .doc(props.localDocRef)
       .collection('answers')
-      .doc(props.raiting.questionId);
-    await newAnswerRef.set(answer, { merge: true });
-    await newAnswerRef.set(props.counter, { merge: true });
-  };
+      .doc(props.raiting.questionId)
+    await newAnswerRef.set(answer, { merge: true })
+    await newAnswerRef.set(props.counter, { merge: true })
+  }
 
   const defaultRaiting = {
     questionId: '',
@@ -40,7 +43,7 @@ const Buttons = (props: Props) => {
     digitalCapability: '',
     focusArea: '',
     practiceItem: '',
-  };
+  }
 
   return (
     <div>
@@ -49,18 +52,20 @@ const Buttons = (props: Props) => {
           onClick={() => {
             props.setCounter({
               value: props.counter.value - 1,
-            });
-            props.setRaiting(defaultRaiting);
-          }}>
+            })
+            props.setRaiting(defaultRaiting)
+          }}
+        >
           Previous
         </PrevButton>
       )}
       {props.counter.value === 0 && (
         <PrevButton
           onClick={() => {
-            props.setShowGeneralQuestions(true);
-            props.setRaiting(defaultRaiting);
-          }}>
+            props.setShowGeneralQuestions(true)
+            props.setRaiting(defaultRaiting)
+          }}
+        >
           Back to General
         </PrevButton>
       )}
@@ -68,10 +73,11 @@ const Buttons = (props: Props) => {
         <Button
           disabled={props.raiting.value === 0}
           onClick={() => {
-            postAnswer();
-            props.setShowFeedback(true);
-            props.setRaiting(defaultRaiting);
-          }}>
+            postAnswer()
+            props.setShowFeedback(true)
+            props.setRaiting(defaultRaiting)
+          }}
+        >
           Go To Feedback
         </Button>
       )}
@@ -81,27 +87,29 @@ const Buttons = (props: Props) => {
           onClick={() => {
             props.setCounter({
               value: props.counter.value + 1,
-            });
-            postAnswer();
-            props.setRaiting(defaultRaiting);
-          }}>
+            })
+            postAnswer()
+            props.setRaiting(defaultRaiting)
+          }}
+        >
           Next Question
         </Button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Buttons;
+export default Buttons
 
 const Button = styled.button`
   ${tw`
-    bg-indigo-600 rounded-md py-2 px-4 mt-4
+    py-2 px-4 mt-4
+    bg-indigo-600 rounded-md
     text-white border-2 border-indigo-600
     hover:bg-indigo-500 hover:border-indigo-500
     disabled:opacity-50 disabled:cursor-not-allowed
   `}
-`;
+`
 
 const PrevButton = styled.button`
   ${tw`
@@ -109,4 +117,4 @@ const PrevButton = styled.button`
     text-indigo-600 border-2 border-indigo-600
     hover:bg-gray-100
   `}
-`;
+`

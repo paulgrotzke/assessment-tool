@@ -1,47 +1,47 @@
 export type Question = {
-  id: string;
-  focusArea: string;
-  digitalCapability: string;
-  practiceItem: string;
-};
+  id: string
+  focusArea: string
+  digitalCapability: string
+  practiceItem: string
+}
 
 export type QuestionDocument = {
-  id: string;
-  data: () => Question;
-};
+  id: string
+  data: () => Question
+}
 
 export type Raiting = {
-  questionId: string;
-  value: number | boolean;
-  digitalCapability: string;
-  focusArea: string;
-  practiceItem: string;
-};
+  questionId: string
+  value: number | boolean
+  digitalCapability: string
+  focusArea: string
+  practiceItem: string
+}
 
 export type Counter = {
-  value: number;
-};
+  value: number
+}
 
 export type Answer = {
-  answerValue: number | boolean;
-  digitalCapability: string;
-  focusArea: string;
-  practiceItem: string;
-};
+  answerValue: number | boolean
+  digitalCapability: string
+  focusArea: string
+  practiceItem: string
+}
 
 export type GeneralQuestionsAnswer = {
-  industryBelong?: string;
-  amountEmployees?: string;
-  companyPosition?: string;
-};
+  industryBelong?: string
+  amountEmployees?: string
+  companyPosition?: string
+}
 
 export type FeedbackAnswer = {
-  comprehensiveness: number;
-  consistency: number;
-  problemAdequacy: number;
-};
+  comprehensiveness: number
+  consistency: number
+  problemAdequacy: number
+}
 
 export type AnswerDocument = {
-  id: string;
-  data: () => Answer;
-};
+  id: string
+  data: () => Answer
+}

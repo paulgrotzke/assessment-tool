@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import tw, { styled } from 'twin.macro';
-import AuthCheck from '../../Components/AuthCheck';
-import useSurveys from './Hooks/useSurveys';
-import GeneralStatistics from './Components/GeneralStatistics';
-import QuestionStatistics from './Components/QuestionStatistics';
-import Buttons from './Components/Buttons';
-import NewQuestion from './Components/NewQuestion';
+import React, { useState } from 'react'
+import tw, { styled } from 'twin.macro'
+import AuthCheck from '../../Components/AuthCheck'
+import useSurveys from './Hooks/useSurveys'
+import GeneralStatistics from './Components/GeneralStatistics'
+import QuestionStatistics from './Components/QuestionStatistics'
+import Buttons from './Components/Buttons'
+import NewQuestion from './Components/NewQuestion'
 
 const Controllcenter = () => {
-  const surveys = useSurveys();
+  const surveys = useSurveys()
 
-  const [focusArea, setFocusArea] = useState('');
-  const [digitalCapability, setDigitalCapability] = useState('');
-  const [practiceItem, setPracticeItem] = useState('');
+  const [focusArea, setFocusArea] = useState('')
+  const [digitalCapability, setDigitalCapability] = useState('')
+  const [practiceItem, setPracticeItem] = useState('')
 
-  const [showQuestionStatistics, setShowQuestionStatistics] = useState(false);
-  const [showGeneral, setShowGeneral] = useState(false);
-  const [showAddNew, setShowAddNew] = useState(false);
+  const [showQuestionStatistics, setShowQuestionStatistics] = useState(false)
+  const [showGeneral, setShowGeneral] = useState(false)
+  const [showAddNew, setShowAddNew] = useState(false)
 
   if (showQuestionStatistics) {
     return (
@@ -33,7 +33,7 @@ const Controllcenter = () => {
           <QuestionStatistics surveys={surveys} />
         </Wrapper>
       </AuthCheck>
-    );
+    )
   }
 
   if (showAddNew) {
@@ -58,7 +58,7 @@ const Controllcenter = () => {
           />
         </Wrapper>
       </AuthCheck>
-    );
+    )
   }
 
   return (
@@ -75,15 +75,16 @@ const Controllcenter = () => {
         <GeneralStatistics surveys={surveys} />
       </Wrapper>
     </AuthCheck>
-  );
-};
+  )
+}
 
-export default Controllcenter;
+export default Controllcenter
 
 const Wrapper = styled.div`
   ${tw`
-    bg-white px-4 md:px-10 py-6 rounded-md shadow-2xl my-10 h-5/6
-    w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 2xl:w-4/12
+    h-5/6 w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 2xl:w-4/12
+    px-4 md:px-10 py-6 my-10
+    bg-white rounded-md shadow-2xl
     overflow-y-auto
   `}
 
@@ -100,4 +101,4 @@ const Wrapper = styled.div`
       font-semibold text-lg
     `}
   }
-`;
+`

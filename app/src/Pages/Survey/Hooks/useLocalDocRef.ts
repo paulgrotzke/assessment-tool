@@ -1,7 +1,7 @@
 const useLocalDocRef = () => {
-  const answeredDocId = localStorage.getItem('docRef')!;
+  const answeredDocId = localStorage.getItem('docRef')!
 
-  return answeredDocId;
-};
+  return answeredDocId
+}
 
-export default useLocalDocRef;
+export default useLocalDocRef

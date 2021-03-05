@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import { BsTrash, BsPencil } from 'react-icons/bs';
-import tw, { styled } from 'twin.macro';
-import { firestore } from '../../../lib/firebase';
-import useQuestions from '../../Hooks/useQuestions';
-import Edit from './Edit';
+import { useState } from 'react'
+import { BsTrash, BsPencil } from 'react-icons/bs'
+import tw, { styled } from 'twin.macro'
+import { firestore } from '../../../lib/firebase'
+import useQuestions from '../../Hooks/useQuestions'
+import Edit from './Edit'
 
 type Props = {
-  focusArea: string;
-  digitalCapability: string;
-  practiceItem: string;
-};
+  focusArea: string
+  digitalCapability: string
+  practiceItem: string
+}
 
 const Configuration = (props: Props) => {
-  const questions = useQuestions();
+  const questions = useQuestions()
 
-  const [edit, setEdit] = useState(0);
+  const [edit, setEdit] = useState(0)
 
   const deleteQuestion = async (questionId) => {
     const confirm = window.confirm(
-      'Are you sure to delete? All answers for this questions will be deleted too.',
-    );
+      'Are you sure to delete? All answers for this questions will be deleted too.'
+    )
     if (confirm) {
-      await firestore.collection('questions').doc(questionId).delete();
+      await firestore.collection('questions').doc(questionId).delete()
     }
-  };
+  }
 
   return (
     <Wrapper>
@@ -34,7 +34,7 @@ const Configuration = (props: Props) => {
             <h3>{question.focusArea}</h3>
             <BsPencil
               onClick={() => {
-                setEdit(i + 1);
+                setEdit(i + 1)
               }}
             />
             <BsTrash onClick={() => deleteQuestion(question.id)} />
@@ -45,10 +45,10 @@ const Configuration = (props: Props) => {
         </FocusArea>
       ))}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Configuration;
+export default Configuration
 
 const Wrapper = styled.div`
   > h2 {
@@ -64,21 +64,25 @@ const Wrapper = styled.div`
       font-semibold text-lg
     `}
   }
-`;
+`
 
 const FocusArea = styled.div`
   ${tw`
-     rounded-md shadow-xl p-4 mt-6 bg-gray-100 mb-6
+     p-4 my-6
+     rounded-md shadow-xl bg-gray-100
     `}
 
   > .header {
-    ${tw`grid grid-cols-12`}
+    ${tw`
+      grid grid-cols-12
+    `}
 
     > h3 {
       ${tw`
-      mb-1 col-span-10
+      col-span-10
+      mb-1
       font-semibold text-xl
     `}
     }
   }
-`;
+`

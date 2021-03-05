@@ -1,11 +1,11 @@
-import ReactDOM from 'react-dom';
-import App from './App';
-import GlobalStylesComponent from './Components/GlobalStyles';
+import ReactDOM from 'react-dom'
+import GlobalStylesComponent from './Components/GlobalStyles'
+import App from './App'
 
 ReactDOM.render(
   <>
     <GlobalStylesComponent />
     <App />
   </>,
-  document.getElementById('root'),
-);
+  document.getElementById('root')
+)

@@ -1,37 +1,36 @@
-import React from 'react';
-import tw, { styled } from 'twin.macro';
-import useResults from '../Hooks/useResults';
+import tw, { styled } from 'twin.macro'
+import useResults from '../Hooks/useResults'
 
 const Results = () => {
-  const results = useResults();
+  const results = useResults()
 
-  const areas = {};
-  let capabilityScoring = {};
-  let capabilityLength = {};
+  const areas = {}
+  let capabilityScoring = {}
+  let capabilityLength = {}
 
   for (const result of results) {
-    const { answerValue, focusArea, digitalCapability, practiceItem } = result;
+    const { answerValue, focusArea, digitalCapability, practiceItem } = result
     if (!areas[focusArea]) {
-      areas[focusArea] = {};
-      capabilityScoring[focusArea] = {};
-      capabilityLength[focusArea] = {};
+      areas[focusArea] = {}
+      capabilityScoring[focusArea] = {}
+      capabilityLength[focusArea] = {}
     }
     if (!areas[focusArea][digitalCapability]) {
-      areas[focusArea][digitalCapability] = {};
-      capabilityScoring[focusArea][digitalCapability] = 0;
-      capabilityLength[focusArea][digitalCapability] = 0;
+      areas[focusArea][digitalCapability] = {}
+      capabilityScoring[focusArea][digitalCapability] = 0
+      capabilityLength[focusArea][digitalCapability] = 0
     }
-    areas[focusArea][digitalCapability][practiceItem] = answerValue;
-    capabilityScoring[focusArea][digitalCapability] += answerValue;
-    capabilityLength[focusArea][digitalCapability] += 1;
+    areas[focusArea][digitalCapability][practiceItem] = answerValue
+    capabilityScoring[focusArea][digitalCapability] += answerValue
+    capabilityLength[focusArea][digitalCapability] += 1
   }
   const resultList = Object.keys(areas).map((key) => ({
     [key]: areas[key],
-  }));
+  }))
 
-  let subScoring = {};
-  let scoring = {};
-  let finalScoring = 0;
+  let subScoring = {}
+  let scoring = {}
+  let finalScoring = 0
   for (let focusArea in capabilityScoring) {
     for (let capability in capabilityScoring[focusArea]) {
       subScoring = {
@@ -42,29 +41,29 @@ const Results = () => {
             capabilityScoring[focusArea][capability] /
             capabilityLength[focusArea][capability],
         },
-      };
+      }
     }
     scoring = {
       ...scoring,
       [focusArea]: 0,
-    };
+    }
     for (let key in subScoring[focusArea]) {
       scoring = {
         ...scoring,
         [focusArea]: scoring[focusArea] + subScoring[focusArea][key],
-      };
+      }
     }
     scoring = {
       ...scoring,
       [focusArea]:
         scoring[focusArea] / Object.keys(subScoring[focusArea]).length,
-    };
+    }
   }
   for (let key in scoring) {
-    finalScoring = finalScoring + scoring[key];
+    finalScoring = finalScoring + scoring[key]
   }
 
-  finalScoring = finalScoring / Object.keys(scoring).length;
+  finalScoring = finalScoring / Object.keys(scoring).length
 
   return (
     <Wrapper>
@@ -95,7 +94,7 @@ const Results = () => {
                     <div className="capa-wrapper">
                       <p className="capabilities">{capabilities}</p>
                       {Object.entries(
-                        result[Object.keys(result)[0]][capabilities],
+                        result[Object.keys(result)[0]][capabilities]
                       ).map((practiceItem) => (
                         <div className="result">
                           <div className="practiceItem">
@@ -107,11 +106,11 @@ const Results = () => {
                         </div>
                       ))}
                     </div>
-                  );
-                },
+                  )
+                }
               )}
             </FocusArea>
-          );
+          )
         })}
       </div>
       <div className="no-print">
@@ -122,24 +121,23 @@ const Results = () => {
         </p>
       </div>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Results;
+export default Results
 
 const Wrapper = styled.div`
   > .no-print {
     > h2 {
       ${tw`
-      mb-6 mt-6
+      my-6
       font-extrabold text-2xl uppercase
     `}
     }
     > p {
       > span {
         ${tw`
-      font-extrabold cursor-pointer
-      text-indigo-600 hover:text-indigo-500
+      font-extrabold cursor-pointer text-indigo-600 hover:text-indigo-500
     `}
       }
     }
@@ -156,27 +154,27 @@ const Wrapper = styled.div`
       display: none;
     }
   }
-`;
+`
 
 const FocusArea = styled.div`
   ${tw`
-     rounded-md shadow-2xl mt-6 bg-gray-100 mb-6
+     my-6 
+     rounded-md shadow-2xl bg-gray-100
     `}
 
   > h3 {
     ${tw`
-      px-4 py-2
-      mt-2 mb-1
-      font-semibold text-xl text-white
+      px-4 py-2 mt-2 mb-1
       bg-indigo-600 rounded-sm
+      font-semibold text-xl text-white
     `}
   }
 
   > .header {
     ${tw`
       flex
-      bg-indigo-600 rounded-sm
       px-4 py-2 mt-2 mb-1
+      bg-indigo-600 rounded-sm
     `}
 
     > p {
@@ -207,7 +205,8 @@ const FocusArea = styled.div`
 
     > .result {
       ${tw`
-        grid grid-cols-5 py-1
+        grid grid-cols-5 
+        py-1
       `}
 
       > .practiceItem {
@@ -218,9 +217,10 @@ const FocusArea = styled.div`
 
       > .points {
         ${tw`
-        text-right font-semibold
+        text-right 
+        font-semibold
         `}
       }
     }
   }
-`;
+`
