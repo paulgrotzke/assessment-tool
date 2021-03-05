@@ -11,8 +11,7 @@ type Props = {
 };
 
 const NewQuestion = (props: Props) => {
-  const postQuestion = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const postQuestion = async () => {
     const newQuestionRef = firestore.collection('questions').doc();
 
     const data = {
@@ -41,7 +40,7 @@ const NewQuestion = (props: Props) => {
         placeholder="Insert practice item"
         value={props.practiceItem}
         onChange={(e) => props.setPracticeItem(e.target.value)}></Input>
-      <Button onClick={() => postQuestion}>Create</Button>
+      <Button onClick={() => postQuestion()}>Create</Button>
     </Wrapper>
   );
 };

@@ -13,6 +13,7 @@ type Props = {
 const QuestionStatistics = (props: Props) => {
   const docs = props.surveys.docs;
   const [statistics, setStatistics]: any = useState([]);
+  const [scoring, setScoring] = useState(0);
 
   useMemo(async () => {
     const surveyList: t.SurveyList[] = [];
@@ -34,50 +35,99 @@ const QuestionStatistics = (props: Props) => {
     }
 
     const areas = {};
+    let capabilityScoring = {};
+    let capabilityLength = {};
+
+    const test = {};
     for (const entry of surveyList) {
       const { answerValue, focusArea, digitalCapability, practiceItem } = entry;
-      if (!areas[focusArea]) {
-        areas[focusArea] = {};
+      if (!test[focusArea]) {
+        test[focusArea] = {};
       }
-      if (!areas[focusArea][digitalCapability]) {
-        areas[focusArea][digitalCapability] = {};
+      if (!test[focusArea][digitalCapability]) {
+        test[focusArea][digitalCapability] = {};
       }
-      if (Object.keys(areas[focusArea][digitalCapability]).length !== 0) {
+      if (Object.keys(test[focusArea][digitalCapability]).length !== 0) {
         let indicator;
-        for (let key of Object.keys(areas[focusArea][digitalCapability])) {
+        for (let key of Object.keys(test[focusArea][digitalCapability])) {
           if (key === practiceItem) {
-            areas[focusArea][digitalCapability][practiceItem] += answerValue;
+            test[focusArea][digitalCapability][practiceItem] += answerValue;
             indicator = true;
           }
         }
         if (!indicator) {
-          areas[focusArea][digitalCapability][practiceItem] = answerValue;
+          test[focusArea][digitalCapability][practiceItem] = answerValue;
         }
       } else {
-        areas[focusArea][digitalCapability][practiceItem] = answerValue;
+        test[focusArea][digitalCapability][practiceItem] = answerValue;
       }
     }
-
-    // console.log(Object.keys(areas).length);
-
-    let test = {};
-    for (let key in areas) {
-      test = {
-        ...test,
-        [key]: (Object.keys(areas[key]).length)
-      }
-    }
-
-    console.log(areas)
-
-    // Focus3 > Capability1 = (21/ props.surveys.surveyData.length + 15 /  props.surveys.surveyData.length + 24 /  props.surveys.surveyData.length)
-
 
     setStatistics(
-      Object.keys(areas).map((key) => ({
-        [key]: areas[key],
+      Object.keys(test).map((key) => ({
+        [key]: test[key],
       })),
     );
+
+    for (const result of surveyList) {
+      const {
+        answerValue,
+        focusArea,
+        digitalCapability,
+        practiceItem,
+      } = result;
+      if (!areas[focusArea]) {
+        areas[focusArea] = {};
+        capabilityScoring[focusArea] = {};
+        capabilityLength[focusArea] = {};
+      }
+      if (!areas[focusArea][digitalCapability]) {
+        areas[focusArea][digitalCapability] = {};
+        capabilityScoring[focusArea][digitalCapability] = 0;
+        capabilityLength[focusArea][digitalCapability] = 0;
+      }
+      areas[focusArea][digitalCapability][practiceItem] = answerValue;
+      capabilityScoring[focusArea][digitalCapability] += answerValue;
+      capabilityLength[focusArea][digitalCapability] += 1;
+    }
+
+    let subScoring = {};
+    let scoring = {};
+    let finalScoring = 0;
+    for (let focusArea in capabilityScoring) {
+      for (let capability in capabilityScoring[focusArea]) {
+        subScoring = {
+          ...subScoring,
+          [focusArea]: {
+            ...subScoring[focusArea],
+            [capability]:
+              capabilityScoring[focusArea][capability] /
+              capabilityLength[focusArea][capability],
+          },
+        };
+      }
+      scoring = {
+        ...scoring,
+        [focusArea]: 0,
+      };
+      for (let key in subScoring[focusArea]) {
+        scoring = {
+          ...scoring,
+          [focusArea]: scoring[focusArea] + subScoring[focusArea][key],
+        };
+      }
+      scoring = {
+        ...scoring,
+        [focusArea]:
+          scoring[focusArea] / Object.keys(subScoring[focusArea]).length,
+      };
+    }
+    for (let key in scoring) {
+      finalScoring = finalScoring + scoring[key];
+    }
+
+    finalScoring = finalScoring / Object.keys(scoring).length;
+    setScoring(finalScoring);
   }, [docs]);
 
   return (
@@ -85,34 +135,37 @@ const QuestionStatistics = (props: Props) => {
       <h2>Question Statistics</h2>
       <div className="result">
         <div className="criteria">Ø - digital Score</div>
-        <div className="points">todo</div>
+        <div className="points">{scoring}</div>
       </div>
-      {statistics.map((question, i) => (
-        <FocusArea>
-          <h3>{Object.keys(question)}</h3>
-          {Object.keys(question[Object.keys(question)[0]]).map(
-            (capabilities, i) => (
-              <div className="capa-wrapper">
-                <p className="capabilities">{capabilities}</p>
-                {Object.keys(
-                  question[Object.keys(question)[0]][capabilities],
-                ).map((practiceItem, i) => (
-                  <div className="result">
-                    <div className="practiceItem">{practiceItem} </div>
-                    <div className="points">
-                      {
-                        question[Object.keys(question)[0]][capabilities][
-                          practiceItem
-                        ] / props.surveys.surveyData.length
-                      }
+      {statistics.map((result) => {
+        return (
+          <FocusArea>
+            <div className="header">
+              <p>{Object.keys(result)}</p>
+            </div>
+            {Object.keys(result[Object.keys(result)[0]]).map((capabilities) => {
+              return (
+                <div className="capa-wrapper">
+                  <p className="capabilities">{capabilities}</p>
+                  {Object.entries(
+                    result[Object.keys(result)[0]][capabilities],
+                  ).map((practiceItem) => (
+                    <div className="result">
+                      <div className="practiceItem">
+                        {practiceItem[0] + ' '}
+                      </div>
+                      <div className="points">
+                        {/* @ts-ignore */}
+                        {(practiceItem[1] / docs.length).toFixed(2) + ' P.'}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ),
-          )}
-        </FocusArea>
-      ))}
+                  ))}
+                </div>
+              );
+            })}
+          </FocusArea>
+        );
+      })}
     </Wrapper>
   );
 };
@@ -142,6 +195,28 @@ const FocusArea = styled.div`
     `}
   }
 
+  > .header {
+    ${tw`
+      flex
+      bg-indigo-600 rounded-sm
+      px-4 py-2 mt-2 mb-1
+    `}
+
+    > p {
+      ${tw`
+      flex-1
+      font-semibold text-xl text-white 
+      `}
+    }
+
+    > h3 {
+      ${tw`
+      flex-1
+      font-semibold text-xl text-white text-right
+    `}
+    }
+  }
+
   > .capa-wrapper {
     ${tw`
      px-4 py-2
@@ -150,7 +225,6 @@ const FocusArea = styled.div`
     > .capabilities {
       ${tw`
       font-semibold text-lg
-      
     `}
     }
 

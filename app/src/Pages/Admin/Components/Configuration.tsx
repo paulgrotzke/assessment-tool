@@ -25,8 +25,6 @@ const Configuration = (props: Props) => {
     }
   };
 
-  console.log(edit);
-
   return (
     <Wrapper>
       <h2>Config current Questions</h2>
