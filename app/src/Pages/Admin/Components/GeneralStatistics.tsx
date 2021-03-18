@@ -25,9 +25,12 @@ const GeneralStatistics = (props: Props) => {
     amountEmployees.push(surveyList[i].amountEmployees)
     companyPosition.push(surveyList[i].companyPosition)
     industryBelong.push(surveyList[i].industryBelong)
-    comprehensiveness = comprehensiveness + surveyList[i].comprehensiveness
-    consistency = consistency + surveyList[i].consistency
-    problemAdequacy = problemAdequacy + surveyList[i].problemAdequacy
+    if (surveyList[i].comprehensiveness !== undefined)
+      comprehensiveness = comprehensiveness + surveyList[i].comprehensiveness
+    if (surveyList[i].consistency !== undefined)
+      consistency = consistency + surveyList[i].consistency
+    if (surveyList[i].problemAdequacy !== undefined)
+      problemAdequacy = problemAdequacy + surveyList[i].problemAdequacy
 
     if (!companyPositionValues[companyPosition[i]])
       companyPositionValues[companyPosition[i]] = 0
