@@ -136,14 +136,14 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-6 pt-8 
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
   }
 
   > h3 {
     ${tw`
       mt-4 mb-1 
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 
@@ -155,7 +155,7 @@ const Wrapper = styled.div`
 
     ${tw`
       mt-4 mb-1 
-      font-semibold text-lg
+      font-medium text-lg
     `}
   }
 `
@@ -163,7 +163,7 @@ const Wrapper = styled.div`
 const Checkboxes = styled.div`
   ${tw`
       flex 
-      font-semibold
+      font-medium
     `}
 
   > .text-left {

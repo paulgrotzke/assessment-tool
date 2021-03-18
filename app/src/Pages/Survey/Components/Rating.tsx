@@ -56,12 +56,12 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-6
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
 
     > .question {
       ${tw`
-      text-2xl text-indigo-500
+      text-3xl text-indigo-500
     `}
     }
   }
@@ -69,7 +69,7 @@ const Wrapper = styled.div`
   > h3 {
     ${tw`
       mt-2 mb-1
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `
@@ -84,7 +84,7 @@ const Checkboxes = styled.div`
     ${tw`
       flex-1 
       mr-3
-      text-right font-semibold 
+      text-right font-medium 
     `}
   }
 
@@ -92,7 +92,7 @@ const Checkboxes = styled.div`
     ${tw`
       flex-1 
       ml-3
-      text-left font-semibold
+      text-left font-medium
     `}
   }
 `

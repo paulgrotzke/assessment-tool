@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import tw, { styled } from 'twin.macro'
 import AuthCheck from '../../Components/AuthCheck'
-import useSurveys from './Hooks/useSurveys'
+import useSurveys from './hooks/useSurveys'
 import GeneralStatistics from './Components/GeneralStatistics'
 import QuestionStatistics from './Components/QuestionStatistics'
 import Buttons from './Components/Buttons'
@@ -91,14 +91,14 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-6 pt-8
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
   }
 
   > h3 {
     ${tw`
       mt-4 mb-1
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `

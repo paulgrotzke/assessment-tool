@@ -30,12 +30,12 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-6 pt-8
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
 
     > .question {
       ${tw`
-      text-2xl text-indigo-600
+      text-3xl text-indigo-600
     `}
     }
   }
@@ -43,7 +43,7 @@ const Wrapper = styled.div`
   > h3 {
     ${tw`
       mt-4 mb-1
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `

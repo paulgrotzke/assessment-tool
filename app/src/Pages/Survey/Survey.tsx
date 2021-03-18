@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { firestore } from '../../lib/firebase'
 import * as t from './types'
-import useLocalDocRef from './Hooks/useLocalDocRef'
-import useQuestions from '../Hooks/useQuestions'
+import useLocalDocRef from './hooks/useLocalDocRef'
+import useQuestions from '../../hooks/useQuestions'
 import AuthCheck from '../../Components/AuthCheck'
 import Buttons from './Components/Buttons'
 import Feedback from './Components/Feedback'
@@ -44,7 +44,7 @@ const Survey = () => {
   if (showResults)
     return (
       <AuthCheck role="user">
-        <Wrapper>
+        <Wrapper tw="h-5/6">
           <Results />
         </Wrapper>
       </AuthCheck>
@@ -128,7 +128,8 @@ export default Survey
 
 const Wrapper = styled.div`
   ${tw`
-    w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-6/12 2xl:w-6/12
+    h-auto w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-6/12 2xl:w-6/12
+    overflow-y-auto
     px-4 py-6
     bg-white rounded-md shadow-2xl
   `}

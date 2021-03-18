@@ -1,5 +1,5 @@
 import tw, { styled } from 'twin.macro'
-import useQuestions from '../../Hooks/useQuestions'
+import useQuestions from '../../../hooks/useQuestions'
 import * as t from '../types'
 
 type Props = {

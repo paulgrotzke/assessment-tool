@@ -3,6 +3,7 @@ export type Question = {
   focusArea: string
   digitalCapability: string
   practiceItem: string
+  listing: number
 }
 
 export type QuestionDocument = {

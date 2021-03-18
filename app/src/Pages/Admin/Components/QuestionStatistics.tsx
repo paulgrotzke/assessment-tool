@@ -133,10 +133,12 @@ const QuestionStatistics = (props: Props) => {
   if (scoring !== 0) {
     return (
       <Wrapper>
-        <h2>Question Statistics</h2>
-        <div className="result">
-          <div className="criteria">Ø - digital Score</div>
-          <div className="points">{scoring}</div>
+        <div className="header">
+          <h2>Question Statistics</h2>
+          <div className="head">
+            <div className="criteria">Ø - digital Score</div>
+            <div className="points">{scoring.toFixed(2)}</div>
+          </div>
         </div>
         {statistics.map((result) => {
           return (
@@ -189,11 +191,21 @@ const QuestionStatistics = (props: Props) => {
 export default QuestionStatistics
 
 const Wrapper = styled.div`
-  > h2 {
+  > .header {
+    ${tw`
+      
+    `}
+    > h2 {
     ${tw`
       my-6
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
+  }
+  > .head {
+    ${tw`
+      font-semibold text-lg uppercase 
+    `}
+  }
   }
 `
 
@@ -206,7 +218,7 @@ const FocusArea = styled.div`
   > h3 {
     ${tw`
       px-4 py-2 mt-2 mb-1
-      font-semibold text-xl text-white
+      font-medium text-xl text-white 
       bg-indigo-600 rounded-sm
     `}
   }
@@ -221,14 +233,14 @@ const FocusArea = styled.div`
     > .focusArea {
       ${tw`
       flex-1
-      font-semibold text-xl text-white 
+      font-medium text-xl text-white 
       `}
     }
 
     > .scoring {
       ${tw`
       flex-1
-      font-semibold text-xl text-white text-right
+      font-medium text-xl text-white text-right
       `}
     }
   }
@@ -246,14 +258,14 @@ const FocusArea = styled.div`
       > .capabilities {
         ${tw`
           flex-1
-          font-semibold text-lg
+          font-medium text-lg
         `}
       }
 
       > .scoring {
         ${tw`
           flex-1
-          font-semibold text-lg text-right
+          font-medium text-lg text-right
         `}
       }
     }

@@ -50,7 +50,7 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-6
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase
     `}
   }
 `;

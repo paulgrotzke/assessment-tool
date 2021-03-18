@@ -1,5 +1,5 @@
 import * as t from '../types'
-import tw, { styled } from 'twin.macro'
+import tw, { css, styled } from 'twin.macro'
 
 type Props = {
   surveys: {
@@ -81,15 +81,21 @@ const GeneralStatistics = (props: Props) => {
         <h3>Feedback</h3>
         <div className="result">
           <p className="criteria">Comprehensiveness</p>
-          <p className="points">{comprehensiveness / surveyList.length}</p>
+          <p className="points">
+            {(comprehensiveness / surveyList.length).toFixed(2)}
+          </p>
         </div>
         <div className="result">
           <p className="criteria">Consistency</p>
-          <p className="points">{consistency / surveyList.length}</p>
+          <p className="points">
+            {(consistency / surveyList.length).toFixed(2)}
+          </p>
         </div>
         <div className="result">
           <p className="criteria">Problem adequacy</p>
-          <p className="points">{problemAdequacy / surveyList.length}</p>
+          <p className="points">
+            {(problemAdequacy / surveyList.length).toFixed(2)}
+          </p>
         </div>
       </Area>
     </Wrapper>
@@ -102,7 +108,7 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-2 mt-6
-      font-extrabold text-2xl uppercase
+      text-3xl uppercase font-light
     `}
   }
 `
@@ -113,7 +119,7 @@ const Area = styled.div`
   `}
   > h3 {
     ${tw`
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
   > .result {
@@ -130,7 +136,7 @@ const Area = styled.div`
 
     > .points {
       ${tw`
-        text-right font-semibold
+        text-right font-medium
       `}
     }
   }

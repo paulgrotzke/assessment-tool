@@ -1,5 +1,5 @@
 import tw, { styled } from 'twin.macro'
-import useResults from '../Hooks/useResults'
+import useResults from '../hooks/useResults'
 
 const Results = () => {
   const results = useResults()
@@ -67,20 +67,20 @@ const Results = () => {
 
   return (
     <Wrapper>
-      <div className="no-print">
-        <h2>Great!</h2>
-        <p>You have successfully passed the assessment.</p>
-        <p>Congratulations you have reached a total digital score of</p>
-        <p className="result">{finalScoring.toFixed(2)} Points</p>
-        <p>In general results can range from:</p>
-        <p>
-          <b>0.00</b> - traditional non-digital incumbent
-        </p>
-        <p>to</p>
-        <p>
-          <b>4.00</b> - digital enterprise
-        </p>
-      </div>
+        <div className="no-print">
+          <h2>Great!</h2>
+          <p>You have successfully passed the assessment.</p>
+          <p>Congratulations you have reached a total digital score of</p>
+          <p className="result">{finalScoring.toFixed(2)} Points</p>
+          <p>In general results can range from:</p>
+          <p>
+            <b>0.00</b> - traditional non-digital incumbent
+          </p>
+          <p>to</p>
+          <p>
+            <b>4.00</b> - digital enterprise
+          </p>
+        </div>
       <div className="printable">
         {resultList.map((result) => {
           return (
@@ -114,7 +114,7 @@ const Results = () => {
         })}
       </div>
       <div className="no-print">
-        <p>
+        <p className="print-hint">
           You can
           <span onClick={() => window.print()}> save</span> your results if you
           want to.
@@ -131,20 +131,20 @@ const Wrapper = styled.div`
     > h2 {
       ${tw`
       my-6
-      font-extrabold text-2xl uppercase
+      text-3xl uppercase 
     `}
     }
     > p {
       > span {
         ${tw`
-      font-extrabold cursor-pointer text-indigo-600 hover:text-indigo-500
+      font-light cursor-pointer text-indigo-600 hover:text-indigo-500
     `}
       }
     }
     > .result {
       ${tw`
         my-2
-        font-extrabold text-indigo-600 text-xl
+        font-light text-indigo-600 text-xl
       `}
     }
   }
@@ -158,7 +158,7 @@ const Wrapper = styled.div`
 
 const FocusArea = styled.div`
   ${tw`
-     my-6 
+     my-6
      rounded-md shadow-2xl bg-gray-100
     `}
 
@@ -166,7 +166,7 @@ const FocusArea = styled.div`
     ${tw`
       px-4 py-2 mt-2 mb-1
       bg-indigo-600 rounded-sm
-      font-semibold text-xl text-white
+      font-medium text-xl text-white 
     `}
   }
 
@@ -180,14 +180,14 @@ const FocusArea = styled.div`
     > p {
       ${tw`
       flex-1
-      font-semibold text-xl text-white 
+      font-medium text-xl text-white 
       `}
     }
 
     > h3 {
       ${tw`
       flex-1
-      font-semibold text-xl text-white text-right
+      font-medium text-xl text-white text-right 
     `}
     }
   }
@@ -199,7 +199,7 @@ const FocusArea = styled.div`
 
     > .capabilities {
       ${tw`
-      font-semibold text-lg
+      font-medium text-lg
     `}
     }
 
@@ -218,7 +218,7 @@ const FocusArea = styled.div`
       > .points {
         ${tw`
         text-right 
-        font-semibold
+        font-medium
         `}
       }
     }

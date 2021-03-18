@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BsTrash, BsPencil } from 'react-icons/bs'
 import tw, { styled } from 'twin.macro'
 import { firestore } from '../../../lib/firebase'
-import useQuestions from '../../Hooks/useQuestions'
+import useQuestions from '../../../hooks/useQuestions'
 import Edit from './Edit'
 
 type Props = {
@@ -54,14 +54,14 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-2 mt-6
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
   }
 
   > h3 {
     ${tw`
       mt-2 mb-1
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `
@@ -81,7 +81,7 @@ const FocusArea = styled.div`
       ${tw`
       col-span-10
       mb-1
-      font-semibold text-xl
+      font-medium text-xl
     `}
     }
   }

@@ -48,14 +48,14 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       pt-8
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
   }
 
   > h3 {
     ${tw`
       mt-2 mb-3
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `

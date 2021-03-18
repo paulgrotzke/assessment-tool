@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { BsTrash, BsPencil } from 'react-icons/bs'
+import { BsTrash, BsPencil, BsArrowUp, BsArrowDown } from 'react-icons/bs'
 import tw, { styled } from 'twin.macro'
 import { firestore } from '../../../lib/firebase'
-import useQuestions from '../../Hooks/useQuestions'
+import useQuestions from '../../../hooks/useQuestions'
 import Edit from './Edit'
 
 type Props = {
@@ -38,6 +38,22 @@ const NewQuestion = (props: Props) => {
     }
   }
 
+  const updateQuestion = async (questionId, listing) => {
+    await firestore.collection('questions').doc(questionId).update({
+      listing: listing,
+    })
+  }
+
+  const sortUp = (question, i) => {
+    updateQuestion(questions[i]['id'], questions[i]['listing'] - 1)
+    updateQuestion(questions[i - 1]['id'], questions[i - 1]['listing'] + 1)
+  }
+
+  const sortDown = (question, i) => {
+    updateQuestion(questions[i]['id'], questions[i]['listing'] + 1)
+    updateQuestion(questions[i + 1]['id'], questions[i + 1]['listing'] - 1)
+  }
+
   return (
     <Wrapper>
       <h2>Add new questions</h2>
@@ -65,6 +81,10 @@ const NewQuestion = (props: Props) => {
         <FocusArea>
           <div className="header">
             <h3>{question.focusArea}</h3>
+            {i > 0 && <BsArrowUp onClick={() => sortUp(question, i)} />}
+            {i + 1 < questions.length && (
+              <BsArrowDown onClick={() => sortDown(question, i)} />
+            )}
             <BsPencil
               onClick={() => {
                 setEdit(i + 1)
@@ -81,20 +101,24 @@ const NewQuestion = (props: Props) => {
   )
 }
 
+/* 
+addQuestion(1)
+*/
+
 export default NewQuestion
 
 const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-2 mt-6
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
   }
 
   > h3 {
     ${tw`
       mt-2 mb-1
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `
@@ -132,9 +156,9 @@ const FocusArea = styled.div`
 
     > h3 {
       ${tw`
-      col-span-10
+      col-span-8
       mb-1
-      font-semibold text-xl
+      font-medium text-xl 
     `}
     }
   }

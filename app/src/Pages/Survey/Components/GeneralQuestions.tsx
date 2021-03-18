@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import tw, { styled } from 'twin.macro'
+import tw, { styled, css } from 'twin.macro'
 import * as t from '../types'
 
 type Props = {
@@ -50,7 +50,7 @@ const GeneralQuestions = (props: Props) => {
       </Select>
       <h3>To which industry does the company belong?</h3>
       <Input
-        placeholder="your answer (up to 50 chars)"
+        placeholder="Your answer (up to 50 chars)"
         type="text"
         maxLength={50}
         onChange={(e) => {
@@ -63,7 +63,7 @@ const GeneralQuestions = (props: Props) => {
       <h3>What is your position in the company?</h3>
 
       <Input
-        placeholder="your answer (up to 50 chars)"
+        placeholder="Your answer (up to 50 chars)"
         type="text"
         maxLength={50}
         onChange={(e) => {
@@ -93,24 +93,24 @@ const Wrapper = styled.div`
   > h2 {
     ${tw`
       mb-6 pt-8
-      font-extrabold text-2xl uppercase
+      font-light text-3xl uppercase 
     `}
   }
 
   > h3 {
     ${tw`
       mt-4 mb-1
-      font-semibold text-lg
+      font-medium text-lg 
     `}
   }
 `
 
 const Select = styled.select`
   ${tw`
-    w-full
-    p-2 m-0
+    py-2 px-1 m-0
     rounded-md shadow-sm border border-gray-300
     focus:outline-none focus:ring focus:ring-indigo-400
+    bg-white
   `}
 `
 
