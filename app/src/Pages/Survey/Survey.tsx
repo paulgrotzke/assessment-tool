@@ -16,7 +16,6 @@ import Disclaimer from './Disclaimer'
 const Survey = () => {
   const localDocRef = useLocalDocRef()
   const questions = useQuestions()
-  console.log(questions)
 
   const [showFeedback, setShowFeedback] = useState<boolean>(false)
   const [showResults, setShowResults] = useState<boolean>(false)
@@ -35,7 +34,7 @@ const Survey = () => {
   const [counter, setCounter] = useState<t.Counter>({ value: 0 })
   const [raiting, setRaiting] = useState<t.Raiting>({
     questionId: '',
-    value: 0,
+    value: false,
     digitalCapability: '',
     focusArea: '',
     practiceItem: '',

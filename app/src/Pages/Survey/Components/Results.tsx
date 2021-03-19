@@ -67,32 +67,42 @@ const Results = () => {
 
   return (
     <Wrapper>
-        <div className="no-print">
-          <h2>Great!</h2>
-          <p>You have successfully passed the assessment.</p>
-          <p>Congratulations you have reached a total digital score of</p>
-          <p className="result">{finalScoring.toFixed(2)} Points</p>
-          <p>In general results can range from:</p>
-          <p>
-            <b>0.00</b> - traditional non-digital incumbent
-          </p>
-          <p>to</p>
-          <p>
-            <b>4.00</b> - digital enterprise
-          </p>
-        </div>
+      <div className="no-print">
+        <h2>Great!</h2>
+        <p>You have successfully passed the assessment.</p>
+        <p>Congratulations you have reached a total digital score of</p>
+        <p className="result">{finalScoring.toFixed(2)} Points</p>
+        <p>In general results can range from:</p>
+        <p>
+          <b>0.00</b> - traditional non-digital incumbent
+        </p>
+        <p>to</p>
+        <p>
+          <b>4.00</b> - digital enterprise
+        </p>
+      </div>
       <div className="printable">
         {resultList.map((result) => {
           return (
             <FocusArea>
               <div className="header">
-                <p>{Object.keys(result)}</p>
+                <p className="focusArea">{Object.keys(result)}</p>
+                <p className="scoring">
+                  {scoring[Object.keys(result)[0]].toFixed(2)}
+                </p>
               </div>
               {Object.keys(result[Object.keys(result)[0]]).map(
                 (capabilities) => {
                   return (
                     <div className="capa-wrapper">
-                      <p className="capabilities">{capabilities}</p>
+                      <div className="capa-scoring">
+                        <p className="capabilities">{capabilities}</p>
+                        <p className="scoring">
+                          {subScoring[Object.keys(result)[0]][
+                            capabilities
+                          ].toFixed(2)}
+                        </p>
+                      </div>
                       {Object.entries(
                         result[Object.keys(result)[0]][capabilities]
                       ).map((practiceItem) => (
@@ -147,6 +157,20 @@ const Wrapper = styled.div`
         font-light text-indigo-600 text-xl
       `}
     }
+
+    > .focusArea {
+      ${tw`
+      flex-1
+      font-medium text-xl text-white 
+      `}
+    }
+
+    > .scoring {
+      ${tw`
+      flex-1
+      font-medium text-xl text-white text-right
+      `}
+    }
   }
 
   @media print {
@@ -158,15 +182,15 @@ const Wrapper = styled.div`
 
 const FocusArea = styled.div`
   ${tw`
-     my-6
-     rounded-md shadow-2xl bg-gray-100
-    `}
+    my-6 
+    rounded-md shadow-2xl bg-gray-100
+  `}
 
   > h3 {
     ${tw`
       px-4 py-2 mt-2 mb-1
-      bg-indigo-600 rounded-sm
       font-medium text-xl text-white 
+      bg-indigo-600 rounded-sm
     `}
   }
 
@@ -177,18 +201,18 @@ const FocusArea = styled.div`
       bg-indigo-600 rounded-sm
     `}
 
-    > p {
+    > .focusArea {
       ${tw`
       flex-1
       font-medium text-xl text-white 
       `}
     }
 
-    > h3 {
+    > .scoring {
       ${tw`
       flex-1
-      font-medium text-xl text-white text-right 
-    `}
+      font-medium text-xl text-white text-right
+      `}
     }
   }
 
@@ -197,10 +221,24 @@ const FocusArea = styled.div`
      px-4 py-2
     `}
 
-    > .capabilities {
+    > .capa-scoring {
       ${tw`
-      font-medium text-lg
-    `}
+          flex
+      `}
+
+      > .capabilities {
+        ${tw`
+          flex-1
+          font-medium text-lg
+        `}
+      }
+
+      > .scoring {
+        ${tw`
+          flex-1
+          font-medium text-lg text-right
+        `}
+      }
     }
 
     > .result {

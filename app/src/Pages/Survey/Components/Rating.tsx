@@ -16,7 +16,7 @@ const Raiting = (props: Props) => {
         To which level has your company <b>implemented</b> the practice item
       </p>
       <Checkboxes>
-        <p className="text-left">Not</p>
+        <p className="text-left">Not (0)</p>
         {bubbles.map((input, i) => {
           return (
             <Input
@@ -28,7 +28,7 @@ const Raiting = (props: Props) => {
               onClick={() => {
                 props.setRaiting({
                   questionId: props.question.id,
-                  value: i + 1,
+                  value: i,
                   focusArea: props.question.focusArea,
                   digitalCapability: props.question.digitalCapability,
                   practiceItem: props.question.practiceItem,
@@ -39,7 +39,7 @@ const Raiting = (props: Props) => {
             ></Input>
           )
         })}
-        <p className="text-right">Fully</p>
+        <p className="text-right">Fully (4)</p>
       </Checkboxes>
     </Wrapper>
   )

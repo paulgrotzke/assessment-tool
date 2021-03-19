@@ -37,9 +37,9 @@ export type GeneralQuestionsAnswer = {
 }
 
 export type FeedbackAnswer = {
-  comprehensiveness: number
-  consistency: number
-  problemAdequacy: number
+  comprehensiveness: number | null
+  consistency: number | null
+  problemAdequacy: number | null
 }
 
 export type AnswerDocument = {

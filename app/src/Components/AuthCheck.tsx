@@ -22,14 +22,14 @@ const AuthCheck = (props: Props) => {
 
   if (
     props.role === 'admin' &&
-    user?.uid === 'S7G90ov5HxgdTvv2bDdRQAxx6vO2'
+    user?.uid === 'wdvVEGjFqJODyhG8t94EBUK89yN2'
   ) {
     return <>{props.children}</>;
   }
 
   if (
     props.role === 'user' &&
-    user?.uid === '3sORUSKw67N61g0ufqeKf9s50AA2'
+    user?.uid === '1bqjrjvEsaZxlrPh4cs3cqaN6ad2'
   ) {
     return <>{props.children}</>;
   } else {

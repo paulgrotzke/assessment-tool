@@ -15,9 +15,9 @@ const Feedback = (props: Props) => {
   let problemAdequacyInput = new Array(5).fill(false)
 
   const [feedback, setFeedback] = useState<t.FeedbackAnswer>({
-    comprehensiveness: 0,
-    consistency: 0,
-    problemAdequacy: 0,
+    comprehensiveness: null,
+    consistency: null,
+    problemAdequacy: null,
   })
 
   const postFeedback = async () => {
@@ -40,7 +40,7 @@ const Feedback = (props: Props) => {
       <div className="area">
         <h4>Comprehensiveness</h4>
         <Checkboxes>
-          <p className="text-left">No</p>
+          <p className="text-left">No (0)</p>
           {comprehensivenessInput.map((input, i) => {
             return (
               <Input
@@ -51,7 +51,7 @@ const Feedback = (props: Props) => {
                 onClick={() => {
                   setFeedback({
                     ...feedback,
-                    comprehensiveness: i + 1,
+                    comprehensiveness: i,
                   })
                   comprehensivenessInput.fill(false)
                   comprehensivenessInput[i] = true
@@ -59,13 +59,13 @@ const Feedback = (props: Props) => {
               ></Input>
             )
           })}
-          <p className="text-right">Full</p>
+          <p className="text-right">Full (4)</p>
         </Checkboxes>
       </div>
       <div className="area">
         <h4>Consistency</h4>
         <Checkboxes>
-          <p className="text-left">No</p>
+          <p className="text-left">No (0)</p>
           {consistencyInput.map((input, i) => {
             return (
               <Input
@@ -76,7 +76,7 @@ const Feedback = (props: Props) => {
                 onClick={() => {
                   setFeedback({
                     ...feedback,
-                    consistency: i + 1,
+                    consistency: i,
                   })
                   consistencyInput.fill(false)
                   consistencyInput[i] = true
@@ -84,13 +84,13 @@ const Feedback = (props: Props) => {
               ></Input>
             )
           })}
-          <p className="text-right">Full</p>
+          <p className="text-right">Full (4)</p>
         </Checkboxes>
       </div>
       <div className="area">
         <h4>Problem adequacy</h4>
         <Checkboxes>
-          <p className="text-left">No</p>
+          <p className="text-left">No (0)</p>
           {problemAdequacyInput.map((input, i) => {
             return (
               <Input
@@ -101,7 +101,7 @@ const Feedback = (props: Props) => {
                 onClick={() => {
                   setFeedback({
                     ...feedback,
-                    problemAdequacy: i + 1,
+                    problemAdequacy: i,
                   })
                   problemAdequacyInput.fill(false)
                   problemAdequacyInput[i] = true
@@ -109,14 +109,14 @@ const Feedback = (props: Props) => {
               ></Input>
             )
           })}
-          <p className="text-right">Full</p>
+          <p className="text-right">Full (4)</p>
         </Checkboxes>
       </div>
       <Button
         disabled={
-          feedback.comprehensiveness === 0 ||
-          feedback.consistency === 0 ||
-          feedback.problemAdequacy === 0
+          feedback.comprehensiveness === null ||
+          feedback.consistency === null ||
+          feedback.problemAdequacy === null
         }
         onClick={() => {
           props.setShowResults(true)
