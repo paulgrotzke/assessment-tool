@@ -4,6 +4,7 @@ export type Question = {
   digitalCapability: string
   practiceItem: string
   listing: number
+  maturityStage: string
 }
 
 export type QuestionDocument = {
@@ -28,6 +29,7 @@ export type Answer = {
   digitalCapability: string
   focusArea: string
   practiceItem: string
+  maturityStage: string
 }
 
 export type GeneralQuestionsAnswer = {

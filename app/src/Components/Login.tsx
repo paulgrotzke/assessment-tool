@@ -23,7 +23,7 @@ const Login = (props: Props) => {
   } else
     return (
       <Wrapper>
-        <h2>Digify Assement-Tool</h2>
+        <h2>Digify Assessment-Tool</h2>
         <p>
           Let's see how digital your company really is. We will help you to be successfull
           in the digital transformation. Please enter the password to start the assessment

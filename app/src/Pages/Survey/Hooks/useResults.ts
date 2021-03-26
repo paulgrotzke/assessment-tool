@@ -18,6 +18,7 @@ const useResults = () => {
       digitalCapability: doc.data().digitalCapability,
       focusArea: doc.data().focusArea,
       practiceItem: doc.data().practiceItem,
+      maturityStage: doc.data().maturityStage,
     })
   )
   return results

@@ -12,6 +12,7 @@ type Question = {
   focusArea: string
   digitalCapability: string
   practiceItem: string
+  maturityStage: string
 }
 
 const Edit = (props: Props) => {
@@ -22,12 +23,16 @@ const Edit = (props: Props) => {
   const [editPracticeItem, setEditPracticeItem] = useState(
     props.question.practiceItem
   )
+  const [editMaturityStage, SetEditMaturityStage] = useState(
+    props.question.maturityStage
+  )
 
   const updateQuestion = async (questionId: Question['id']) => {
     await firestore.collection('questions').doc(questionId).update({
       focusArea: editFocusArea,
       digitalCapability: editDigitalCapability,
       practiceItem: editPracticeItem,
+      maturityStage: editMaturityStage,
     })
   }
 
@@ -49,6 +54,12 @@ const Edit = (props: Props) => {
         placeholder="Insert practice item"
         value={editPracticeItem}
         onChange={(e) => setEditPracticeItem(e.target.value)}
+      ></Input>
+      <p>Maturity stage</p>
+      <Input
+        placeholder="Insert maturity stage "
+        value={editMaturityStage}
+        onChange={(e) => SetEditMaturityStage(e.target.value)}
       ></Input>
       <Button onClick={() => props.setEdit(0)}>discard</Button>
       <Button

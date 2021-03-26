@@ -13,6 +13,7 @@ const Controllcenter = () => {
   const [focusArea, setFocusArea] = useState('')
   const [digitalCapability, setDigitalCapability] = useState('')
   const [practiceItem, setPracticeItem] = useState('')
+  const [maturityStage, setMaturityStage] = useState('')
 
   const [showQuestionStatistics, setShowQuestionStatistics] = useState(false)
   const [showGeneral, setShowGeneral] = useState(false)
@@ -55,6 +56,8 @@ const Controllcenter = () => {
             setDigitalCapability={setDigitalCapability}
             practiceItem={practiceItem}
             setPracticeItem={setPracticeItem}
+            maturityStage={maturityStage}
+            setMaturityStage={setMaturityStage}
           />
         </Wrapper>
       </AuthCheck>

@@ -40,7 +40,7 @@ const Feedback = (props: Props) => {
       <div className="area">
         <h4>Comprehensiveness</h4>
         <Checkboxes>
-          <p className="text-left">No (0)</p>
+          <p className="text-left">No comprehensiveness</p>
           {comprehensivenessInput.map((input, i) => {
             return (
               <Input
@@ -59,13 +59,13 @@ const Feedback = (props: Props) => {
               ></Input>
             )
           })}
-          <p className="text-right">Full (4)</p>
+          <p className="text-right">Full comprehensiveness</p>
         </Checkboxes>
       </div>
       <div className="area">
         <h4>Consistency</h4>
         <Checkboxes>
-          <p className="text-left">No (0)</p>
+          <p className="text-left">No consistency</p>
           {consistencyInput.map((input, i) => {
             return (
               <Input
@@ -84,13 +84,13 @@ const Feedback = (props: Props) => {
               ></Input>
             )
           })}
-          <p className="text-right">Full (4)</p>
+          <p className="text-right">Full consistency</p>
         </Checkboxes>
       </div>
       <div className="area">
         <h4>Problem adequacy</h4>
         <Checkboxes>
-          <p className="text-left">No (0)</p>
+          <p className="text-left">No problem adequacy</p>
           {problemAdequacyInput.map((input, i) => {
             return (
               <Input
@@ -109,7 +109,7 @@ const Feedback = (props: Props) => {
               ></Input>
             )
           })}
-          <p className="text-right">Full (4)</p>
+          <p className="text-right">Full problem adequacy</p>
         </Checkboxes>
       </div>
       <Button
@@ -161,6 +161,9 @@ const Wrapper = styled.div`
 `
 
 const Checkboxes = styled.div`
+    ${tw`
+      break-all block
+    `}
   ${tw`
       flex 
       font-medium
@@ -168,17 +171,17 @@ const Checkboxes = styled.div`
 
   > .text-left {
     ${tw`
-      flex-1 
-      mr-3
-      text-right 
+      flex-1 break-words
+      mr-1 sm:mr-3
+      text-right font-medium text-xs sm:text-base
     `}
   }
 
   > .text-right {
     ${tw`
       flex-1
-      ml-3
-      text-left
+      ml-1 sm:ml-3
+      text-left font-medium text-xs sm:text-base
     `}
   }
 `

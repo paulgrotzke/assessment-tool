@@ -14,7 +14,7 @@ const Question = (props: Props) => {
         Question <span className="question">{props.counter.value + 1} </span>
         of {props.questionLength}
       </h2>
-      <h3>Focus area</h3>
+      <h3>Capability area</h3>
       <p>{props.question.focusArea}</p>
       <h3>Digital Capability</h3>
       <p>{props.question.digitalCapability}</p>

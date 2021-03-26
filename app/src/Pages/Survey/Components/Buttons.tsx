@@ -11,6 +11,7 @@ type Props = {
   setShowGeneralQuestions: (bool: boolean) => void
   localDocRef: string
   firestore: any
+  question: t.Question
 }
 
 const Buttons = (props: Props) => {
@@ -23,6 +24,7 @@ const Buttons = (props: Props) => {
       focusArea: props.raiting.focusArea,
       digitalCapability: props.raiting.digitalCapability,
       practiceItem: props.raiting.practiceItem,
+      maturityStage: props.question.maturityStage
     }
 
     const newAnswerRef = props.firestore
@@ -36,7 +38,7 @@ const Buttons = (props: Props) => {
 
   const defaultRaiting = {
     questionId: '',
-    value: 0,
+    value: false,
     digitalCapability: '',
     focusArea: '',
     practiceItem: '',

@@ -12,6 +12,8 @@ type Props = {
   setDigitalCapability: (string: string) => void
   practiceItem: string
   setPracticeItem: (string: string) => void
+  maturityStage: string
+  setMaturityStage: (string: string) => void
 }
 
 const NewQuestion = (props: Props) => {
@@ -25,6 +27,8 @@ const NewQuestion = (props: Props) => {
       focusArea: props.focusArea,
       digitalCapability: props.digitalCapability,
       practiceItem: props.practiceItem,
+      maturityStage: props.maturityStage,
+      listing: questions.length + 1,
     }
     await newQuestionRef.set(data)
   }
@@ -57,7 +61,7 @@ const NewQuestion = (props: Props) => {
   return (
     <Wrapper>
       <h2>Add new questions</h2>
-      <h3>Focus area</h3>
+      <h3>Capability area</h3>
       <Input
         placeholder="Insert focus area"
         value={props.focusArea}
@@ -74,6 +78,12 @@ const NewQuestion = (props: Props) => {
         placeholder="Insert practice item"
         value={props.practiceItem}
         onChange={(e) => props.setPracticeItem(e.target.value)}
+      ></Input>
+      <h3>Maturity stage</h3>
+      <Input
+        placeholder="Insert maturity stage "
+        value={props.maturityStage}
+        onChange={(e) => props.setMaturityStage(e.target.value)}
       ></Input>
       <Button onClick={() => postQuestion()}>Create</Button>
       <h2>Config current Questions</h2>

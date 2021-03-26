@@ -102,6 +102,7 @@ const Survey = () => {
                     setShowFeedback={setShowFeedback}
                     localDocRef={localDocRef}
                     firestore={firestore}
+                    question={question}
                   />
                 </div>
               )

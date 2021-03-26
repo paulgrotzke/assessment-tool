@@ -31,6 +31,7 @@ const QuestionStatistics = (props: Props) => {
             digitalCapability: doc.data().digitalCapability,
             focusArea: doc.data().focusArea,
             practiceItem: doc.data().practiceItem,
+            maturityStage: doc.data().maturityStage,
           })
         )
       })
@@ -42,7 +43,14 @@ const QuestionStatistics = (props: Props) => {
 
     const test = {}
     for (const entry of surveyList) {
-      const { answerValue, focusArea, digitalCapability, practiceItem } = entry
+      console.log(surveyList)
+      const {
+        answerValue,
+        focusArea,
+        digitalCapability,
+        practiceItem,
+        maturityStage,
+      } = entry
       if (!test[focusArea]) {
         test[focusArea] = {}
       }
@@ -53,15 +61,21 @@ const QuestionStatistics = (props: Props) => {
         let indicator
         for (let key of Object.keys(test[focusArea][digitalCapability])) {
           if (key === practiceItem) {
-            test[focusArea][digitalCapability][practiceItem] += answerValue
+            test[focusArea][digitalCapability][practiceItem][0] += answerValue
             indicator = true
           }
         }
         if (!indicator) {
-          test[focusArea][digitalCapability][practiceItem] = answerValue
+          test[focusArea][digitalCapability][practiceItem] = [
+            answerValue,
+            maturityStage,
+          ]
         }
       } else {
-        test[focusArea][digitalCapability][practiceItem] = answerValue
+        test[focusArea][digitalCapability][practiceItem] = [
+          answerValue,
+          maturityStage,
+        ]
       }
     }
 
@@ -163,17 +177,22 @@ const QuestionStatistics = (props: Props) => {
                       </div>
                       {Object.entries(
                         result[Object.keys(result)[0]][capabilities]
-                      ).map((practiceItem) => (
-                        <div className="result">
-                          <div className="practiceItem">
-                            {practiceItem[0] + ' '}
+                      ).map((practiceItem) => {
+                        return (
+                          <div className="result">
+                            <div className="practiceItem">
+                              {practiceItem[0] + ' '}
+                              {/* @ts-ignore */}
+                              <p tw="italic">Maturity Stage: {practiceItem[1][1]}</p>
+                            </div>
+                            <div className="points">
+                              {/* @ts-ignore */}
+                              {(practiceItem[1][0] / docs.length).toFixed(2) +
+                                ' P.'}
+                            </div>
                           </div>
-                          <div className="points">
-                            {/* @ts-ignore */}
-                            {(practiceItem[1] / docs.length).toFixed(2) + ' P.'}
-                          </div>
-                        </div>
-                      ))}
+                        )
+                      })}
                     </div>
                   )
                 }
@@ -196,16 +215,16 @@ const Wrapper = styled.div`
       
     `}
     > h2 {
-    ${tw`
+      ${tw`
       my-6
       font-light text-3xl uppercase 
     `}
-  }
-  > .head {
-    ${tw`
+    }
+    > .head {
+      ${tw`
       font-semibold text-lg uppercase 
     `}
-  }
+    }
   }
 `
 

@@ -13,6 +13,7 @@ const useQuestions = () => {
       digitalCapability: doc.data().digitalCapability,
       practiceItem: doc.data().practiceItem,
       listing: doc.data().listing,
+      maturityStage: doc.data().maturityStage,
     })
   )
 
