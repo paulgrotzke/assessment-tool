@@ -26,7 +26,10 @@ const Results = () => {
       capabilityScoring[focusArea][digitalCapability] = 0
       capabilityLength[focusArea][digitalCapability] = 0
     }
-    areas[focusArea][digitalCapability][practiceItem] = [answerValue, maturityStage]
+    areas[focusArea][digitalCapability][practiceItem] = [
+      answerValue,
+      maturityStage,
+    ]
     capabilityScoring[focusArea][digitalCapability] += answerValue
     capabilityLength[focusArea][digitalCapability] += 1
   }
@@ -171,7 +174,10 @@ const Results = () => {
                           <div className="practiceItem">
                             {practiceItem[0] + ' '}
                             {/* @ts-ignore */}
-                            <p tw="italic">Maturity Stage: {practiceItem[1][1]}</p>
+                            <p tw="italic">
+                              {/* @ts-ignore */}
+                              Maturity Stage: {practiceItem[1][1]}
+                            </p>
                           </div>
                           <div className="points">
                             {/* @ts-ignore */}
@@ -187,13 +193,13 @@ const Results = () => {
           )
         })}
       </div>
-      <div className="no-print">
+      {/* <div className="no-print">
         <p className="print-hint">
           You can
           <span onClick={() => window.print()}> save</span> your results if you
           want to.
         </p>
-      </div>
+      </div> */}
     </Wrapper>
   )
 }
@@ -291,10 +297,11 @@ const Wrapper = styled.div`
   }
 
   @media print {
-    width: auto;
-    height: auto;
-    overflow: visible;
-    .no-print {
+    .Wrapper {
+      width: 100%;
+    }
+
+    > .no-print {
       display: none;
     }
   }
