@@ -2,6 +2,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import tw, { styled } from 'twin.macro'
 import Survey from './Pages/Survey/Survey'
 import Controllcenter from './Pages/Admin/Controllcenter'
+import "tailwindcss/tailwind.css"
 
 const App = () => {
   return (

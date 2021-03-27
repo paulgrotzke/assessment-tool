@@ -73,9 +73,9 @@ const NewQuestion = (props: Props) => {
         value={props.digitalCapability}
         onChange={(e) => props.setDigitalCapability(e.target.value)}
       ></Input>
-      <h3>Practice Item</h3>
+      <h3>Actionable practice item</h3>
       <Input
-        placeholder="Insert practice item"
+        placeholder="Insert actionable practice item"
         value={props.practiceItem}
         onChange={(e) => props.setPracticeItem(e.target.value)}
       ></Input>

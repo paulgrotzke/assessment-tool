@@ -76,7 +76,7 @@ const Results = () => {
 
   return (
     <Wrapper>
-      <div className="no-print">
+      <div className="header">
         <h2>Your individual evaluation!</h2>
         <p>Congratulations you have reached a total digital score of</p>
         <p className="result">{finalScoring.toFixed(2)} Points</p>
@@ -193,13 +193,13 @@ const Results = () => {
           )
         })}
       </div>
-      {/* <div className="no-print">
+      <div className="no-print">
         <p className="print-hint">
           You can
           <span onClick={() => window.print()}> save</span> your results if you
           want to.
         </p>
-      </div> */}
+      </div>
     </Wrapper>
   )
 }
@@ -208,22 +208,25 @@ export default Results
 
 const Wrapper = styled.div`
   ${tw`
-    block
+    print:block 
   `}
 
   > .no-print {
-    > h2 {
-      ${tw`
-      my-6
-      text-3xl uppercase 
-    `}
-    }
     > p {
       > span {
         ${tw`
       font-light cursor-pointer text-indigo-600 hover:text-indigo-500
     `}
       }
+    }
+  }
+
+  > .header {
+    > h2 {
+      ${tw`
+      my-6
+      text-3xl uppercase 
+    `}
     }
     > .result {
       ${tw`

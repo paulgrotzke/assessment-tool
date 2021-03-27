@@ -18,7 +18,7 @@ const Question = (props: Props) => {
       <p>{props.question.focusArea}</p>
       <h3>Digital Capability</h3>
       <p>{props.question.digitalCapability}</p>
-      <h3>Practice Item</h3>
+      <h3>Actionable practice item</h3>
       <p>{props.question.practiceItem}</p>
     </Wrapper>
   )

@@ -10,7 +10,7 @@ import GeneralQuestions from './Components/GeneralQuestions'
 import Raiting from './Components/Rating'
 import Results from './Components/Results'
 import Question from './Components/Question'
-import tw, { styled } from 'twin.macro'
+import tw, { styled, css } from 'twin.macro'
 import Disclaimer from './Disclaimer'
 
 const Survey = () => {
@@ -132,5 +132,6 @@ const Wrapper = styled.div`
     overflow-y-auto
     px-4 py-6
     bg-white rounded-md shadow-2xl
+    print:w-auto print:h-auto print:overflow-visible print:p-10
   `}
 `
