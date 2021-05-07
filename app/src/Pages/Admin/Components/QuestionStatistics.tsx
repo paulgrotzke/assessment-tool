@@ -32,9 +32,22 @@ const QuestionStatistics = (props: Props) => {
             focusArea: doc.data().focusArea,
             practiceItem: doc.data().practiceItem,
             maturityStage: doc.data().maturityStage,
+            listing: doc.data().value,
           })
         )
       })
+    }
+
+    if (surveyList.length !== 0) {
+      for (let i = 0; i < surveyList.length; i++) {
+        for (let j = 0; j + 1 < surveyList.length; j++) {
+          if (surveyList[j]['listing'] > surveyList[j + 1]['listing']) {
+            let tmp = surveyList[j]
+            surveyList[j] = surveyList[j + 1]
+            surveyList[j + 1] = tmp
+          }
+        }
+      }
     }
 
     const areas = {}
@@ -182,7 +195,10 @@ const QuestionStatistics = (props: Props) => {
                             <div className="practiceItem">
                               {practiceItem[0] + ' '}
                               {/* @ts-ignore */}
-                              <p tw="italic">Maturity Stage: {practiceItem[1][1]}</p>
+                              <p tw="italic">
+                                {/* @ts-ignore */}
+                                Maturity Stage: {practiceItem[1][1]}
+                              </p>
                             </div>
                             <div className="points">
                               {/* @ts-ignore */}

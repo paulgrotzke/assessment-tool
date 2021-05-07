@@ -47,4 +47,5 @@ export type SurveyList = {
   focusArea: string
   practiceItem: string
   maturityStage: string
+  listing: number
 }

@@ -19,6 +19,8 @@ const useResults = () => {
       focusArea: doc.data().focusArea,
       practiceItem: doc.data().practiceItem,
       maturityStage: doc.data().maturityStage,
+      //@ts-ignore
+      listing: doc.data().value
     })
   )
   return results

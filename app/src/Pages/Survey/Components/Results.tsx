@@ -1,12 +1,23 @@
-import tw, { styled, css } from 'twin.macro'
+import tw, { styled } from 'twin.macro'
 import useResults from '../hooks/useResults'
 
 const Results = () => {
   const results = useResults()
-
   const areas = {}
   let capabilityScoring = {}
   let capabilityLength = {}
+
+  if (results.length !== 0) {
+    for (let i = 0; i < results.length; i++) {
+      for (let j = 0; j + 1 < results.length; j++) {
+        if (results[j]['listing'] > results[j + 1]['listing']) {
+          let tmp = results[j]
+          results[j] = results[j + 1]
+          results[j + 1] = tmp
+        }
+      }
+    }
+  }
 
   for (const result of results) {
     const {
@@ -15,6 +26,8 @@ const Results = () => {
       digitalCapability,
       practiceItem,
       maturityStage,
+      //@ts-ignore
+      listing,
     } = result
     if (!areas[focusArea]) {
       areas[focusArea] = {}
@@ -29,6 +42,7 @@ const Results = () => {
     areas[focusArea][digitalCapability][practiceItem] = [
       answerValue,
       maturityStage,
+      listing,
     ]
     capabilityScoring[focusArea][digitalCapability] += answerValue
     capabilityLength[focusArea][digitalCapability] += 1

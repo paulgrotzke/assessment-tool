@@ -10,7 +10,7 @@ import GeneralQuestions from './Components/GeneralQuestions'
 import Raiting from './Components/Rating'
 import Results from './Components/Results'
 import Question from './Components/Question'
-import tw, { styled, css } from 'twin.macro'
+import tw, { styled } from 'twin.macro'
 import Disclaimer from './Disclaimer'
 
 const Survey = () => {
