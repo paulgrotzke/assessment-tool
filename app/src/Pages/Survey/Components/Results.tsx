@@ -90,14 +90,15 @@ const Results = () => {
         </p>
         <p className="text">
           In the following you can see your digital score for each capability
-          area as well as for each digital capability. Furthermore you get your
-          rating for each actionable practice item. On top of that you get a
-          recommendation for which actionable practice you should implement
-          next. In general we recommend to implement the actionable practices
-          stage by stage: Novice, Advanced Beginner, Competent, Proficient,
-          Expert. (the stage of each practice is noted). Of course that´s only a
-          recommendation and you can adapt the implementation plan for the
-          practices to your specific needs.
+          area as well as for each digital capability. Furthermore, you get your
+          rating for each actionable practice item. On top of that you get an
+          indication for how much experience the implementation of a specific
+          actionable practice requires. The required experience is outlined by
+          the maturity stages, i.e. Novice, Advanced Beginner, Competent,
+          Proficient, Expert. Based on this, you can identify strengths and
+          weaknesses of your company and derive your organization-specific
+          roadmap for implementing AP´s and building digital capabilities to
+          successfully transform your organization to a digital enterprise.
         </p>
         <p>Best of success with the digital transformation of your company!</p>
       </div>

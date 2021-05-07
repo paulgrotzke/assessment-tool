@@ -43,7 +43,6 @@ const QuestionStatistics = (props: Props) => {
 
     const test = {}
     for (const entry of surveyList) {
-      console.log(surveyList)
       const {
         answerValue,
         focusArea,
